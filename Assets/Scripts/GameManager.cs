@@ -59,9 +59,9 @@ public class GameManager : MonoBehaviour
 
     public void start()
     {
-        title.enabled = false;
+        title.text = "";
         startButton.SetActive(false);
-        prompt.enabled = true;
+        prompt.text = "Player 1\n Enter your country's name!";
         nameEntry.SetActive(true);
         submitButton.SetActive(true);
     }
