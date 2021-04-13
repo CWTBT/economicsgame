@@ -21,10 +21,7 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI description;
     public GameObject submitButton;
 
-    private Country player1;
-    private Country player2;
-    private Country player3;
-    private Country player4;
+    private List<Country> playerList = new List<Country>();
 
 
     // Start is called before the first frame update
@@ -61,8 +58,28 @@ public class GameManager : MonoBehaviour
     {
         title.text = "";
         startButton.SetActive(false);
-        prompt.text = "Player 1\n Enter your country's name!";
+        prompt.text = "Player 1\nEnter your country's name!";
         nameEntry.SetActive(true);
         submitButton.SetActive(true);
+    }
+
+    public void submit()
+    {
+        string name = nameEntry.GetComponentsInChildren<TextMeshProUGUI>()[1].text;
+        Country newPlayer = new Country(name);
+        playerList.Add(newPlayer);
+        if (playerList.Count == 4)
+        {
+            nameEntry.SetActive(false);
+            submitButton.SetActive(false);
+            // More here later
+        }
+        else
+        {
+            // Bug: Can't clear text field after hitting enter
+            int current = playerList.Count + 1;
+            prompt.text = "Player "+current+"\nEnter your country's name!";
+            nameEntry.GetComponentsInChildren<TextMeshProUGUI>()[1].text = string.Empty;
+        }
     }
 }
