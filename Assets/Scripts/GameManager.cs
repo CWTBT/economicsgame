@@ -12,6 +12,21 @@ public class GameManager : MonoBehaviour
     public GameObject canvas;
     public GameObject events;
 
+    public TextMeshProUGUI title;
+    public GameObject startButton;
+    public TextMeshProUGUI prompt;
+    public GameObject nameEntry;
+    public GameObject yesButton;
+    public GameObject noButton;
+    public TextMeshProUGUI description;
+    public GameObject submitButton;
+
+    private Country player1;
+    private Country player2;
+    private Country player3;
+    private Country player4;
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -40,5 +55,14 @@ public class GameManager : MonoBehaviour
             Destroy(canvas);
             Destroy(events);
         }
+    }
+
+    public void start()
+    {
+        title.text = "";
+        startButton.SetActive(false);
+        prompt.text = "Player 1\n Enter your country's name!";
+        nameEntry.SetActive(true);
+        submitButton.SetActive(true);
     }
 }
