@@ -23,6 +23,8 @@ public class GameManager : MonoBehaviour
 
     private List<Country> playerList = new List<Country>();
 
+    private VoteManager currentVote;
+
 
     // Start is called before the first frame update
     void Start()
@@ -81,5 +83,10 @@ public class GameManager : MonoBehaviour
             prompt.text = "Player "+current+"\nEnter your country's name!";
             nameEntry.GetComponentsInChildren<TextMeshProUGUI>()[1].text = string.Empty;
         }
+    }
+
+    public void agree()
+    {
+
     }
 }
