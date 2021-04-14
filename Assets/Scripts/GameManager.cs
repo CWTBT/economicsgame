@@ -23,6 +23,7 @@ public class GameManager : MonoBehaviour
 
     private List<Country> playerList = new List<Country>();
 
+    private Event currentEvent;
     private VoteManager currentVote;
 
 
@@ -99,6 +100,7 @@ public class GameManager : MonoBehaviour
 
     public void agree()
     {
+        enactAgree();
         currentVote.AcceptVotes += 1;
         if (currentVote.sumVotes() == 4) enactVotes();
     }
@@ -112,5 +114,14 @@ public class GameManager : MonoBehaviour
     public void enactVotes()
     {
         
+    }
+
+    public void enactAgree()
+	{
+        Country currentPlayer = playerList[currentVote.sumVotes()];
+        currentPlayer.adjustEmissions(currentEvent.EmissionsPerTurn);
+        currentPlayer.adjustGDP(currentEvent.Cost);
+        currentPlayer.adjustGrowth(currentEvent.CostPerTurn);
+
     }
 }
