@@ -18,6 +18,7 @@ public class GameManager : MonoBehaviour
     public GameObject nameEntry;
     public GameObject yesButton;
     public GameObject noButton;
+    public GameObject backgroundImage;
     public TextMeshProUGUI description;
     public GameObject submitButton;
 
@@ -58,6 +59,33 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    IEnumerator ColorLerp(Color endValue, float duration)
+    {
+        float time = 0;
+        Image sprite = backgroundImage.GetComponent<Image>();
+        Color startValue = sprite.color;
+
+        while (time < duration)
+        {
+            sprite.color = Color.Lerp(startValue, endValue, time / duration);
+            time += Time.deltaTime;
+            yield return null;
+        }
+        sprite.color = endValue;
+    }
+
+    IEnumerator LoadYourAsyncScene(bool lerp, string scene)
+    {
+        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(scene);
+
+        while (!asyncLoad.isDone)
+        {
+            yield return null;
+        }
+        if (lerp) { StartCoroutine(ColorLerp(new Color(0, 0, 0, 0), 2)); }
+        else StartCoroutine(ColorLerp(new Color(1, 1, 1, 1), 2)); // reverse
+    }
+
     IEnumerator RemoveAfterSeconds(int seconds, GameObject obj)
     {
         yield return new WaitForSeconds(seconds);
@@ -88,7 +116,9 @@ public class GameManager : MonoBehaviour
         {
             nameEntry.SetActive(false);
             submitButton.SetActive(false);
-            // More here later
+            prompt.GetComponent<Animator>().Play("hide_prompt");
+            StartCoroutine(HideTextAfterSeconds(1, prompt));
+            StartCoroutine(LoadYourAsyncScene(true, "Countries"));
         }
         else
         {
