@@ -56,10 +56,22 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    IEnumerator RemoveAfterSeconds(int seconds, GameObject obj)
+    {
+        yield return new WaitForSeconds(seconds);
+        obj.SetActive(false);
+    }
+
+    IEnumerator HideTextAfterSeconds(int seconds, TextMeshProUGUI t)
+    {
+        yield return new WaitForSeconds(seconds);
+        t.text = "";
+    }
+
     public void start()
     {
-        //title.text = "";
-        //startButton.SetActive(false);
+        StartCoroutine(HideTextAfterSeconds(1, title));
+        StartCoroutine(RemoveAfterSeconds(1, startButton));
         prompt.text = "Player 1\nEnter your country's name!";
         nameEntry.SetActive(true);
         submitButton.SetActive(true);
