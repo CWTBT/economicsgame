@@ -24,6 +24,7 @@ public class GameManager : MonoBehaviour
     private List<Country> playerList = new List<Country>();
 
     private Event currentEvent;
+    private int currentPIndex;
     private VoteManager currentVote;
 
 
@@ -98,6 +99,12 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public void startVotePhase()
+    {
+        currentPIndex = 0;
+        currentVote = new VoteManager();
+    }
+
     public void agree()
     {
         enactAgree();
@@ -118,10 +125,8 @@ public class GameManager : MonoBehaviour
 
     public void enactAgree()
 	{
-        Country currentPlayer = playerList[currentVote.sumVotes()];
-        currentPlayer.adjustEmissions(currentEvent.EmissionsPerTurn);
-        currentPlayer.adjustGDP(currentEvent.Cost);
-        currentPlayer.adjustGrowth(currentEvent.CostPerTurn);
-
+        playerList[currentPIndex].adjustEmissions(currentEvent.EmissionsPerTurn);
+        playerList[currentPIndex].adjustGDP(currentEvent.Cost);
+        playerList[currentPIndex].adjustGrowth(currentEvent.CostPerTurn);
     }
 }
