@@ -58,8 +58,8 @@ public class GameManager : MonoBehaviour
 
     public void start()
     {
-        title.text = "";
-        startButton.SetActive(false);
+        //title.text = "";
+        //startButton.SetActive(false);
         prompt.text = "Player 1\nEnter your country's name!";
         nameEntry.SetActive(true);
         submitButton.SetActive(true);
@@ -87,6 +87,18 @@ public class GameManager : MonoBehaviour
 
     public void agree()
     {
+        currentVote.AcceptVotes += 1;
+        if (currentVote.sumVotes() == 4) enactVotes();
+    }
 
+    public void decline()
+    {
+        currentVote.DeclineVotes += 1;
+        if (currentVote.sumVotes() == 4) enactVotes();
+    }
+
+    public void enactVotes()
+    {
+        
     }
 }
