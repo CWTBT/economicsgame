@@ -21,6 +21,7 @@ public class GameManager : MonoBehaviour
     public GameObject backgroundImage;
     public TextMeshProUGUI description;
     public GameObject submitButton;
+    public GameObject leaderboard;
 
     private List<Country> playerList = new List<Country>();
 
@@ -119,6 +120,7 @@ public class GameManager : MonoBehaviour
             prompt.GetComponent<Animator>().Play("hide_prompt");
             StartCoroutine(HideTextAfterSeconds(1, prompt));
             StartCoroutine(LoadYourAsyncScene(true, "Countries"));
+            leaderboard.GetComponent<Animator>().Play("show_leader");
         }
         else
         {
