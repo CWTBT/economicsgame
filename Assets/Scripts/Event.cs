@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Event : MonoBehaviour
+public class Event
 {
     public string Header;
     public string Desc;

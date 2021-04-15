@@ -28,7 +28,7 @@ public class GameManager : MonoBehaviour
 
     private Event currentEvent;
     private int currentPIndex;
-    private VoteManager currentVote;
+    private VoteManager currentVote = new VoteManager();
     private List<Event> Events = new List<Event>();
     private int TurnNumber = 0;
 
@@ -169,6 +169,7 @@ public class GameManager : MonoBehaviour
         setupVoteUI();
         currentPIndex = 0;
         currentVote = new VoteManager();
+        currentVote.clearVotes();
     }
 
     public void agree()
@@ -193,6 +194,7 @@ public class GameManager : MonoBehaviour
             {
             player.adjustGDP(reward);
 		    }
+        leaderboard.GetComponent<Animator>().Play("show_leader");
     }
 
     public void enactAgree()
