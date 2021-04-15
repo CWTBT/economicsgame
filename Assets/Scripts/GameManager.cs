@@ -154,6 +154,7 @@ public class GameManager : MonoBehaviour
     {
         yesButton.SetActive(true);
         noButton.SetActive(true);
+        StartCoroutine(ColorLerp(new Color(1, 1, 1, 1), 2));
         yesButton.GetComponent<Animator>().Play("show_agree");
         noButton.GetComponent<Animator>().Play("show_decline");
         nextButton.GetComponent<Animator>().Play("hide_next");
@@ -189,6 +190,7 @@ public class GameManager : MonoBehaviour
         StartCoroutine(RemoveAfterSeconds(2, noButton));
         StartCoroutine(HideTextAfterSeconds(2, description));
         StartCoroutine(HideTextAfterSeconds(2, prompt));
+        StartCoroutine(ColorLerp(new Color(0, 0, 0, 0), 2));
     }
 
     public void agree()
