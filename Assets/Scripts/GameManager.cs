@@ -29,6 +29,8 @@ public class GameManager : MonoBehaviour
     private Event currentEvent;
     private int currentPIndex;
     private VoteManager currentVote;
+    private List<Event> Events = new List<Event>();
+    private int TurnNumber = 0;
 
 
     // Start is called before the first frame update
@@ -121,6 +123,7 @@ public class GameManager : MonoBehaviour
             prompt.GetComponent<Animator>().Play("hide_prompt");
             StartCoroutine(HideTextAfterSeconds(1, prompt));
             initializeNames();
+            GenerateEventList();
             StartCoroutine(LoadYourAsyncScene(true, "Countries"));
             leaderboard.GetComponent<Animator>().Play("show_leader");
             nextButton.SetActive(true);
@@ -148,6 +151,7 @@ public class GameManager : MonoBehaviour
 
     private void setupVoteUI()
     {
+        currentEvent = Events[TurnNumber];
         yesButton.SetActive(true);
         noButton.SetActive(true);
         yesButton.GetComponent<Animator>().Play("show_agree");
@@ -188,5 +192,28 @@ public class GameManager : MonoBehaviour
         playerList[currentPIndex].adjustEmissions(currentEvent.EmissionsPerTurn);
         playerList[currentPIndex].adjustGDP(currentEvent.Cost);
         playerList[currentPIndex].adjustGrowth(currentEvent.CostPerTurn);
+    }
+
+    private void GenerateEventList()
+    {
+        Events.Add(CreateTreatyEvent("Ambitious Climate Treaty", 0.5, 5, 5000, 500));
+        Events.Add(CreateTreatyEvent("Less Ambitious Climate Treaty", 0.1, 10, 1000, 200));
+    }
+
+    private Event CreateTreatyEvent(string header, double emissionDecPerc, int turnNumber, int initialCost, int costPerTurn)
+    {
+        Event @event = new Event();
+        @event.Header = header;
+        @event.Desc = $"Join other countries and agree to decrease global CO2" +
+            $" emissions by {emissionDecPerc}% within {turnNumber} turns?";
+        @event.Cost = initialCost;
+        @event.CostPerTurn = costPerTurn;
+        double currentTotalEmissions = 0;
+        playerList.ForEach(p => currentTotalEmissions += p.Emissions);
+        double goalEmissions = currentTotalEmissions - emissionDecPerc * currentTotalEmissions;
+        double initialEmissions = (currentTotalEmissions - goalEmissions) * .1;
+        @event.Emissions = initialEmissions;
+        @event.EmissionsPerTurn = (goalEmissions - initialEmissions) / 4;
+        return @event;
     }
 }
