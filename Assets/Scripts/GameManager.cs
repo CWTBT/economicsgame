@@ -146,14 +146,21 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void startVotePhase()
+    private void setupVoteUI()
     {
         yesButton.SetActive(true);
         noButton.SetActive(true);
         yesButton.GetComponent<Animator>().Play("show_agree");
         noButton.GetComponent<Animator>().Play("show_decline");
         nextButton.GetComponent<Animator>().Play("hide_next");
+        description.GetComponent<Animator>().Play("show_desc");
+        prompt.GetComponent<Animator>().Play("show_prompt");
         StartCoroutine(RemoveAfterSeconds(2, nextButton));
+    }
+
+    public void startVotePhase()
+    {
+        setupVoteUI();
         currentPIndex = 0;
         currentVote = new VoteManager();
     }
