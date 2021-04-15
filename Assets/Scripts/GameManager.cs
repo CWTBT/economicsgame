@@ -151,7 +151,6 @@ public class GameManager : MonoBehaviour
 
     private void setupVoteUI()
     {
-        currentEvent = Events[TurnNumber];
         yesButton.SetActive(true);
         noButton.SetActive(true);
         yesButton.GetComponent<Animator>().Play("show_agree");
@@ -164,6 +163,8 @@ public class GameManager : MonoBehaviour
 
     public void startVotePhase()
     {
+        currentEvent = Events[TurnNumber];
+        TurnNumber++;
         setupVoteUI();
         currentPIndex = 0;
         currentVote = new VoteManager();
