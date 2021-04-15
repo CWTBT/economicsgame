@@ -29,6 +29,6 @@ public class Country
 
     public void adjustEmissions(double d)
     {
-        Emissions += d;
+        Emissions -= d;
     }
 }

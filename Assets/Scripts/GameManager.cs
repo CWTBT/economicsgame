@@ -159,7 +159,9 @@ public class GameManager : MonoBehaviour
         nextButton.GetComponent<Animator>().Play("hide_next");
         description.GetComponent<Animator>().Play("show_desc");
         prompt.GetComponent<Animator>().Play("show_prompt");
+        leaderboard.GetComponent<Animator>().Play("hide_leader");
         StartCoroutine(RemoveAfterSeconds(2, nextButton));
+        StartCoroutine(RemoveAfterSeconds(2, leaderboard));
     }
 
     public void startVotePhase()
@@ -170,6 +172,23 @@ public class GameManager : MonoBehaviour
         currentPIndex = 0;
         currentVote = new VoteManager();
         currentVote.clearVotes();
+    }
+
+    private void clearVoteUI()
+    {
+        // Disabling next button so they cant break demo
+        //nextButton.SetActive(true);
+        leaderboard.SetActive(true);
+        yesButton.GetComponent<Animator>().Play("hide_agree");
+        noButton.GetComponent<Animator>().Play("hide_decline");
+        //nextButton.GetComponent<Animator>().Play("show_next");
+        description.GetComponent<Animator>().Play("hide_desc");
+        prompt.GetComponent<Animator>().Play("hide_prompt");
+        leaderboard.GetComponent<Animator>().Play("show_leader");
+        StartCoroutine(RemoveAfterSeconds(2, yesButton));
+        StartCoroutine(RemoveAfterSeconds(2, noButton));
+        StartCoroutine(HideTextAfterSeconds(2, description));
+        StartCoroutine(HideTextAfterSeconds(2, prompt));
     }
 
     public void agree()
@@ -189,12 +208,27 @@ public class GameManager : MonoBehaviour
 
     public void enactVotes()
     {
-        double reward = (currentVote.AcceptVotes * currentEvent.Cost * Random.Range(1.5f, 3f)) / 4;
-        foreach(Country player in playerList) 
-            {
+        Debug.Log("Enacting vote");
+        //double reward = (currentVote.AcceptVotes * currentEvent.Cost * Random.Range(1.5f, 3f)) / 4;
+        /*foreach(Country player in playerList) 
+        {
             player.adjustGDP(reward);
-		    }
-        leaderboard.GetComponent<Animator>().Play("show_leader");
+		}*/
+        updateLeaderboard();
+        clearVoteUI();
+    }
+
+    private void updateLeaderboard()
+    {
+        TextMeshProUGUI[] gdpList = leaderboard.transform.Find("GDPs").GetComponentsInChildren<TextMeshProUGUI>();
+        TextMeshProUGUI[] emmList = leaderboard.transform.Find("Emissions").GetComponentsInChildren<TextMeshProUGUI>();
+        for (int i = 0; i < 4; i++)
+        {
+            string new_gdp = playerList[i].GDP.ToString("C2");
+            string new_emm = playerList[i].Emissions.ToString();
+            gdpList[i].text = new_gdp;
+            emmList[i].text = new_emm;
+        }
     }
 
     public void enactAgree()
@@ -206,8 +240,8 @@ public class GameManager : MonoBehaviour
 
     private void GenerateEventList()
     {
-        Events.Add(CreateTreatyEvent("Ambitious Climate Treaty", 0.5, 5, 5000, 500));
-        Events.Add(CreateTreatyEvent("Less Ambitious Climate Treaty", 0.1, 10, 1000, 200));
+        Events.Add(CreateTreatyEvent("Ambitious Climate Treaty", 0.5, 5, -5000, 500));
+        Events.Add(CreateTreatyEvent("Less Ambitious Climate Treaty", 0.1, 10, -1000, 200));
     }
     
     private void SelectEvent()
