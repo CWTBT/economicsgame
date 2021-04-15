@@ -22,6 +22,7 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI description;
     public GameObject submitButton;
     public GameObject leaderboard;
+    public GameObject nextButton;
 
     private List<Country> playerList = new List<Country>();
 
@@ -122,6 +123,9 @@ public class GameManager : MonoBehaviour
             initializeNames();
             StartCoroutine(LoadYourAsyncScene(true, "Countries"));
             leaderboard.GetComponent<Animator>().Play("show_leader");
+            nextButton.SetActive(true);
+            nextButton.GetComponent<Animator>().Play("show_next");
+
         }
         else
         {
