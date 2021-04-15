@@ -148,6 +148,12 @@ public class GameManager : MonoBehaviour
 
     public void startVotePhase()
     {
+        yesButton.SetActive(true);
+        noButton.SetActive(true);
+        yesButton.GetComponent<Animator>().Play("show_agree");
+        noButton.GetComponent<Animator>().Play("show_decline");
+        nextButton.GetComponent<Animator>().Play("hide_next");
+        StartCoroutine(RemoveAfterSeconds(2, nextButton));
         currentPIndex = 0;
         currentVote = new VoteManager();
     }
