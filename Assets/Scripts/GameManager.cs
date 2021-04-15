@@ -124,6 +124,7 @@ public class GameManager : MonoBehaviour
             StartCoroutine(HideTextAfterSeconds(1, prompt));
             initializeNames();
             GenerateEventList();
+            SelectEvent();
             StartCoroutine(LoadYourAsyncScene(true, "Countries"));
             leaderboard.GetComponent<Animator>().Play("show_leader");
             nextButton.SetActive(true);
@@ -136,7 +137,7 @@ public class GameManager : MonoBehaviour
 
             int current = playerList.Count + 1;
             prompt.text = "Player "+current+"\nEnter your country's name!";
-            nameEntry.GetComponentsInChildren<TextMeshProUGUI>()[1].text = string.Empty;
+            nameEntry.GetComponentsInChildren<TextMeshProUGUI>()[1].text = "";
         }
     }
 
@@ -174,18 +175,24 @@ public class GameManager : MonoBehaviour
     {
         enactAgree();
         currentVote.AcceptVotes += 1;
+        currentPIndex = currentVote.sumVotes();
         if (currentVote.sumVotes() == 4) enactVotes();
     }
 
     public void decline()
     {
         currentVote.DeclineVotes += 1;
+        currentPIndex = currentVote.sumVotes();
         if (currentVote.sumVotes() == 4) enactVotes();
     }
 
     public void enactVotes()
     {
-        
+        double reward = (currentVote.AcceptVotes * currentEvent.Cost * Random.Range(1.5f, 3f)) / 4;
+        foreach(Country player in playerList) 
+            {
+            player.adjustGDP(reward);
+		    }
     }
 
     public void enactAgree()
@@ -199,6 +206,14 @@ public class GameManager : MonoBehaviour
     {
         Events.Add(CreateTreatyEvent("Ambitious Climate Treaty", 0.5, 5, 5000, 500));
         Events.Add(CreateTreatyEvent("Less Ambitious Climate Treaty", 0.1, 10, 1000, 200));
+    }
+    
+    private void SelectEvent()
+	{
+        int max = Events.Count;
+        int rInt = Random.Range(0, max);
+        currentEvent = Events[rInt];
+        description.GetComponentInChildren<TextMeshProUGUI>().text = currentEvent.Desc;
     }
 
     private Event CreateTreatyEvent(string header, double emissionDecPerc, int turnNumber, int initialCost, int costPerTurn)
