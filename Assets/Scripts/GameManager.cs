@@ -119,15 +119,26 @@ public class GameManager : MonoBehaviour
             submitButton.SetActive(false);
             prompt.GetComponent<Animator>().Play("hide_prompt");
             StartCoroutine(HideTextAfterSeconds(1, prompt));
+            initializeNames();
             StartCoroutine(LoadYourAsyncScene(true, "Countries"));
             leaderboard.GetComponent<Animator>().Play("show_leader");
         }
         else
         {
             // Bug: Can't clear text field after hitting enter
+
             int current = playerList.Count + 1;
             prompt.text = "Player "+current+"\nEnter your country's name!";
             nameEntry.GetComponentsInChildren<TextMeshProUGUI>()[1].text = string.Empty;
+        }
+    }
+
+    private void initializeNames()
+    {
+        TextMeshProUGUI[] nameList = leaderboard.transform.Find("Names").GetComponentsInChildren<TextMeshProUGUI>();
+        for (int i = 0; i < 4; i++)
+        {
+            nameList[i].text = playerList[i].Name;
         }
     }
 
