@@ -5,6 +5,14 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using TMPro;
 
+enum Phase
+{
+    Menu,
+    Names,
+    Cities,
+    Votes
+}
+
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
@@ -31,6 +39,7 @@ public class GameManager : MonoBehaviour
     private VoteManager currentVote = new VoteManager();
     private List<Event> Events = new List<Event>();
     private int TurnNumber = 0;
+    private Phase currentPhase = Phase.Menu;
 
 
     // Start is called before the first frame update
@@ -118,18 +127,11 @@ public class GameManager : MonoBehaviour
         playerList.Add(newPlayer);
         if (playerList.Count == 4)
         {
-            nameEntry.SetActive(false);
-            submitButton.SetActive(false);
-            prompt.GetComponent<Animator>().Play("hide_prompt");
-            StartCoroutine(HideTextAfterSeconds(1, prompt));
+            clearMenuUI();
             initializeNames();
             GenerateEventList();
             SelectEvent();
-            StartCoroutine(LoadYourAsyncScene(true, "Countries"));
-            leaderboard.GetComponent<Animator>().Play("show_leader");
-            nextButton.SetActive(true);
-            nextButton.GetComponent<Animator>().Play("show_next");
-
+            startCitiesPhase();
         }
         else
         {
@@ -139,6 +141,23 @@ public class GameManager : MonoBehaviour
             prompt.text = "Player "+current+"\nEnter your country's name!";
             nameEntry.GetComponentsInChildren<TextMeshProUGUI>()[1].text = "";
         }
+    }
+
+    private void clearMenuUI()
+    {
+        nameEntry.SetActive(false);
+        submitButton.SetActive(false);
+        prompt.GetComponent<Animator>().Play("hide_prompt");
+        StartCoroutine(HideTextAfterSeconds(1, prompt));
+    }
+    private void startCitiesPhase()
+    {
+        
+        currentPhase = Phase.Cities;
+        StartCoroutine(LoadYourAsyncScene(true, "Countries"));
+        leaderboard.GetComponent<Animator>().Play("show_leader");
+        nextButton.SetActive(true);
+        nextButton.GetComponent<Animator>().Play("show_next");
     }
 
     private void initializeNames()
