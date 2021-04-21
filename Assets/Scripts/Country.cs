@@ -7,6 +7,7 @@ public class Country
     public double GDP { set; get; }
     public double Growth { set; get; }
     public double Emissions { set; get; }
+    public bool HaveAgreed { get; set; }
 
     public Country(string name)
     {
@@ -14,7 +15,7 @@ public class Country
         GDP = 20000;
         Growth = 0.2;
         Emissions = 0.5;
-
+        HaveAgreed = false;
     }
 
     public void adjustGDP(double d)
@@ -30,5 +31,15 @@ public class Country
     public void adjustEmissions(double d)
     {
         Emissions -= d;
+    }
+
+    public void Agree()
+    {
+        HaveAgreed = true;
+    }
+
+    public void Disagree()
+    {
+        HaveAgreed = false;
     }
 }
