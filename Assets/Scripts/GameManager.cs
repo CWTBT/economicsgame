@@ -34,13 +34,13 @@ public class GameManager : MonoBehaviour
 
     private List<Country> playerList = new List<Country>();
 
-    private Event currentEvent;
     private int currentPIndex;
     private VoteManager currentVote = new VoteManager();
-    private List<Event> Events = new List<Event>();
-    private int TurnNumber = 0;
     private Phase currentPhase = Phase.Menu;
     private double TotalDamage = 1000.0f;
+
+    private double treatyCost = -5000;
+    private double emissionsChangePct = -0.05;
 
 
     // Start is called before the first frame update
@@ -130,8 +130,6 @@ public class GameManager : MonoBehaviour
         {
             clearMenuUI();
             initializeNames();
-            GenerateEventList();
-            SelectEvent();
             startCitiesPhase();
         }
         else
@@ -192,8 +190,6 @@ public class GameManager : MonoBehaviour
     public void startVotePhase()
     {
         currentPhase = Phase.Votes;
-        currentEvent = Events[TurnNumber];
-        TurnNumber++;
         setupVoteUI();
         currentPIndex = 0;
         currentVote = new VoteManager();
@@ -220,8 +216,11 @@ public class GameManager : MonoBehaviour
 
     public void agree()
     {
-        enactAgree();
+        var player = playerList[currentPIndex];
+        player.adjustGDP(treatyCost);
+        player.adjustEmissions(emissionsChangePct);
         currentVote.AcceptVotes += 1;
+        playerList[currentPIndex].Agree();
         currentPIndex = currentVote.sumVotes();
         if (currentVote.sumVotes() == 4) enactVotes();
     }
@@ -236,12 +235,11 @@ public class GameManager : MonoBehaviour
 
     public void enactVotes()
     {
-        Debug.Log("Enacting vote");
-        //double reward = (currentVote.AcceptVotes * currentEvent.Cost * Random.Range(1.5f, 3f)) / 4;
-        /*foreach(Country player in playerList) 
+        foreach(Country player in playerList) 
         {
-            player.adjustGDP(reward);
-		}*/
+            player.adjustGDP(treatyCost);
+            player.adjustEmissions(emissionsChangePct);
+		}
         updateLeaderboard();
         clearVoteUI();
         startCitiesPhase();
@@ -258,45 +256,6 @@ public class GameManager : MonoBehaviour
             gdpList[i].text = new_gdp;
             emmList[i].text = new_emm;
         }
-    }
-
-    public void enactAgree()
-	{
-        //playerList[currentPIndex].adjustEmissions(currentEvent.EmissionsPerTurn);
-        //playerList[currentPIndex].adjustGDP(currentEvent.Cost);
-        //playerList[currentPIndex].adjustGrowth(currentEvent.CostPerTurn);
-        playerList[currentPIndex].Agree();
-    }
-
-    private void GenerateEventList()
-    {
-        Events.Add(CreateTreatyEvent("Ambitious Climate Treaty", 0.5, 5, -5000, 500));
-        Events.Add(CreateTreatyEvent("Less Ambitious Climate Treaty", 0.1, 10, -1000, 200));
-    }
-    
-    private void SelectEvent()
-	{
-        int max = Events.Count;
-        int rInt = Random.Range(0, max);
-        currentEvent = Events[rInt];
-        description.GetComponentInChildren<TextMeshProUGUI>().text = currentEvent.Desc;
-    }
-
-    private Event CreateTreatyEvent(string header, double emissionDecPerc, int turnNumber, int initialCost, int costPerTurn)
-    {
-        Event @event = new Event();
-        @event.Header = header;
-        @event.Desc = $"Join other countries and agree to decrease global CO2" +
-            $" emissions by {emissionDecPerc}% within {turnNumber} turns?";
-        @event.Cost = initialCost;
-        @event.CostPerTurn = costPerTurn;
-        double currentTotalEmissions = 0;
-        playerList.ForEach(p => currentTotalEmissions += p.Emissions);
-        double goalEmissions = currentTotalEmissions - emissionDecPerc * currentTotalEmissions;
-        double initialEmissions = (currentTotalEmissions - goalEmissions) * .1;
-        @event.Emissions = initialEmissions;
-        @event.EmissionsPerTurn = (goalEmissions - initialEmissions) / 4;
-        return @event;
     }
 
     private void AdjustCountries()

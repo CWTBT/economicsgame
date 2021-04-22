@@ -30,9 +30,10 @@ public class Country
         Growth += d;
     }
 
+    // "d" is a percentage by which to adjust emissions
     public void adjustEmissions(double d)
     {
-        Emissions -= d;
+        Emissions += (Emissions * d);
     }
 
     public void Agree()
