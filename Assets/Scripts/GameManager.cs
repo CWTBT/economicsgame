@@ -40,6 +40,7 @@ public class GameManager : MonoBehaviour
     private List<Event> Events = new List<Event>();
     private int TurnNumber = 0;
     private Phase currentPhase = Phase.Menu;
+    private double TotalDamage = 1000.0f;
 
 
     // Start is called before the first frame update
@@ -228,6 +229,7 @@ public class GameManager : MonoBehaviour
     public void decline()
     {
         currentVote.DeclineVotes += 1;
+        playerList[currentPIndex].Decline();
         currentPIndex = currentVote.sumVotes();
         if (currentVote.sumVotes() == 4) enactVotes();
     }
@@ -260,9 +262,10 @@ public class GameManager : MonoBehaviour
 
     public void enactAgree()
 	{
-        playerList[currentPIndex].adjustEmissions(currentEvent.EmissionsPerTurn);
-        playerList[currentPIndex].adjustGDP(currentEvent.Cost);
-        playerList[currentPIndex].adjustGrowth(currentEvent.CostPerTurn);
+        //playerList[currentPIndex].adjustEmissions(currentEvent.EmissionsPerTurn);
+        //playerList[currentPIndex].adjustGDP(currentEvent.Cost);
+        //playerList[currentPIndex].adjustGrowth(currentEvent.CostPerTurn);
+        playerList[currentPIndex].Agree();
     }
 
     private void GenerateEventList()
@@ -295,4 +298,33 @@ public class GameManager : MonoBehaviour
         @event.EmissionsPerTurn = (goalEmissions - initialEmissions) / 4;
         return @event;
     }
+
+    private void AdjustCountries()
+    {
+        int numAgreed = 0;
+        playerList.ForEach(p => { if (p.HaveAgreed) { numAgreed++;} });
+        double damageGrowthMultiplier = 2.0f - numAgreed * 0.4f;
+        double damageThisRound = TotalDamage * damageGrowthMultiplier;
+        TotalDamage += damageThisRound;
+        AdjustGDPEmissionDamage(damageThisRound, 0.1f, 0.4f);
+    }
+
+    private double TotalEmissions()
+    {
+        double currentTotalEmissions = 0;
+        playerList.ForEach(p => currentTotalEmissions += p.Emissions);
+        return currentTotalEmissions;
+    }
+
+    private void AdjustGDPEmissionDamage(double totalMoney, double agreeMultiplier, double declineMultiplier)
+    {
+        playerList.ForEach(p =>
+        {
+            if (p.HaveAgreed)
+            { p.adjustGDP(totalMoney * agreeMultiplier); }
+            else
+            { p.adjustGDP(totalMoney * declineMultiplier); }
+        });
+    }
+
 }
