@@ -124,6 +124,7 @@ public class GameManager : MonoBehaviour
     public void submit()
     {
         string name = nameEntry.GetComponentsInChildren<TextMeshProUGUI>()[1].text;
+        nameEntry.GetComponent<TMP_InputField>().text = "";
         Country newPlayer = new Country(name);
         playerList.Add(newPlayer);
         if (playerList.Count == 4)
@@ -138,7 +139,6 @@ public class GameManager : MonoBehaviour
 
             int current = playerList.Count + 1;
             prompt.text = "Player "+current+"\nEnter your country's name!";
-            nameEntry.GetComponentsInChildren<TextMeshProUGUI>()[1].text = "";
         }
     }
 
