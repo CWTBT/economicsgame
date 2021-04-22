@@ -41,6 +41,7 @@ public class GameManager : MonoBehaviour
     private int TurnNumber = 0;
     private Phase currentPhase = Phase.Menu;
     private double TotalDamage = 1000.0f;
+    private bool P1Ani = false;
 
 
     // Start is called before the first frame update
@@ -159,7 +160,6 @@ public class GameManager : MonoBehaviour
             StartCoroutine(LoadYourAsyncScene(true, "Countries"));
         }
         nextButton.SetActive(true);
-        leaderboard.SetActive(true);
         currentPhase = Phase.Cities;
         nextButton.GetComponent<Animator>().Play("show_next");
         leaderboard.GetComponent<Animator>().Play("show_leader");
@@ -186,7 +186,8 @@ public class GameManager : MonoBehaviour
         prompt.GetComponent<Animator>().Play("show_prompt");
         leaderboard.GetComponent<Animator>().Play("hide_leader");
         StartCoroutine(RemoveAfterSeconds(2, nextButton));
-        StartCoroutine(RemoveAfterSeconds(2, leaderboard));
+        //StartCoroutine(RemoveAfterSeconds(2, leaderboard));
+
     }
 
     public void startVotePhase()
@@ -196,7 +197,7 @@ public class GameManager : MonoBehaviour
         TurnNumber++;
         setupVoteUI();
         currentPIndex = 0;
-        leaderboard.GetComponent<Animator>().Play("Player" + (currentPIndex + 1));
+        leaderboard.GetComponent<Animator>().Play("show_P" + (currentPIndex + 1));
         currentVote = new VoteManager();
         currentVote.clearVotes();
     }
@@ -206,6 +207,7 @@ public class GameManager : MonoBehaviour
         // Disabling next button so they cant break demo
         //nextButton.SetActive(true);
         //leaderboard.SetActive(true);
+        leaderboard.GetComponent<Animator>().Play("hide_P4");
         yesButton.GetComponent<Animator>().Play("hide_agree");
         noButton.GetComponent<Animator>().Play("hide_decline");
         //nextButton.GetComponent<Animator>().Play("show_next");
@@ -224,7 +226,10 @@ public class GameManager : MonoBehaviour
         enactAgree();
         currentVote.AcceptVotes += 1;
         currentPIndex = currentVote.sumVotes();
-        leaderboard.GetComponent<Animator>().Play("Player" + (currentPIndex + 1));
+        if (currentVote.sumVotes() < 4)
+        {
+            leaderboard.GetComponent<Animator>().Play("show_P" + (currentPIndex + 1));
+        }
         if (currentVote.sumVotes() == 4) enactVotes();
     }
 
@@ -233,6 +238,10 @@ public class GameManager : MonoBehaviour
         currentVote.DeclineVotes += 1;
         playerList[currentPIndex].Decline();
         currentPIndex = currentVote.sumVotes();
+        if (currentVote.sumVotes() < 4)
+        {
+            leaderboard.GetComponent<Animator>().Play("show_P" + (currentPIndex + 1));
+        }
         if (currentVote.sumVotes() == 4) enactVotes();
     }
 
