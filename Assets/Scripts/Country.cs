@@ -7,14 +7,17 @@ public class Country
     public double GDP { set; get; }
     public double Growth { set; get; }
     public double Emissions { set; get; }
+    public bool HaveAgreed { get; set; }
+    public double PercentageOfTotalEmissions { get; set; }
 
     public Country(string name)
     {
         Name = name;
         GDP = 20000;
-        Growth = 0.2;
-        Emissions = 0.5;
-
+        Growth = 0.2f;
+        Emissions = 0.5f;
+        HaveAgreed = false;
+        PercentageOfTotalEmissions = 0.0f;
     }
 
     public void adjustGDP(double d)
@@ -27,8 +30,24 @@ public class Country
         Growth += d;
     }
 
+    // "d" is a percentage by which to adjust emissions
     public void adjustEmissions(double d)
     {
-        Emissions -= d;
+        Emissions += (Emissions * d);
+    }
+
+    public void Agree()
+    {
+        HaveAgreed = true;
+    }
+
+    public void Decline()
+    {
+        HaveAgreed = false;
+    }
+
+    public void UpdatePercentageOfEmissions(double totalEmissions)
+    {
+        PercentageOfTotalEmissions = Emissions / totalEmissions;
     }
 }
