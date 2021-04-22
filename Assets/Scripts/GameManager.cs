@@ -196,6 +196,7 @@ public class GameManager : MonoBehaviour
         TurnNumber++;
         setupVoteUI();
         currentPIndex = 0;
+        leaderboard.GetComponent<Animator>().Play("Player" + (currentPIndex + 1));
         currentVote = new VoteManager();
         currentVote.clearVotes();
     }
@@ -223,6 +224,7 @@ public class GameManager : MonoBehaviour
         enactAgree();
         currentVote.AcceptVotes += 1;
         currentPIndex = currentVote.sumVotes();
+        leaderboard.GetComponent<Animator>().Play("Player" + (currentPIndex + 1));
         if (currentVote.sumVotes() == 4) enactVotes();
     }
 
