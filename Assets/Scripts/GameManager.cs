@@ -136,8 +136,6 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            // Bug: Can't clear text field after hitting enter
-
             int current = playerList.Count + 1;
             prompt.text = "Player "+current+"\nEnter your country's name!";
         }
@@ -184,7 +182,6 @@ public class GameManager : MonoBehaviour
         prompt.GetComponent<Animator>().Play("show_prompt");
         leaderboard.GetComponent<Animator>().Play("hide_leader");
         StartCoroutine(RemoveAfterSeconds(2, nextButton));
-        //StartCoroutine(RemoveAfterSeconds(2, leaderboard));
 
     }
 
@@ -200,16 +197,11 @@ public class GameManager : MonoBehaviour
 
     private void clearVoteUI()
     {
-        // Disabling next button so they cant break demo
-        //nextButton.SetActive(true);
-        //leaderboard.SetActive(true);
         leaderboard.GetComponent<Animator>().Play("hide_P4");
         yesButton.GetComponent<Animator>().Play("hide_agree");
         noButton.GetComponent<Animator>().Play("hide_decline");
-        //nextButton.GetComponent<Animator>().Play("show_next");
         description.GetComponent<Animator>().Play("hide_desc");
         prompt.GetComponent<Animator>().Play("hide_prompt");
-        //leaderboard.GetComponent<Animator>().Play("show_leader");
         StartCoroutine(RemoveAfterSeconds(2, yesButton));
         StartCoroutine(RemoveAfterSeconds(2, noButton));
         StartCoroutine(HideTextAfterSeconds(2, description));
