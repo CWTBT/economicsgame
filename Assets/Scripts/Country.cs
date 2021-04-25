@@ -46,6 +46,12 @@ public class Country
         HaveAgreed = false;
     }
 
+    public void ActivateGDPGrowth()
+    {
+        double growth = Growth * GDP;
+        adjustGDP(growth);
+    }
+
     public void UpdatePercentageOfEmissions(double totalEmissions)
     {
         PercentageOfTotalEmissions = Emissions / totalEmissions;

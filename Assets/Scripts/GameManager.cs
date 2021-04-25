@@ -188,6 +188,7 @@ public class GameManager : MonoBehaviour
     public void startVotePhase()
     {
         currentPhase = Phase.Votes;
+        prompt.text = GetPromptText();
         setupVoteUI();
         currentPIndex = 0;
         leaderboard.GetComponent<Animator>().Play("show_P" + (currentPIndex + 1));
@@ -238,11 +239,7 @@ public class GameManager : MonoBehaviour
 
     public void enactVotes()
     {
-        foreach(Country player in playerList) 
-        {
-            player.adjustGDP(treatyCost);
-            player.adjustEmissions(emissionsChangePct);
-		}
+        AdjustCountries();
         updateLeaderboard();
         clearVoteUI();
         startCitiesPhase();
@@ -271,13 +268,6 @@ public class GameManager : MonoBehaviour
         AdjustGDPEmissionDamage(damageThisRound, 0.1f, 0.4f);
     }
 
-    private double TotalEmissions()
-    {
-        double currentTotalEmissions = 0;
-        playerList.ForEach(p => currentTotalEmissions += p.Emissions);
-        return currentTotalEmissions;
-    }
-
     private void AdjustGDPEmissionDamage(double totalMoney, double agreeMultiplier, double declineMultiplier)
     {
         playerList.ForEach(p =>
@@ -287,6 +277,15 @@ public class GameManager : MonoBehaviour
             else
             { p.adjustGDP(totalMoney * declineMultiplier); }
         });
+    }
+
+    private string GetPromptText()
+    {
+        string toReturn = "";
+        double emissionDecPerc = emissionsChangePct * -100;
+        toReturn += $"Agree to a treaty with your fellow countries to reduce " +
+            $"your emissions by {emissionDecPerc}% in one turn of the game?";
+        return toReturn;
     }
 
 }
