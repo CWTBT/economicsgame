@@ -258,9 +258,9 @@ public class GameManager : MonoBehaviour
         for (int i = 0; i < 4; i++)
         {
             string new_gdp = playerList[i].GDP.ToString("C2");
-            string new_emm = playerList[i].Emissions.ToString();
-            gdpList[i].text = new_gdp;
-            emmList[i].text = new_emm;
+            string new_emm = playerList[i].Emissions.ToString("F2");
+            gdpList[i].text = "GDP: " + new_gdp;
+            emmList[i].text = "EMISSIONS: " + new_emm + "GT";
         }
     }
 

@@ -765,7 +765,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'EMISSIONS: 0.5'
+  m_text: 'EMISSIONS: 0.5GT'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 0a5b8914eeda5444f831c854b6223c14, type: 2}
   m_sharedMaterial: {fileID: 7770418399608751484, guid: 0a5b8914eeda5444f831c854b6223c14, type: 2}
@@ -1665,7 +1665,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'EMISSIONS: 0.5'
+  m_text: 'EMISSIONS: 0.5GT'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 0a5b8914eeda5444f831c854b6223c14, type: 2}
   m_sharedMaterial: {fileID: 7770418399608751484, guid: 0a5b8914eeda5444f831c854b6223c14, type: 2}
@@ -2541,7 +2541,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'EMISSIONS: 0.5'
+  m_text: 'EMISSIONS: 0.5GT'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 0a5b8914eeda5444f831c854b6223c14, type: 2}
   m_sharedMaterial: {fileID: 7770418399608751484, guid: 0a5b8914eeda5444f831c854b6223c14, type: 2}
@@ -2675,7 +2675,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'EMISSIONS: 0.5'
+  m_text: 'EMISSIONS: 0.5GT'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 0a5b8914eeda5444f831c854b6223c14, type: 2}
   m_sharedMaterial: {fileID: 7770418399608751484, guid: 0a5b8914eeda5444f831c854b6223c14, type: 2}
