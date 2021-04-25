@@ -37,7 +37,7 @@ public class GameManager : MonoBehaviour
     private int currentPIndex;
     private VoteManager currentVote = new VoteManager();
     private Phase currentPhase = Phase.Menu;
-    private double TotalDamage = 500.0f;
+    private double TotalDamage = 1250.0f;
     private bool P1Ani = false;
 
     private double treatyCost = -500;
@@ -213,6 +213,8 @@ public class GameManager : MonoBehaviour
     public void agree()
     {
         var player = playerList[currentPIndex];
+        player.Growth = 0.1f;
+        player.ActivateGDPGrowth();
         player.adjustGDP(treatyCost);
         player.adjustEmissions(emissionsChangePct);
         currentVote.AcceptVotes += 1;
@@ -228,6 +230,8 @@ public class GameManager : MonoBehaviour
     public void decline()
     {
         var player = playerList[currentPIndex];
+        player.Growth = 0.15f;
+        player.ActivateGDPGrowth();
         currentVote.DeclineVotes += 1;
         player.adjustEmissions(-emissionsChangePct);
         playerList[currentPIndex].Decline();
