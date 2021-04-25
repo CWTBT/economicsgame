@@ -37,10 +37,10 @@ public class GameManager : MonoBehaviour
     private int currentPIndex;
     private VoteManager currentVote = new VoteManager();
     private Phase currentPhase = Phase.Menu;
-    private double TotalDamage = 1000.0f;
+    private double TotalDamage = 500.0f;
     private bool P1Ani = false;
 
-    private double treatyCost = -5000;
+    private double treatyCost = -500;
     private double emissionsChangePct = -0.05;
 
 
@@ -227,7 +227,9 @@ public class GameManager : MonoBehaviour
 
     public void decline()
     {
+        var player = playerList[currentPIndex];
         currentVote.DeclineVotes += 1;
+        player.adjustEmissions(-emissionsChangePct);
         playerList[currentPIndex].Decline();
         currentPIndex = currentVote.sumVotes();
         if (currentVote.sumVotes() < 4)
@@ -262,10 +264,10 @@ public class GameManager : MonoBehaviour
     {
         int numAgreed = 0;
         playerList.ForEach(p => { if (p.HaveAgreed) { numAgreed++;} });
-        double damageGrowthMultiplier = 2.0f - numAgreed * 0.4f;
+        double damageGrowthMultiplier = 2.0f - numAgreed * 0.45f;
         double damageThisRound = TotalDamage * damageGrowthMultiplier;
         TotalDamage += damageThisRound;
-        AdjustGDPEmissionDamage(damageThisRound, 0.1f, 0.4f);
+        AdjustGDPEmissionDamage(damageThisRound, 0.05f, 0.4f);
     }
 
     private void AdjustGDPEmissionDamage(double totalMoney, double agreeMultiplier, double declineMultiplier)
@@ -273,9 +275,9 @@ public class GameManager : MonoBehaviour
         playerList.ForEach(p =>
         {
             if (p.HaveAgreed)
-            { p.adjustGDP(totalMoney * agreeMultiplier); }
+            { p.adjustGDP(-totalMoney * agreeMultiplier); }
             else
-            { p.adjustGDP(totalMoney * declineMultiplier); }
+            { p.adjustGDP(-totalMoney * declineMultiplier); }
         });
     }
 
