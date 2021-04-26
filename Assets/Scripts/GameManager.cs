@@ -174,7 +174,7 @@ public class GameManager : MonoBehaviour
     {
         yesButton.SetActive(true);
         noButton.SetActive(true);
-        StartCoroutine(ColorLerp(new Color(1, 1, 1, 1), 2));
+        StartCoroutine(ColorLerp(new Color(0.61f, 0.83f, 0.89f, 1), 2));
         yesButton.GetComponent<Animator>().Play("show_agree");
         noButton.GetComponent<Animator>().Play("show_decline");
         nextButton.GetComponent<Animator>().Play("hide_next");
