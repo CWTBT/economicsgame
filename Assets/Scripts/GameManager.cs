@@ -5,15 +5,6 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using TMPro;
 
-enum Phase
-{
-    Menu,
-    Names,
-    Cities,
-    Votes,
-    Results
-}
-
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
