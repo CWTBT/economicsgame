@@ -129,19 +129,22 @@ public class GameManager : MonoBehaviour
     public void submit()
     {
         string name = nameEntry.GetComponentsInChildren<TextMeshProUGUI>()[1].text;
-        nameEntry.GetComponent<TMP_InputField>().text = "";
-        Country newPlayer = new Country(name);
-        playerList.Add(newPlayer);
-        if (playerList.Count == 4)
+        if (name.Length > 1)
         {
-            clearMenuUI();
-            initializeNames();
-            startCitiesPhase();
-        }
-        else
-        {
-            int current = playerList.Count + 1;
-            prompt.text = "Player "+current+"\nEnter your country's name!";
+            nameEntry.GetComponent<TMP_InputField>().text = "";
+            Country newPlayer = new Country(name);
+            playerList.Add(newPlayer);
+            if (playerList.Count == 4)
+            {
+                clearMenuUI();
+                initializeNames();
+                startCitiesPhase();
+            }
+            else
+            {
+                int current = playerList.Count + 1;
+                prompt.text = "Player " + current + "\nEnter your country's name!";
+            }
         }
     }
 
