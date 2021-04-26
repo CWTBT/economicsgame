@@ -3158,6 +3158,7 @@ MonoBehaviour:
   submitButton: {fileID: 582296029}
   leaderboard: {fileID: 1448442123}
   nextButton: {fileID: 1672002858}
+  maxTurns: 1
 --- !u!4 &1249523636
 Transform:
   m_ObjectHideFlags: 0

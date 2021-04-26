@@ -10,7 +10,8 @@ enum Phase
     Menu,
     Names,
     Cities,
-    Votes
+    Votes,
+    Results
 }
 
 public class GameManager : MonoBehaviour
@@ -43,7 +44,8 @@ public class GameManager : MonoBehaviour
     private double treatyCost = -500;
     private double emissionsChangePct = -0.05;
 
-    private double completedVotes = 0;
+    private int completedVotes = 0;
+    public int maxTurns = 5;
 
 
     // Start is called before the first frame update
@@ -187,15 +189,26 @@ public class GameManager : MonoBehaviour
 
     }
 
-    /* 
-     * 5 is a magic number, could be abstracted
-     * to allow for any number of rounds as chosen
-     * by user.
-    */
     public void Next()
     {
-        if (completedVotes == 5) { startResultsPhase(); }
-        else { startVotePhase(); }
+        if (currentPhase == Phase.Cities)
+        {
+            if (completedVotes == maxTurns) startResultsPhase();
+            else startVotePhase();
+        }
+        else if (currentPhase == Phase.Results) NextResult();
+    }
+
+    private void NextResult()
+    {
+        if (currentPIndex == 3) Debug.Log("that's all folks");
+        else
+        {
+            currentPIndex++;
+            leaderboard.GetComponent<Animator>().Play("show_P" + (currentPIndex+1));
+            prompt.text = "Player " + (currentPIndex + 1) + " Results";
+            description.text = "nice city bro";
+        }
     }
     
     public void startVotePhase()
@@ -211,7 +224,15 @@ public class GameManager : MonoBehaviour
 
     private void startResultsPhase()
     {
-        Debug.Log("Results");
+        currentPhase = Phase.Results;
+        currentPIndex = 0;
+        StartCoroutine(ColorLerp(new Color(0, 0, 0, 0.5f), 2));
+        prompt.text = "Player " + (currentPIndex + 1) + " Results";
+        description.text = "nice city bro";
+        leaderboard.GetComponent<Animator>().Play("hide_leader");
+        leaderboard.GetComponent<Animator>().Play("show_P" + (currentPIndex + 1));
+        description.GetComponent<Animator>().Play("show_desc");
+        prompt.GetComponent<Animator>().Play("show_prompt");
     }
 
     private void clearVoteUI()
