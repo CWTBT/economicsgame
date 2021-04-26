@@ -43,6 +43,8 @@ public class GameManager : MonoBehaviour
     private double treatyCost = -500;
     private double emissionsChangePct = -0.05;
 
+    private double completedVotes = 0;
+
 
     // Start is called before the first frame update
     void Start()
@@ -185,6 +187,17 @@ public class GameManager : MonoBehaviour
 
     }
 
+    /* 
+     * 5 is a magic number, could be abstracted
+     * to allow for any number of rounds as chosen
+     * by user.
+    */
+    public void Next()
+    {
+        if (completedVotes == 5) { startResultsPhase(); }
+        else { startVotePhase(); }
+    }
+    
     public void startVotePhase()
     {
         currentPhase = Phase.Votes;
@@ -194,6 +207,11 @@ public class GameManager : MonoBehaviour
         leaderboard.GetComponent<Animator>().Play("show_P" + (currentPIndex + 1));
         currentVote = new VoteManager();
         currentVote.clearVotes();
+    }
+
+    private void startResultsPhase()
+    {
+        Debug.Log("Results");
     }
 
     private void clearVoteUI()
@@ -245,6 +263,7 @@ public class GameManager : MonoBehaviour
 
     public void enactVotes()
     {
+        completedVotes++;
         AdjustCountries();
         updateLeaderboard();
         clearVoteUI();

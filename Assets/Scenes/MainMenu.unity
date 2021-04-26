@@ -4199,7 +4199,7 @@ MonoBehaviour:
         m_CallState: 2
       - m_Target: {fileID: 1249523635}
         m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
-        m_MethodName: startVotePhase
+        m_MethodName: Next
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
