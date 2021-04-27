@@ -1,4 +1,4 @@
-enum Phase
+public enum Phase
 {
     Menu,
     Names,
