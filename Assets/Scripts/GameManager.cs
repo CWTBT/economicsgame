@@ -177,13 +177,13 @@ public class GameManager : MonoBehaviour
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
 	{
-        Country1 = GameObject.FindWithTag("C1");
-        Country2 = GameObject.FindWithTag("C2");
-        Country3 = GameObject.FindWithTag("C3");
-        Country4 = GameObject.FindWithTag("C4");
+        Country1 = GameObject.Find("Country1");
+        Country2 = GameObject.Find("Country2");
+        Country3 = GameObject.Find("Country3");
+        Country4 = GameObject.Find("Country4");
 
-        Country1.transform.Find("Land 1 (base)").setActive(false);
-        Country1.transform.Find("Land 2 (hi C)").setActive(true);
+        Country1.transform.Find("Land 1 (base)").gameObject.SetActive(false);
+        Country1.transform.Find("Land 2 (hi C)").gameObject.SetActive(true);
     }
 
     private void initializeNames()
