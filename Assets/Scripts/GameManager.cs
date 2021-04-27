@@ -99,6 +99,27 @@ public class GameManager : MonoBehaviour
         sprite.color = endValue;
     }
 
+    IEnumerator TextLerp(bool agreed, TextMeshProUGUI text)
+    {
+        float time = 0;
+
+        Color start;
+        Color end = Color.white;
+
+        if (agreed) start = Color.green;
+        else start = Color.red;
+        text.color = start;
+        Debug.Log("lesgo");
+        while (time < 2)
+        {
+            text.color= Color.Lerp(start, end, time / 2);
+            time += Time.deltaTime;
+            yield return null;
+        }
+        Debug.Log("lesdone");
+        text.color = end;
+    }
+
     IEnumerator LoadYourAsyncScene(bool lerp, string scene)
     {
         AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(scene);
@@ -167,6 +188,14 @@ public class GameManager : MonoBehaviour
         if (currentPhase == Phase.Menu)
         {
             StartCoroutine(LoadYourAsyncScene(true, "Countries"));
+        }
+        else
+        {
+            TextMeshProUGUI[] nameList = leaderboard.transform.Find("Names").GetComponentsInChildren<TextMeshProUGUI>();
+            for (int i = 0; i < playerList.Count; i++)
+            {
+                StartCoroutine(TextLerp(playerList[i].HaveAgreed, nameList[i])); 
+            }
         }
         nextButton.SetActive(true);
         currentPhase = Phase.Cities;
