@@ -206,13 +206,41 @@ public class GameManager : MonoBehaviour
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
 	{
-        Country1 = GameObject.Find("Country1");
-        Country2 = GameObject.Find("Country2");
-        Country3 = GameObject.Find("Country3");
-        Country4 = GameObject.Find("Country4");
+        List<GameObject> CountryList = new List<GameObject>();
+        CountryList.Add(GameObject.Find("Country1"));
+        CountryList.Add(GameObject.Find("Country2"));
+        CountryList.Add(GameObject.Find("Country3"));
+        CountryList.Add(GameObject.Find("Country4"));
 
-        Country1.transform.Find("Land 1 (base)").gameObject.SetActive(false);
-        Country1.transform.Find("Land 2 (hi C)").gameObject.SetActive(true);
+        for (int i = 0; i < 4; i++)
+        {
+            if (playerList[i].Emissions >= pollutionUpgrade1)
+            {
+                CountryList[i].transform.Find("Land 1 (base)").gameObject.SetActive(false);
+                CountryList[i].transform.Find("Land 2 (hi C)").gameObject.SetActive(true);
+            }
+            if (playerList[i].Emissions >= pollutionUpgrade2)
+            {
+                CountryList[i].transform.Find("Land 2 (hi C)").gameObject.SetActive(false);
+                CountryList[i].transform.Find("Land 3 (desert)").gameObject.SetActive(true);
+            }
+            if (playerList[i].GDP >= cityUpgrade1)
+            {
+                CountryList[i].transform.Find("City 1").gameObject.SetActive(false);
+                CountryList[i].transform.Find("City 2").gameObject.SetActive(true);
+            }
+            if(playerList[i].GDP >= cityUpgrade2)
+            {
+                CountryList[i].transform.Find("City 2").gameObject.SetActive(false);
+                CountryList[i].transform.Find("City 3").gameObject.SetActive(true);
+            }
+            if(playerList[i].GDP >= cityUpgrade2)
+            {
+                CountryList[i].transform.Find("City 3").gameObject.SetActive(false);
+                CountryList[i].transform.Find("City 4").gameObject.SetActive(true);
+            }
+
+        }
     }
 
     private void initializeNames()
