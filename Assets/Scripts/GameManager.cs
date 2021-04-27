@@ -24,6 +24,18 @@ public class GameManager : MonoBehaviour
     public GameObject leaderboard;
     public GameObject nextButton;
 
+    //Game Designer controlled "upgrade" values
+    public double pollutionUpgrade1;
+    public double pollutionUpgrade2;
+    public double cityUpgrade1;
+    public double cityUpgrade2;
+    public double cityUpgrade3;
+
+    private GameObject Country1;
+    private GameObject Country2;
+    private GameObject Country3;
+    private GameObject Country4;
+
     private List<Country> playerList = new List<Country>();
 
     private int currentPIndex;
@@ -160,6 +172,18 @@ public class GameManager : MonoBehaviour
         currentPhase = Phase.Cities;
         nextButton.GetComponent<Animator>().Play("show_next");
         leaderboard.GetComponent<Animator>().Play("show_leader");
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+	{
+        Country1 = GameObject.FindWithTag("C1");
+        Country2 = GameObject.FindWithTag("C2");
+        Country3 = GameObject.FindWithTag("C3");
+        Country4 = GameObject.FindWithTag("C4");
+
+        Country1.transform.Find("Land 1 (base)").setActive(false);
+        Country1.transform.Find("Land 2 (hi C)").setActive(true);
     }
 
     private void initializeNames()
