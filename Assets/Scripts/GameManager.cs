@@ -233,10 +233,9 @@ public class GameManager : MonoBehaviour
         currentPIndex = 0;
         eval = new Evaluator(playerList);
         evaluation = eval.evaluate();
-        Debug.Log(evaluation[0]);
         StartCoroutine(ColorLerp(new Color(0, 0, 0, 0.5f), 2));
         prompt.text = "Player " + (currentPIndex + 1) + " Results";
-        description.text = "nice city bro";
+        description.text = PrintAccolades(0);
         leaderboard.GetComponent<Animator>().Play("hide_leader");
         leaderboard.GetComponent<Animator>().Play("show_P" + (currentPIndex + 1));
         description.GetComponent<Animator>().Play("show_desc");
