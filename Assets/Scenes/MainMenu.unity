@@ -3158,11 +3158,12 @@ MonoBehaviour:
   submitButton: {fileID: 582296029}
   leaderboard: {fileID: 1448442123}
   nextButton: {fileID: 1672002858}
+  botMode: 0
   pollutionUpgrade1: 0.51
   pollutionUpgrade2: 0.53
-  cityUpgrade1: 21000
-  cityUpgrade2: 23000
-  cityUpgrade3: 24000
+  cityUpgrade1: 22000
+  cityUpgrade2: 24000
+  cityUpgrade3: 26000
   maxTurns: 1
 --- !u!4 &1249523636
 Transform:
