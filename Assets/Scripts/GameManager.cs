@@ -25,6 +25,8 @@ public class GameManager : MonoBehaviour
     public GameObject leaderboard;
     public GameObject nextButton;
 
+    public bool botMode = false;
+
     //Game Designer controlled "upgrade" values
     public double pollutionUpgrade1;
     public double pollutionUpgrade2;
@@ -32,12 +34,18 @@ public class GameManager : MonoBehaviour
     public double cityUpgrade2;
     public double cityUpgrade3;
 
+    private GameObject Country1;
+    private GameObject Country2;
+    private GameObject Country3;
+    private GameObject Country4;
+
     private List<Country> playerList = new List<Country>();
 
     private int currentPIndex;
     private VoteManager currentVote = new VoteManager();
     private Phase currentPhase = Phase.Menu;
     private double TotalDamage = 1250.0f;
+    private bool P1Ani = false;
 
     private double treatyCost = -500;
     private double emissionsChangePct = -0.05;
@@ -94,6 +102,25 @@ public class GameManager : MonoBehaviour
         sprite.color = endValue;
     }
 
+    IEnumerator TextLerp(bool agreed, TextMeshProUGUI text)
+    {
+        float time = 0;
+
+        Color start;
+        Color end = Color.white;
+
+        if (agreed) start = Color.green;
+        else start = Color.red;
+        text.color = start;
+        while (time < 2)
+        {
+            text.color= Color.Lerp(start, end, time / 2);
+            time += Time.deltaTime;
+            yield return null;
+        }
+        text.color = end;
+    }
+
     IEnumerator LoadYourAsyncScene(bool lerp, string scene)
     {
         AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(scene);
@@ -118,6 +145,11 @@ public class GameManager : MonoBehaviour
         t.text = "";
     }
 
+    IEnumerator Wait(int seconds)
+    {
+        yield return new WaitForSeconds(seconds);
+    }
+
     public void start()
     {
         StartCoroutine(HideTextAfterSeconds(1, title));
@@ -135,7 +167,7 @@ public class GameManager : MonoBehaviour
             nameEntry.GetComponent<TMP_InputField>().text = "";
             Country newPlayer = new Country(name);
             playerList.Add(newPlayer);
-            if (playerList.Count == 4)
+            if (playerList.Count == 4 || botMode)
             {
                 clearMenuUI();
                 initializeNames();
@@ -162,6 +194,14 @@ public class GameManager : MonoBehaviour
         if (currentPhase == Phase.Menu)
         {
             StartCoroutine(LoadYourAsyncScene(true, "Countries"));
+        }
+        else
+        {
+            TextMeshProUGUI[] nameList = leaderboard.transform.Find("Names").GetComponentsInChildren<TextMeshProUGUI>();
+            for (int i = 0; i < playerList.Count; i++)
+            {
+                StartCoroutine(TextLerp(playerList[i].HaveAgreed, nameList[i])); 
+            }
         }
         nextButton.SetActive(true);
         currentPhase = Phase.Cities;
@@ -211,6 +251,16 @@ public class GameManager : MonoBehaviour
 
     private void initializeNames()
     {
+        if (botMode)
+        {
+            for (int i = 1; i < 4; i++)
+            {
+                string name = "Player " + (i + 1);
+                Country newPlayer = new Country(name);
+                playerList.Add(newPlayer);
+            }
+        }
+
         TextMeshProUGUI[] nameList = leaderboard.transform.Find("Names").GetComponentsInChildren<TextMeshProUGUI>();
         for (int i = 0; i < 4; i++)
         {
@@ -316,6 +366,16 @@ public class GameManager : MonoBehaviour
         StartCoroutine(ColorLerp(new Color(0, 0, 0, 0), 2));
     }
 
+    private void BotVote()
+    {
+        for (int i = 0; i < 3; i++)
+        {
+            int choice = Random.Range(0, 2);
+            if (choice == 0) agree();
+            else decline();
+        }
+    }
+
     public void agree()
     {
         var player = playerList[currentPIndex];
@@ -330,6 +390,7 @@ public class GameManager : MonoBehaviour
         {
             leaderboard.GetComponent<Animator>().Play("show_P" + (currentPIndex + 1));
         }
+        if (botMode && currentPIndex == 1) BotVote();
         if (currentVote.sumVotes() == 4) enactVotes();
     }
 
@@ -346,6 +407,7 @@ public class GameManager : MonoBehaviour
         {
             leaderboard.GetComponent<Animator>().Play("show_P" + (currentPIndex + 1));
         }
+        if (botMode && currentPIndex == 1) BotVote();
         if (currentVote.sumVotes() == 4) enactVotes();
     }
 
