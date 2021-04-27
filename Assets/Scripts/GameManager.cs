@@ -31,18 +31,12 @@ public class GameManager : MonoBehaviour
     public double cityUpgrade2;
     public double cityUpgrade3;
 
-    private GameObject Country1;
-    private GameObject Country2;
-    private GameObject Country3;
-    private GameObject Country4;
-
     private List<Country> playerList = new List<Country>();
 
     private int currentPIndex;
     private VoteManager currentVote = new VoteManager();
     private Phase currentPhase = Phase.Menu;
     private double TotalDamage = 1250.0f;
-    private bool P1Ani = false;
 
     private double treatyCost = -500;
     private double emissionsChangePct = -0.05;
@@ -97,27 +91,6 @@ public class GameManager : MonoBehaviour
             yield return null;
         }
         sprite.color = endValue;
-    }
-
-    IEnumerator TextLerp(bool agreed, TextMeshProUGUI text)
-    {
-        float time = 0;
-
-        Color start;
-        Color end = Color.white;
-
-        if (agreed) start = Color.green;
-        else start = Color.red;
-        text.color = start;
-        Debug.Log("lesgo");
-        while (time < 2)
-        {
-            text.color= Color.Lerp(start, end, time / 2);
-            time += Time.deltaTime;
-            yield return null;
-        }
-        Debug.Log("lesdone");
-        text.color = end;
     }
 
     IEnumerator LoadYourAsyncScene(bool lerp, string scene)
@@ -188,14 +161,6 @@ public class GameManager : MonoBehaviour
         if (currentPhase == Phase.Menu)
         {
             StartCoroutine(LoadYourAsyncScene(true, "Countries"));
-        }
-        else
-        {
-            TextMeshProUGUI[] nameList = leaderboard.transform.Find("Names").GetComponentsInChildren<TextMeshProUGUI>();
-            for (int i = 0; i < playerList.Count; i++)
-            {
-                StartCoroutine(TextLerp(playerList[i].HaveAgreed, nameList[i])); 
-            }
         }
         nextButton.SetActive(true);
         currentPhase = Phase.Cities;
