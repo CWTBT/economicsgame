@@ -38,6 +38,9 @@ public class GameManager : MonoBehaviour
     private int completedVotes = 0;
     public int maxTurns = 5;
 
+    private Evaluator eval;
+    private List<List<Accolades>> evaluation;
+
 
     // Start is called before the first frame update
     void Start()
@@ -201,8 +204,16 @@ public class GameManager : MonoBehaviour
             currentPIndex++;
             leaderboard.GetComponent<Animator>().Play("show_P" + (currentPIndex+1));
             prompt.text = "Player " + (currentPIndex + 1) + " Results";
-            description.text = "nice city bro";
+            string newStr = PrintAccolades(currentPIndex);
+            description.text = newStr;
         }
+    }
+
+    private string PrintAccolades(int pIndex)
+    {
+        string accStr = "";
+        foreach (Accolades a in evaluation[pIndex]) accStr = accStr + a + "\n";
+        return accStr;
     }
     
     public void startVotePhase()
@@ -220,9 +231,11 @@ public class GameManager : MonoBehaviour
     {
         currentPhase = Phase.Results;
         currentPIndex = 0;
+        eval = new Evaluator(playerList);
+        evaluation = eval.evaluate();
         StartCoroutine(ColorLerp(new Color(0, 0, 0, 0.5f), 2));
         prompt.text = "Player " + (currentPIndex + 1) + " Results";
-        description.text = "nice city bro";
+        description.text = PrintAccolades(0);
         leaderboard.GetComponent<Animator>().Play("hide_leader");
         leaderboard.GetComponent<Animator>().Play("show_P" + (currentPIndex + 1));
         description.GetComponent<Animator>().Play("show_desc");

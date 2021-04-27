@@ -1,4 +1,4 @@
-enum Accolades
+public enum Accolades
 {
     TopGDP,
     TopEmi,
