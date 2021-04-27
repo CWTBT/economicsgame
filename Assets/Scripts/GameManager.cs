@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviour
 
     public GameObject canvas;
     public GameObject events;
+    private GameObject resetCanvas;
 
     public TextMeshProUGUI title;
     public GameObject startButton;
@@ -60,7 +61,7 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        resetCanvas = canvas;
     }
 
     // Update is called once per frame
@@ -77,7 +78,7 @@ public class GameManager : MonoBehaviour
             DontDestroyOnLoad(gameObject);
             DontDestroyOnLoad(canvas);
             DontDestroyOnLoad(events);
-
+            
         }
         else
         {
@@ -264,11 +265,18 @@ public class GameManager : MonoBehaviour
 
     private void NextResult()
     {
-        if (currentPIndex == 3) Debug.Log("that's all folks");
+        if (currentPIndex == 3)
+        {
+            //back to main menu
+            SceneManager.LoadScene("MainMenu");
+            canvas = resetCanvas;
+            canvas.SetActive(false);
+            Debug.Log("that's all folks");
+        }
         else
         {
             currentPIndex++;
-            leaderboard.GetComponent<Animator>().Play("show_P" + (currentPIndex+1));
+            leaderboard.GetComponent<Animator>().Play("show_P" + (currentPIndex + 1));
             prompt.text = "Player " + (currentPIndex + 1) + " Results";
             string newStr = PrintAccolades(currentPIndex);
             description.text = newStr;
