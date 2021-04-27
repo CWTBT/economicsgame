@@ -212,7 +212,13 @@ public class GameManager : MonoBehaviour
     private string PrintAccolades(int pIndex)
     {
         string accStr = "";
-        foreach (Accolades a in evaluation[pIndex]) accStr = accStr + a + "\n";
+        foreach (Accolades a in evaluation[pIndex])
+        {
+            if (a == Accolades.TopGDP) accStr += "You ended with the highest GDP! Congrats!";
+            if (a == Accolades.BotEmi) accStr += "Nice! You had the lowest carbon emissions!";
+            if (a == Accolades.TopEmi) accStr += "You had the highest carbon emissions.";
+            accStr += "\n";
+        }
         return accStr;
     }
     
