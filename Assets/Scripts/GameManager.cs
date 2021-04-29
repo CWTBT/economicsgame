@@ -130,8 +130,8 @@ public class GameManager : MonoBehaviour
         {
             yield return null;
         }
-        if (lerp) { StartCoroutine(ColorLerp(new Color(0, 0, 0, 0), 2)); }
-        else StartCoroutine(ColorLerp(new Color(1, 1, 1, 1), 2)); // reverse
+        if (lerp) { StartCoroutine(ColorLerp(new Color(0, 0, 0, 0), 1)); }
+        else StartCoroutine(ColorLerp(new Color(1, 1, 1, 1), 1)); // reverse
     }
 
     IEnumerator RemoveAfterSeconds(int seconds, GameObject obj)
@@ -163,7 +163,7 @@ public class GameManager : MonoBehaviour
     public void submit()
     {
         string name = nameEntry.GetComponentsInChildren<TextMeshProUGUI>()[1].text;
-        if (name.Length > 1)
+        if (name.Length > 1 && name.Length <= 9)
         {
             nameEntry.GetComponent<TMP_InputField>().text = "";
             Country newPlayer = new Country(name);
@@ -242,7 +242,7 @@ public class GameManager : MonoBehaviour
     {
         yesButton.SetActive(true);
         noButton.SetActive(true);
-        StartCoroutine(ColorLerp(new Color(0.61f, 0.83f, 0.89f, 1), 2));
+        StartCoroutine(ColorLerp(new Color(0.61f, 0.83f, 0.89f, 1), 1));
         yesButton.GetComponent<Animator>().Play("show_agree");
         noButton.GetComponent<Animator>().Play("show_decline");
         nextButton.GetComponent<Animator>().Play("hide_next");
@@ -389,6 +389,13 @@ public class GameManager : MonoBehaviour
         clearVoteUI();
         for (int i = 0; i < 4; i++)
         {
+            CountryList[i].transform.Find("Land 1 (base)").gameObject.SetActive(true);
+            CountryList[i].transform.Find("Land 2 (hi C)").gameObject.SetActive(false);
+            CountryList[i].transform.Find("Land 3 (desert)").gameObject.SetActive(false);
+            CountryList[i].transform.Find("City 1").gameObject.SetActive(true);
+            CountryList[i].transform.Find("City 2").gameObject.SetActive(false);
+            CountryList[i].transform.Find("City 3").gameObject.SetActive(false);
+            CountryList[i].transform.Find("City 4").gameObject.SetActive(false);
             if (playerList[i].Emissions >= pollutionUpgrade1)
             {
                 CountryList[i].transform.Find("Land 1 (base)").gameObject.SetActive(false);
