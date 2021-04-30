@@ -3164,7 +3164,7 @@ MonoBehaviour:
   cityUpgrade1: 22000
   cityUpgrade2: 24000
   cityUpgrade3: 26000
-  maxTurns: 1
+  maxTurns: 2
 --- !u!4 &1249523636
 Transform:
   m_ObjectHideFlags: 0

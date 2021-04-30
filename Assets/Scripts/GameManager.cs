@@ -130,8 +130,8 @@ public class GameManager : MonoBehaviour
         {
             yield return null;
         }
-        if (lerp) { StartCoroutine(ColorLerp(new Color(0, 0, 0, 0), 1)); }
-        else StartCoroutine(ColorLerp(new Color(1, 1, 1, 1), 1)); // reverse
+        if (lerp) { StartCoroutine(ColorLerp(new Color(0, 0, 0, 0), 0.75f)); }
+        else StartCoroutine(ColorLerp(new Color(1, 1, 1, 1), 0.75f)); // reverse
     }
 
     IEnumerator RemoveAfterSeconds(int seconds, GameObject obj)
@@ -242,14 +242,14 @@ public class GameManager : MonoBehaviour
     {
         yesButton.SetActive(true);
         noButton.SetActive(true);
-        StartCoroutine(ColorLerp(new Color(0.61f, 0.83f, 0.89f, 1), 1));
+        StartCoroutine(ColorLerp(new Color(0.61f, 0.83f, 0.89f, 1), 0.75f));
         yesButton.GetComponent<Animator>().Play("show_agree");
         noButton.GetComponent<Animator>().Play("show_decline");
         nextButton.GetComponent<Animator>().Play("hide_next");
         description.GetComponent<Animator>().Play("show_desc");
         prompt.GetComponent<Animator>().Play("show_prompt");
         leaderboard.GetComponent<Animator>().Play("hide_leader");
-        StartCoroutine(RemoveAfterSeconds(2, nextButton));
+        //StartCoroutine(RemoveAfterSeconds(2, nextButton));
 
     }
 
@@ -313,7 +313,7 @@ public class GameManager : MonoBehaviour
         currentPIndex = 0;
         eval = new Evaluator(playerList);
         evaluation = eval.evaluate();
-        StartCoroutine(ColorLerp(new Color(0, 0, 0, 0.5f), 2));
+        StartCoroutine(ColorLerp(new Color(0, 0, 0, 0.5f), 0.75f));
         prompt.text = "Player " + (currentPIndex + 1) + " Results";
         description.text = PrintAccolades(0);
         leaderboard.GetComponent<Animator>().Play("hide_leader");
@@ -324,16 +324,16 @@ public class GameManager : MonoBehaviour
 
     private void clearVoteUI()
     {
+        StartCoroutine(ColorLerp(new Color(0, 0, 0, 0), 0.75f));
         leaderboard.GetComponent<Animator>().Play("hide_P4");
         yesButton.GetComponent<Animator>().Play("hide_agree");
         noButton.GetComponent<Animator>().Play("hide_decline");
         description.GetComponent<Animator>().Play("hide_desc");
         prompt.GetComponent<Animator>().Play("hide_prompt");
-        StartCoroutine(RemoveAfterSeconds(2, yesButton));
-        StartCoroutine(RemoveAfterSeconds(2, noButton));
-        StartCoroutine(HideTextAfterSeconds(2, description));
-        StartCoroutine(HideTextAfterSeconds(2, prompt));
-        StartCoroutine(ColorLerp(new Color(0, 0, 0, 0), 2));
+        //StartCoroutine(RemoveAfterSeconds(1, yesButton));
+        //StartCoroutine(RemoveAfterSeconds(1, noButton));
+        //StartCoroutine(HideTextAfterSeconds(1, description));
+        //StartCoroutine(HideTextAfterSeconds(1, prompt));
     }
 
     private void BotVote()
