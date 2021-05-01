@@ -25,6 +25,8 @@ public class GameManager : MonoBehaviour
     public GameObject leaderboard;
     public GameObject nextButton;
     public GameObject backButton;
+    public GameObject nextCountryButton;
+    public GameObject lastCountryButton;
 
     public bool botMode = false;
 
@@ -35,19 +37,14 @@ public class GameManager : MonoBehaviour
     public double cityUpgrade2;
     public double cityUpgrade3;
 
-    private GameObject Country1;
-    private GameObject Country2;
-    private GameObject Country3;
-    private GameObject Country4;
-
     private List<Country> playerList = new List<Country>();
     List<GameObject> CountryList = new List<GameObject>();
+    private GameObject mainCamera;
 
     private int currentPIndex;
     private VoteManager currentVote = new VoteManager();
     private Phase currentPhase = Phase.Menu;
     private double TotalDamage = 1250.0f;
-    private bool P1Ani = false;
 
     private double treatyCost = -500;
     private double emissionsChangePct = -0.05;
@@ -217,18 +214,22 @@ public class GameManager : MonoBehaviour
             }
         }
         nextButton.SetActive(true);
+        nextCountryButton.SetActive(true);
+        lastCountryButton.SetActive(true);
         currentPhase = Phase.Cities;
         nextButton.GetComponent<Animator>().Play("show_next");
         leaderboard.GetComponent<Animator>().Play("show_leader");
         SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
+    //Connects the Cities Phase objects to the GameManager
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
 	{
         CountryList.Add(GameObject.Find("Country1"));
         CountryList.Add(GameObject.Find("Country2"));
         CountryList.Add(GameObject.Find("Country3"));
         CountryList.Add(GameObject.Find("Country4"));
+        mainCamera = GameObject.Find("Main Camera");
     }
 
     private void initializeNames()
@@ -262,6 +263,8 @@ public class GameManager : MonoBehaviour
         prompt.GetComponent<Animator>().Play("show_prompt");
         leaderboard.GetComponent<Animator>().Play("hide_leader");
         //StartCoroutine(RemoveAfterSeconds(2, nextButton));
+        nextCountryButton.SetActive(false);
+        lastCountryButton.SetActive(false);
 
     }
 
@@ -478,6 +481,16 @@ public class GameManager : MonoBehaviour
         toReturn += $"Agree to a treaty with your fellow countries to reduce " +
             $"your emissions by {emissionDecPerc}% in one turn of the game?";
         return toReturn;
+    }
+
+    //Camera Panning Related
+    public void OnRightButton()
+	{
+        mainCamera.GetComponent<CameraPanning>().OnRightButtonPress();
+	}
+    public void OnLeftButton()
+    {
+        mainCamera.GetComponent<CameraPanning>().OnLeftButtonPress();
     }
 
 }
