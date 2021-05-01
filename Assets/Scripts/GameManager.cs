@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviour
     public GameObject canvas;
     public GameObject events;
     private GameObject resetCanvas;
+    public AudioClip buttonClick;
 
     public TextMeshProUGUI title;
     public GameObject startButton;
@@ -178,6 +179,7 @@ public class GameManager : MonoBehaviour
             playerList.Add(newPlayer);
             if (playerList.Count == 4 || botMode)
             {
+                ClickButton();
                 clearMenuUI();
                 initializeNames();
                 startCitiesPhase();
@@ -491,6 +493,12 @@ public class GameManager : MonoBehaviour
     public void OnLeftButton()
     {
         mainCamera.GetComponent<CameraPanning>().OnLeftButtonPress();
+    }
+
+    public void ClickButton()
+    {
+        AudioSource audio = gameObject.GetComponent<AudioSource>();
+        audio.PlayOneShot(buttonClick);
     }
 
 }
