@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviour
     public GameObject canvas;
     public GameObject events;
     private GameObject resetCanvas;
+    public AudioClip buttonClick;
 
     public TextMeshProUGUI title;
     public GameObject startButton;
@@ -179,6 +180,7 @@ public class GameManager : MonoBehaviour
             playerList.Add(newPlayer);
             if (playerList.Count == 4 || botMode)
             {
+                ClickButton();
                 clearMenuUI();
                 initializeNames();
                 startCitiesPhase();
@@ -501,6 +503,12 @@ public class GameManager : MonoBehaviour
         if (currentPIndex > 0) currentPIndex--;
         else currentPIndex = 3;
         currentCountry.GetComponent<TextMeshProUGUI>().text = playerList[currentPIndex].Name;
+    }
+
+    public void ClickButton()
+    {
+        AudioSource audio = gameObject.GetComponent<AudioSource>();
+        audio.PlayOneShot(buttonClick);
     }
 
 }
