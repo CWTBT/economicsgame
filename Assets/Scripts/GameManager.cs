@@ -24,6 +24,7 @@ public class GameManager : MonoBehaviour
     public GameObject submitButton;
     public GameObject leaderboard;
     public GameObject nextButton;
+    public GameObject backButton;
 
     public bool botMode = false;
 
@@ -158,6 +159,16 @@ public class GameManager : MonoBehaviour
         prompt.text = "Player 1\nEnter your country's name!";
         nameEntry.SetActive(true);
         submitButton.SetActive(true);
+        backButton.SetActive(true);
+    }
+
+    public void Back()
+    {
+        StartCoroutine(RemoveAfterSeconds(1, backButton));
+        prompt.GetComponent<Animator>().Play("hide_prompt");
+        submitButton.SetActive(false);
+        nameEntry.SetActive(false);
+        startButton.SetActive(true);
     }
 
     public void submit()
@@ -186,6 +197,7 @@ public class GameManager : MonoBehaviour
     {
         nameEntry.SetActive(false);
         submitButton.SetActive(false);
+        backButton.SetActive(false);
         prompt.GetComponent<Animator>().Play("hide_prompt");
         StartCoroutine(HideTextAfterSeconds(1, prompt));
     }
@@ -270,7 +282,6 @@ public class GameManager : MonoBehaviour
             //back to main menu
             SceneManager.LoadScene("MainMenu");
             canvas = resetCanvas;
-            canvas.SetActive(false);
             Debug.Log("that's all folks");
         }
         else
