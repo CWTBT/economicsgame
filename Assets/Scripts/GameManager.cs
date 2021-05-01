@@ -27,6 +27,7 @@ public class GameManager : MonoBehaviour
     public GameObject backButton;
     public GameObject nextCountryButton;
     public GameObject lastCountryButton;
+    public GameObject currentCountry;
 
     public bool botMode = false;
 
@@ -41,7 +42,7 @@ public class GameManager : MonoBehaviour
     List<GameObject> CountryList = new List<GameObject>();
     private GameObject mainCamera;
 
-    private int currentPIndex;
+    private int currentPIndex = 0;
     private VoteManager currentVote = new VoteManager();
     private Phase currentPhase = Phase.Menu;
     private double TotalDamage = 1250.0f;
@@ -219,6 +220,8 @@ public class GameManager : MonoBehaviour
         currentPhase = Phase.Cities;
         nextButton.GetComponent<Animator>().Play("show_next");
         leaderboard.GetComponent<Animator>().Play("show_leader");
+        currentCountry.GetComponent<TextMeshProUGUI>().text = playerList[currentPIndex].Name;
+        currentCountry.GetComponent<Animator>().Play("show_current");
         SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
@@ -262,6 +265,7 @@ public class GameManager : MonoBehaviour
         description.GetComponent<Animator>().Play("show_desc");
         prompt.GetComponent<Animator>().Play("show_prompt");
         leaderboard.GetComponent<Animator>().Play("hide_leader");
+        currentCountry.GetComponent<Animator>().Play("hide_current");
         //StartCoroutine(RemoveAfterSeconds(2, nextButton));
         nextCountryButton.SetActive(false);
         lastCountryButton.SetActive(false);
@@ -487,10 +491,16 @@ public class GameManager : MonoBehaviour
     public void OnRightButton()
 	{
         mainCamera.GetComponent<CameraPanning>().OnRightButtonPress();
-	}
+        if (currentPIndex < 3) currentPIndex++;
+        else currentPIndex = 0;
+        currentCountry.GetComponent<TextMeshProUGUI>().text = playerList[currentPIndex].Name;
+    }
     public void OnLeftButton()
     {
         mainCamera.GetComponent<CameraPanning>().OnLeftButtonPress();
+        if (currentPIndex > 0) currentPIndex--;
+        else currentPIndex = 3;
+        currentCountry.GetComponent<TextMeshProUGUI>().text = playerList[currentPIndex].Name;
     }
 
 }
