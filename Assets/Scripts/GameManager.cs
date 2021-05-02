@@ -13,7 +13,9 @@ public class GameManager : MonoBehaviour
     public GameObject events;
     private GameObject resetCanvas;
     public AudioClip buttonClick;
-
+    public AudioSource BackgroundAmbience;
+    public AudioClip GoodEmissions;
+    public AudioClip BadEmissions;
     public TextMeshProUGUI title;
     public GameObject startButton;
     public TextMeshProUGUI prompt;
@@ -80,6 +82,7 @@ public class GameManager : MonoBehaviour
             DontDestroyOnLoad(gameObject);
             DontDestroyOnLoad(canvas);
             DontDestroyOnLoad(events);
+            DontDestroyOnLoad(BackgroundAmbience);
             
         }
         else
@@ -161,6 +164,7 @@ public class GameManager : MonoBehaviour
         nameEntry.SetActive(true);
         submitButton.SetActive(true);
         backButton.SetActive(true);
+        GoodAmbientSound();
     }
 
     public void Back()
@@ -186,6 +190,7 @@ public class GameManager : MonoBehaviour
                 clearMenuUI();
                 initializeNames();
                 startCitiesPhase();
+                
             }
             else
             {
@@ -278,6 +283,7 @@ public class GameManager : MonoBehaviour
 
     public void Next()
     {
+        BackgroundAmbience.Stop();
         if (currentPhase == Phase.Cities)
         {
             if (completedVotes == maxTurns) startResultsPhase();
@@ -503,18 +509,52 @@ public class GameManager : MonoBehaviour
         else currentPIndex = 0;
         currentCountry.GetComponent<TextMeshProUGUI>().text = playerList[currentPIndex].Name;
     }
+        CameraPanning cameraPanning = mainCamera.GetComponent<CameraPanning>();
+        cameraPanning.OnRightButtonPress();
+        if (playerList[cameraPanning.CurrentCity].Emissions >= pollutionUpgrade1)
+        {
+            BadAmbientSound();
+        } else
+        {
+            GoodAmbientSound();
+        }
+	}
     public void OnLeftButton()
     {
         mainCamera.GetComponent<CameraPanning>().OnLeftButtonPress();
         if (currentPIndex > 0) currentPIndex--;
         else currentPIndex = 3;
         currentCountry.GetComponent<TextMeshProUGUI>().text = playerList[currentPIndex].Name;
+    {
+        CameraPanning cameraPanning = mainCamera.GetComponent<CameraPanning>();
+        cameraPanning.OnLeftButtonPress();
+        if (playerList[cameraPanning.CurrentCity].Emissions >= pollutionUpgrade1)
+        {
+            BadAmbientSound();
+        }
+        else
+        {
+            GoodAmbientSound();
+        }
     }
 
     public void ClickButton()
     {
         AudioSource audio = gameObject.GetComponent<AudioSource>();
+
         audio.PlayOneShot(buttonClick);
+    }
+
+    public void GoodAmbientSound()
+    {
+        BackgroundAmbience.Stop();
+        BackgroundAmbience.PlayOneShot(GoodEmissions);
+    }
+
+    public void BadAmbientSound()
+    {
+        BackgroundAmbience.Stop();
+        BackgroundAmbience.PlayOneShot(BadEmissions);
     }
 
 }
