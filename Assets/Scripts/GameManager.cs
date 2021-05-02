@@ -39,6 +39,8 @@ public class GameManager : MonoBehaviour
     public double cityUpgrade2;
     public double cityUpgrade3;
 
+    public double eMulti;
+
     private List<Country> playerList = new List<Country>();
     List<GameObject> CountryList = new List<GameObject>();
     private GameObject mainCamera;
@@ -375,6 +377,8 @@ public class GameManager : MonoBehaviour
         player.adjustEmissions(emissionsChangePct);
         currentVote.AcceptVotes += 1;
         playerList[currentPIndex].Agree();
+        player.adjustScore(eMulti);
+        Debug.Log(player.Name + "'s score is: " + (int)player.Score);
         currentPIndex = currentVote.sumVotes();
         if (currentVote.sumVotes() < 4)
         {
@@ -392,6 +396,8 @@ public class GameManager : MonoBehaviour
         currentVote.DeclineVotes += 1;
         player.adjustEmissions(-emissionsChangePct);
         playerList[currentPIndex].Decline();
+        player.adjustScore(eMulti);
+        Debug.Log(player.Name + "'s score is: " + (int)player.Score);
         currentPIndex = currentVote.sumVotes();
         if (currentVote.sumVotes() < 4)
         {
