@@ -3562,12 +3562,14 @@ MonoBehaviour:
   backButton: {fileID: 919783708}
   nextCountryButton: {fileID: 2050422210}
   lastCountryButton: {fileID: 1621012148}
+  currentCountry: {fileID: 724466790}
   botMode: 0
   pollutionUpgrade1: 0.51
   pollutionUpgrade2: 0.53
   cityUpgrade1: 22000
   cityUpgrade2: 24000
   cityUpgrade3: 26000
+  eMulti: 0
   maxTurns: 2
 --- !u!4 &1249523636
 Transform:
