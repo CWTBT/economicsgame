@@ -242,6 +242,7 @@ public class GameManager : MonoBehaviour
         CountryList.Add(GameObject.Find("Country3"));
         CountryList.Add(GameObject.Find("Country4"));
         mainCamera = GameObject.Find("Main Camera");
+        Debug.Log("Main Camera Set");
     }
 
     private void initializeNames()
@@ -508,9 +509,8 @@ public class GameManager : MonoBehaviour
         if (currentPIndex < 3) currentPIndex++;
         else currentPIndex = 0;
         currentCountry.GetComponent<TextMeshProUGUI>().text = playerList[currentPIndex].Name;
-    }
+    
         CameraPanning cameraPanning = mainCamera.GetComponent<CameraPanning>();
-        cameraPanning.OnRightButtonPress();
         if (playerList[cameraPanning.CurrentCity].Emissions >= pollutionUpgrade1)
         {
             BadAmbientSound();
@@ -525,9 +525,8 @@ public class GameManager : MonoBehaviour
         if (currentPIndex > 0) currentPIndex--;
         else currentPIndex = 3;
         currentCountry.GetComponent<TextMeshProUGUI>().text = playerList[currentPIndex].Name;
-    {
+    
         CameraPanning cameraPanning = mainCamera.GetComponent<CameraPanning>();
-        cameraPanning.OnLeftButtonPress();
         if (playerList[cameraPanning.CurrentCity].Emissions >= pollutionUpgrade1)
         {
             BadAmbientSound();
