@@ -1339,6 +1339,7 @@ GameObject:
   - component: {fileID: 582296031}
   - component: {fileID: 582296034}
   - component: {fileID: 582296035}
+  - component: {fileID: 582296037}
   m_Layer: 5
   m_Name: NameSubmit
   m_TagString: Untagged
@@ -1587,6 +1588,21 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &582296037
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 582296029}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 76c392e42b5098c458856cdf6ecaaaa1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_FirstSelected: {fileID: 0}
+  m_sendNavigationEvents: 1
+  m_DragThreshold: 10
 --- !u!1 &715855838
 GameObject:
   m_ObjectHideFlags: 0
@@ -3972,7 +3988,7 @@ MonoBehaviour:
   cityUpgrade1: 22000
   cityUpgrade2: 24000
   cityUpgrade3: 26000
-  eMulti: 0
+  eMulti: 20000
   maxTurns: 2
 --- !u!4 &1249523636
 Transform:

@@ -403,8 +403,6 @@ public class GameManager : MonoBehaviour
         player.adjustEmissions(emissionsChangePct);
         currentVote.AcceptVotes += 1;
         playerList[currentPIndex].Agree();
-        player.adjustScore(eMulti);
-        Debug.Log(player.Name + "'s score is: " + (int)player.Score);
         currentPIndex = currentVote.sumVotes();
         if (currentVote.sumVotes() < 4)
         {
@@ -422,8 +420,6 @@ public class GameManager : MonoBehaviour
         currentVote.DeclineVotes += 1;
         player.adjustEmissions(-emissionsChangePct);
         playerList[currentPIndex].Decline();
-        player.adjustScore(eMulti);
-        Debug.Log(player.Name + "'s score is: " + (int)player.Score);
         currentPIndex = currentVote.sumVotes();
         if (currentVote.sumVotes() < 4)
         {
@@ -494,11 +490,16 @@ public class GameManager : MonoBehaviour
     private void AdjustCountries()
     {
         int numAgreed = 0;
-        playerList.ForEach(p => { if (p.HaveAgreed) { numAgreed++;} });
+        playerList.ForEach(p => { if (p.HaveAgreed) { numAgreed++; } });
         double damageGrowthMultiplier = 2.0f - numAgreed * 0.45f;
         double damageThisRound = TotalDamage * damageGrowthMultiplier;
         TotalDamage += damageThisRound;
         AdjustGDPEmissionDamage(damageThisRound, 0.05f, 0.4f);
+        playerList.ForEach(player =>
+        {
+            player.adjustScore(eMulti);
+            Debug.Log(player.Name + "'s score is: " + (int)player.Score);
+        });
     }
 
     private void AdjustGDPEmissionDamage(double totalMoney, double agreeMultiplier, double declineMultiplier)
