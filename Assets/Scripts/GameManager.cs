@@ -31,6 +31,9 @@ public class GameManager : MonoBehaviour
     public GameObject nextCountryButton;
     public GameObject lastCountryButton;
     public GameObject currentCountry;
+    public GameObject creditsText;
+    public GameObject creditsButton;
+    public GameObject howToPlayButton;
 
     public bool botMode = false;
 
@@ -164,6 +167,8 @@ public class GameManager : MonoBehaviour
         nameEntry.SetActive(true);
         submitButton.SetActive(true);
         backButton.SetActive(true);
+        howToPlayButton.SetActive(false);
+        creditsButton.SetActive(false);
         GoodAmbientSound();
     }
 
@@ -174,6 +179,20 @@ public class GameManager : MonoBehaviour
         submitButton.SetActive(false);
         nameEntry.SetActive(false);
         startButton.SetActive(true);
+        creditsText.SetActive(false);
+        howToPlayButton.SetActive(true);
+        creditsButton.SetActive(true);
+    }
+
+    public void credits()
+    {
+        StartCoroutine(HideTextAfterSeconds(1, title));
+        StartCoroutine(RemoveAfterSeconds(1, startButton));
+        StartCoroutine(RemoveAfterSeconds(1, howToPlayButton));
+        StartCoroutine(RemoveAfterSeconds(1, creditsButton));
+        backButton.SetActive(true);
+        creditsText.SetActive(true);
+       
     }
 
     public void submit()
