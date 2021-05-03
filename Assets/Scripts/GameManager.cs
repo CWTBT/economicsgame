@@ -604,7 +604,7 @@ public class GameManager : MonoBehaviour
         GoodAmbientSound();
         tutorialCount = 0;
         tutorialBackground.SetActive(true);
-        //display player one 'leaderboard' panel
+        leaderboard.GetComponent<Animator>().Play("show_P1");
     }
 
     public void TutorialNext()
@@ -613,7 +613,7 @@ public class GameManager : MonoBehaviour
 
         if (tutorialCount == 1)
         {
-            tutorialText.text = "As your GDP grows, your city will expand";
+            tutorialText.text = "As your GDP grows, your country will expand";
             //fade in city level 2 to show city growth
             //point to GDP on panel
         }
@@ -625,6 +625,7 @@ public class GameManager : MonoBehaviour
         }
         else if (tutorialCount == 3)
         {
+            leaderboard.GetComponent<Animator>().Play("hide_P1");
             tutorialText.text = "Consider the treaty each turn carefully to balance your GDP growth and environmental impact \n \n Remember, other countries' decisions will have an impact on you";
             startButton.SetActive(true);
             //display treaty screen and start button
