@@ -178,22 +178,32 @@ public class GameManager : MonoBehaviour
 
     public void Back()
     {
+        //this can probably go through the 'clear menu UI function'
         StartCoroutine(RemoveAfterSeconds(1, backButton));
+
+        //game start off
         prompt.GetComponent<Animator>().Play("hide_prompt");
         submitButton.SetActive(false);
         nameEntry.SetActive(false);
-        startButton.SetActive(true);
-        creditsText.SetActive(false);
+
+        //tutorial off
+        tutorialBackground.SetActive(false);
+        tutorialNextButton.SetActive(false);
+        tutorialText.text = "";
         howToPlayButton.SetActive(true);
+
+        //credits off
+        creditsText.SetActive(false);
         creditsButton.SetActive(true);
+
+        //reset main menu
+        startButton.SetActive(true);
+        title.text = "Climate Goes Political";
     }
 
     public void credits()
     {
-        StartCoroutine(HideTextAfterSeconds(1, title));
-        StartCoroutine(RemoveAfterSeconds(1, startButton));
-        StartCoroutine(RemoveAfterSeconds(1, howToPlayButton));
-        StartCoroutine(RemoveAfterSeconds(1, creditsButton));
+        clearMenuUI();
         backButton.SetActive(true);
         creditsText.SetActive(true);
        
@@ -228,6 +238,8 @@ public class GameManager : MonoBehaviour
         nameEntry.SetActive(false);
         submitButton.SetActive(false);
         backButton.SetActive(false);
+        howToPlayButton.SetActive(false);
+        creditsButton.SetActive(false);
         prompt.GetComponent<Animator>().Play("hide_prompt");
         StartCoroutine(HideTextAfterSeconds(1, prompt));
     }
@@ -591,6 +603,7 @@ public class GameManager : MonoBehaviour
         creditsButton.SetActive(false);
         GoodAmbientSound();
         tutorialCount = 0;
+        tutorialBackground.SetActive(true);
         //display player one 'leaderboard' panel
     }
 
@@ -613,6 +626,7 @@ public class GameManager : MonoBehaviour
         else if (tutorialCount == 3)
         {
             tutorialText.text = "Consider the treaty each turn carefully to balance your GDP growth and environmental impact \n \n Remember, other countries' decisions will have an impact on you";
+            startButton.SetActive(true);
             //display treaty screen and start button
         }
     }
