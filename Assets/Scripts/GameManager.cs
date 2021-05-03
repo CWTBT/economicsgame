@@ -34,6 +34,10 @@ public class GameManager : MonoBehaviour
     public GameObject creditsText;
     public GameObject creditsButton;
     public GameObject howToPlayButton;
+    public GameObject tutorialNextButton;
+    public TextMeshProUGUI tutorialText;
+    public GameObject tutorialBackground;
+    private int tutorialCount;
 
     public bool botMode = false;
 
@@ -574,6 +578,43 @@ public class GameManager : MonoBehaviour
     {
         BackgroundAmbience.Stop();
         BackgroundAmbience.PlayOneShot(BadEmissions);
+    }
+
+    public void TutorialStart()
+    {
+        StartCoroutine(HideTextAfterSeconds(1, title));
+        StartCoroutine(RemoveAfterSeconds(1, startButton));
+        tutorialText.text = "there are two numbers you need to consider in this game: GDP and Emissions. \n \n your GDP number is a measure of the total economic productivity in your country in dollars. \n \n your Emissions number tracks how much your country pollutes in gigatons of carbon.";
+        tutorialNextButton.SetActive(true);
+        backButton.SetActive(true);
+        howToPlayButton.SetActive(false);
+        creditsButton.SetActive(false);
+        GoodAmbientSound();
+        tutorialCount = 0;
+        //display player one 'leaderboard' panel
+    }
+
+    public void TutorialNext()
+    {
+        tutorialCount++;
+
+        if (tutorialCount == 1)
+        {
+            tutorialText.text = "As your GDP grows, your city will expand";
+            //fade in city level 2 to show city growth
+            //point to GDP on panel
+        }
+        else if (tutorialCount == 2)
+        {
+            tutorialText.text = "Your GDP will grow faster if you emit more carbon, but the environment will be affected, such as rising sea levels \n \n Watch out! Harming the envrionment will have repercussions in the long run";
+            // fade in environment level 2 to show rising sea levels
+            //point to emissions on panel
+        }
+        else if (tutorialCount == 3)
+        {
+            tutorialText.text = "Consider the treaty each turn carefully to balance your GDP growth and environmental impact \n \n Remember, other countries' decisions will have an impact on you";
+            //display treaty screen and start button
+        }
     }
 
 }
