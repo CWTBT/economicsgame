@@ -4129,6 +4129,7 @@ MonoBehaviour:
   creditsButton: {fileID: 335304112}
   howToPlayButton: {fileID: 164978633}
   tutorialNextButton: {fileID: 1941915605}
+  tutorialTextBox: {fileID: 1534263646}
   tutorialText: {fileID: 1534263649}
   tutorialBackground: {fileID: 2021979402}
   botMode: 0
@@ -4876,7 +4877,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1534263647
 RectTransform:
   m_ObjectHideFlags: 0

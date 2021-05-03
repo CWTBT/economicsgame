@@ -35,6 +35,7 @@ public class GameManager : MonoBehaviour
     public GameObject creditsButton;
     public GameObject howToPlayButton;
     public GameObject tutorialNextButton;
+    public GameObject tutorialTextBox;
     public TextMeshProUGUI tutorialText;
     public GameObject tutorialBackground;
     private int tutorialCount;
@@ -179,7 +180,7 @@ public class GameManager : MonoBehaviour
     public void Back()
     {
         //this can probably go through the 'clear menu UI function'
-        StartCoroutine(RemoveAfterSeconds(1, backButton));
+        StartCoroutine(RemoveAfterSeconds(0, backButton));
 
         //game start off
         prompt.GetComponent<Animator>().Play("hide_prompt");
@@ -190,6 +191,7 @@ public class GameManager : MonoBehaviour
         tutorialBackground.SetActive(false);
         tutorialNextButton.SetActive(false);
         tutorialText.text = "";
+        tutorialTextBox.SetActive(false);
         howToPlayButton.SetActive(true);
 
         //credits off
@@ -206,7 +208,9 @@ public class GameManager : MonoBehaviour
         clearMenuUI();
         backButton.SetActive(true);
         creditsText.SetActive(true);
-       
+        StartCoroutine(HideTextAfterSeconds(0, title));
+        StartCoroutine(RemoveAfterSeconds(0, startButton));
+
     }
 
     public void submit()
@@ -572,7 +576,7 @@ public class GameManager : MonoBehaviour
             GoodAmbientSound();
         }
     }
-
+    //Sounds
     public void ClickButton()
     {
         AudioSource audio = gameObject.GetComponent<AudioSource>();
@@ -591,14 +595,14 @@ public class GameManager : MonoBehaviour
         BackgroundAmbience.Stop();
         BackgroundAmbience.PlayOneShot(BadEmissions);
     }
-
+    //Tutorial
     public void TutorialStart()
     {
-        StartCoroutine(HideTextAfterSeconds(1, title));
-        StartCoroutine(RemoveAfterSeconds(1, startButton));
+        StartCoroutine(HideTextAfterSeconds(0, title));
+        StartCoroutine(RemoveAfterSeconds(0, startButton));
+        tutorialTextBox.SetActive(true);
         tutorialText.text = "there are two numbers you need to consider in this game: GDP and Emissions. \n \n your GDP number is a measure of the total economic productivity in your country in dollars. \n \n your Emissions number tracks how much your country pollutes in gigatons of carbon.";
         tutorialNextButton.SetActive(true);
-        backButton.SetActive(true);
         howToPlayButton.SetActive(false);
         creditsButton.SetActive(false);
         GoodAmbientSound();
@@ -627,9 +631,10 @@ public class GameManager : MonoBehaviour
         {
             leaderboard.GetComponent<Animator>().Play("hide_P1");
             tutorialText.text = "Consider the treaty each turn carefully to balance your GDP growth and environmental impact \n \n Remember, other countries' decisions will have an impact on you";
-            startButton.SetActive(true);
+            //startButton.SetActive(true);
+            tutorialNextButton.SetActive(false);
+            backButton.SetActive(true);
             //display treaty screen and start button
         }
     }
-
 }
