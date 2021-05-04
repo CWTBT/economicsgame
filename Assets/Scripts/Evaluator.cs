@@ -55,6 +55,9 @@ public class Evaluator
                 botEmis = new List<int> { i };
             }
             else if (players[i].Emissions == botEmi) botEmis.Add(i);
+
+            if (players[i].PerfectAgree) accList[i].Add(Accolades.AllAgree);
+            else if (players[i].PerfectDisagree) accList[i].Add(Accolades.AllDecline);
         }
 
         for (int i = 0; i < topGDPs.Count; i++) accList[topGDPs[i]].Add(Accolades.TopGDP);

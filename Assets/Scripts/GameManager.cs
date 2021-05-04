@@ -346,11 +346,11 @@ public class GameManager : MonoBehaviour
         else
         {
             currentPIndex++;
-            leaderboard.GetComponent<Animator>().Play("show_P" + (currentPIndex + 1));
-            prompt.text = "Player " + (currentPIndex + 1) + " Results";
+            prompt.text = playerList[currentPIndex].Name + "'s Achievements:";
             string newStr = PrintAccolades(currentPIndex);
             description.text = newStr;
         }
+        mainCamera.GetComponent<CameraPanning>().OnRightButtonPress();
     }
 
     private string PrintAccolades(int pIndex)
@@ -361,6 +361,8 @@ public class GameManager : MonoBehaviour
             if (a == Accolades.TopGDP) accStr += "You ended with the highest GDP! Congrats!";
             if (a == Accolades.BotEmi) accStr += "Nice! You had the lowest carbon emissions!";
             if (a == Accolades.TopEmi) accStr += "You had the highest carbon emissions.";
+            if (a == Accolades.AllAgree) accStr += "You showed demonstrated remarkable concern for the environment by accepting every treaty.";
+            if (a == Accolades.AllDecline) accStr += "You didn't agree to a single climate treaty.";
             accStr += "\n";
         }
         return accStr;
@@ -379,15 +381,19 @@ public class GameManager : MonoBehaviour
 
     private void startResultsPhase()
     {
+        mainCamera.GetComponent<CameraPanning>().CurrentCity = 3;
+        mainCamera.GetComponent<CameraPanning>().OnRightButtonPress();
+        currentCountry.GetComponent<Animator>().Play("hide_current");
+        nextCountryButton.SetActive(false);
+        lastCountryButton.SetActive(false);
         currentPhase = Phase.Results;
         currentPIndex = 0;
         eval = new Evaluator(playerList);
         evaluation = eval.evaluate();
         StartCoroutine(ColorLerp(new Color(0, 0, 0, 0.5f), 0.75f));
-        prompt.text = "Player " + (currentPIndex + 1) + " Results";
+        prompt.text = playerList[currentPIndex].Name + "'s Achievements:";
         description.text = PrintAccolades(0);
         leaderboard.GetComponent<Animator>().Play("hide_leader");
-        leaderboard.GetComponent<Animator>().Play("show_P" + (currentPIndex + 1));
         description.GetComponent<Animator>().Play("show_desc");
         prompt.GetComponent<Animator>().Play("show_prompt");
     }
@@ -457,40 +463,38 @@ public class GameManager : MonoBehaviour
         AdjustCountries();
         updateLeaderboard();
         clearVoteUI();
+        //Updates the map
         for (int i = 0; i < 4; i++)
         {
-            CountryList[i].transform.Find("Land 1 (base)").gameObject.SetActive(true);
-            CountryList[i].transform.Find("Land 2 (hi C)").gameObject.SetActive(false);
-            CountryList[i].transform.Find("Land 3 (desert)").gameObject.SetActive(false);
-            CountryList[i].transform.Find("City 1").gameObject.SetActive(true);
-            CountryList[i].transform.Find("City 2").gameObject.SetActive(false);
-            CountryList[i].transform.Find("City 3").gameObject.SetActive(false);
-            CountryList[i].transform.Find("City 4").gameObject.SetActive(false);
-            if (playerList[i].Emissions >= pollutionUpgrade1)
-            {
-                CountryList[i].transform.Find("Land 1 (base)").gameObject.SetActive(false);
-                CountryList[i].transform.Find("Land 2 (hi C)").gameObject.SetActive(true);
+            int prevL = playerList[i].previousE;
+            int currL = playerList[i].environment;
+            int prevC = playerList[i].previousC;
+            int currC = playerList[i].city;
+            
+            //Environment Related
+            if(currL > prevL)
+			{
+                Debug.Log("Oh no! " + playerList[i].Name + " became more polluted!");
+			}
+            if(currL < prevL)
+			{
+                Debug.Log("Yay! " + playerList[i].Name + " became less polluted!");
             }
-            if (playerList[i].Emissions >= pollutionUpgrade2)
+            CountryList[i].transform.Find("Land " + prevL).gameObject.SetActive(false);
+            CountryList[i].transform.Find("Land " + currL).gameObject.SetActive(true);
+            
+            //City Related
+            if (currC > prevC)
             {
-                CountryList[i].transform.Find("Land 2 (hi C)").gameObject.SetActive(false);
-                CountryList[i].transform.Find("Land 3 (desert)").gameObject.SetActive(true);
+                Debug.Log("Yay! " + playerList[i].Name + " grew!");
             }
-            if (playerList[i].GDP >= cityUpgrade1)
+            if (currC < prevC)
             {
-                CountryList[i].transform.Find("City 1").gameObject.SetActive(false);
-                CountryList[i].transform.Find("City 2").gameObject.SetActive(true);
+                Debug.Log("Oh No! " + playerList[i].Name + " shrunk!");
             }
-            if (playerList[i].GDP >= cityUpgrade2)
-            {
-                CountryList[i].transform.Find("City 2").gameObject.SetActive(false);
-                CountryList[i].transform.Find("City 3").gameObject.SetActive(true);
-            }
-            if (playerList[i].GDP >= cityUpgrade2)
-            {
-                CountryList[i].transform.Find("City 3").gameObject.SetActive(false);
-                CountryList[i].transform.Find("City 4").gameObject.SetActive(true);
-            }
+            CountryList[i].transform.Find("City " + prevC).gameObject.SetActive(false);
+            CountryList[i].transform.Find("City " + currC).gameObject.SetActive(true);
+ 
 
         }
         startCitiesPhase();
@@ -519,6 +523,8 @@ public class GameManager : MonoBehaviour
         AdjustGDPEmissionDamage(damageThisRound, 0.05f, 0.4f);
         playerList.ForEach(player =>
         {
+            player.adjustCity(cityUpgrade1, cityUpgrade2, cityUpgrade3);
+            player.adjustEnvironment(pollutionUpgrade1, pollutionUpgrade2);
             player.adjustScore(eMulti);
             Debug.Log(player.Name + "'s score is: " + (int)player.Score);
         });
