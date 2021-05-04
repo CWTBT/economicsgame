@@ -67,6 +67,7 @@ public class GameManager : MonoBehaviour
     private Evaluator eval;
     private List<List<Accolades>> evaluation;
 
+    string[] names = { "", "", "" };
 
     // Start is called before the first frame update
     void Start()
@@ -215,9 +216,12 @@ public class GameManager : MonoBehaviour
     public void submit()
     {
         int current = playerList.Count+1;
-        string[] names = {"", "", ""};
+        if(current == 1)
+		{
+            string[] names = { "", "", "" };
+        }
         string name = nameEntry.GetComponentsInChildren<TextMeshProUGUI>()[1].text;
-        if (names[0].Equals(name) && names[1].Equals(name) && names[2].Equals(name))
+        if (names[0] == name || names[1] == name || names[2] == name)
         {
             prompt.text = "Player " + current + "\nEnter your country's name!\nPlease enter an available name!";
         }
