@@ -483,7 +483,7 @@ public class GameManager : MonoBehaviour
             string new_gdp = playerList[i].GDP.ToString("C2");
             string new_emm = playerList[i].Emissions.ToString("F2");
             gdpList[i].text = "GDP: " + new_gdp;
-            emmList[i].text = "EMISSIONS: " + new_emm + "GT";
+            emmList[i].text = "C02: " + new_emm + "MT";
         }
     }
 

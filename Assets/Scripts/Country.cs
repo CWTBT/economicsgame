@@ -20,8 +20,8 @@ public class Country
     public Country(string name)
     {
         Name = name;
-        GDP = 20000;
-        Growth = 0.2f;
+        GDP = 25000;
+        Growth = 0.01f;
         Emissions = 500f;
         HaveAgreed = false;
         PercentageOfTotalEmissions = 0.0f;
