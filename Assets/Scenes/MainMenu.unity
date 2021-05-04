@@ -1043,7 +1043,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'EMISSIONS: 0.5GT'
+  m_text: 'EMISSIONS: 500.00GT'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 0a5b8914eeda5444f831c854b6223c14, type: 2}
   m_sharedMaterial: {fileID: 7770418399608751484, guid: 0a5b8914eeda5444f831c854b6223c14, type: 2}
@@ -2159,7 +2159,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'EMISSIONS: 0.5GT'
+  m_text: 'EMISSIONS: 500.00GT'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 0a5b8914eeda5444f831c854b6223c14, type: 2}
   m_sharedMaterial: {fileID: 7770418399608751484, guid: 0a5b8914eeda5444f831c854b6223c14, type: 2}
@@ -3569,7 +3569,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'EMISSIONS: 0.5GT'
+  m_text: 'EMISSIONS: 500.00GT'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 0a5b8914eeda5444f831c854b6223c14, type: 2}
   m_sharedMaterial: {fileID: 7770418399608751484, guid: 0a5b8914eeda5444f831c854b6223c14, type: 2}
@@ -3703,7 +3703,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'EMISSIONS: 0.5GT'
+  m_text: 'EMISSIONS: 500.00GT'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 0a5b8914eeda5444f831c854b6223c14, type: 2}
   m_sharedMaterial: {fileID: 7770418399608751484, guid: 0a5b8914eeda5444f831c854b6223c14, type: 2}
@@ -4178,8 +4178,6 @@ MonoBehaviour:
   events: {fileID: 1639683360}
   buttonClick: {fileID: 8300000, guid: ace955944491d47e5a530e688c94156c, type: 3}
   BackgroundAmbience: {fileID: 1336581090}
-  GoodEmissions: {fileID: 8300000, guid: 30f9a5d5310c643dd95f42fc8b3465c4, type: 3}
-  BadEmissions: {fileID: 8300000, guid: aca4c120322fa44ae92c95346218eb20, type: 3}
   title: {fileID: 879359668}
   startButton: {fileID: 1976383912}
   prompt: {fileID: 1338740814}

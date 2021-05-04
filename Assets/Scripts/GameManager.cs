@@ -239,8 +239,8 @@ public class GameManager : MonoBehaviour
                 ClickButton();
                 clearMenuUI();
                 initializeNames();
+                updateLeaderboard();
                 startCitiesPhase();
-                
             }
             else
             {
