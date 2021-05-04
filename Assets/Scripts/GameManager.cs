@@ -461,40 +461,19 @@ public class GameManager : MonoBehaviour
         AdjustCountries();
         updateLeaderboard();
         clearVoteUI();
+        //Updates the map
         for (int i = 0; i < 4; i++)
         {
-            CountryList[i].transform.Find("Land 1 (base)").gameObject.SetActive(true);
-            CountryList[i].transform.Find("Land 2 (hi C)").gameObject.SetActive(false);
-            CountryList[i].transform.Find("Land 3 (desert)").gameObject.SetActive(false);
-            CountryList[i].transform.Find("City 1").gameObject.SetActive(true);
-            CountryList[i].transform.Find("City 2").gameObject.SetActive(false);
-            CountryList[i].transform.Find("City 3").gameObject.SetActive(false);
-            CountryList[i].transform.Find("City 4").gameObject.SetActive(false);
-            if (playerList[i].Emissions >= pollutionUpgrade1)
-            {
-                CountryList[i].transform.Find("Land 1 (base)").gameObject.SetActive(false);
-                CountryList[i].transform.Find("Land 2 (hi C)").gameObject.SetActive(true);
-            }
-            if (playerList[i].Emissions >= pollutionUpgrade2)
-            {
-                CountryList[i].transform.Find("Land 2 (hi C)").gameObject.SetActive(false);
-                CountryList[i].transform.Find("Land 3 (desert)").gameObject.SetActive(true);
-            }
-            if (playerList[i].GDP >= cityUpgrade1)
-            {
-                CountryList[i].transform.Find("City 1").gameObject.SetActive(false);
-                CountryList[i].transform.Find("City 2").gameObject.SetActive(true);
-            }
-            if (playerList[i].GDP >= cityUpgrade2)
-            {
-                CountryList[i].transform.Find("City 2").gameObject.SetActive(false);
-                CountryList[i].transform.Find("City 3").gameObject.SetActive(true);
-            }
-            if (playerList[i].GDP >= cityUpgrade2)
-            {
-                CountryList[i].transform.Find("City 3").gameObject.SetActive(false);
-                CountryList[i].transform.Find("City 4").gameObject.SetActive(true);
-            }
+            int prevL = playerList[i].previousE;
+            int currL = playerList[i].environment;
+            int prevC = playerList[i].previousC;
+            int currC = playerList[i].city;
+                
+            CountryList[i].transform.Find("Land " + prevL).gameObject.SetActive(false);
+            CountryList[i].transform.Find("Land " + currL).gameObject.SetActive(true);
+            CountryList[i].transform.Find("City " + prevC).gameObject.SetActive(false);
+            CountryList[i].transform.Find("City " + currC).gameObject.SetActive(true);
+ 
 
         }
         startCitiesPhase();
@@ -523,6 +502,8 @@ public class GameManager : MonoBehaviour
         AdjustGDPEmissionDamage(damageThisRound, 0.05f, 0.4f);
         playerList.ForEach(player =>
         {
+            player.adjustCity(cityUpgrade1, cityUpgrade2, cityUpgrade3);
+            player.adjustEnvironment(pollutionUpgrade1, pollutionUpgrade2);
             player.adjustScore(eMulti);
             Debug.Log(player.Name + "'s score is: " + (int)player.Score);
         });

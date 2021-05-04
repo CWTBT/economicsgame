@@ -10,6 +10,10 @@ public class Country
     public bool HaveAgreed { get; set; }
     public double PercentageOfTotalEmissions { get; set; }
     public double Score { get; set; }
+    public int environment = 1;
+    public int city = 1;
+    public int previousE = 1;
+    public int previousC = 1;
 
     public Country(string name)
     {
@@ -40,6 +44,42 @@ public class Country
 	{
         Score = GDP - ((Emissions - 0.5) * (eMulti));
 	}
+    public void adjustEnvironment(double envi2, double envi3)
+	{
+        previousE = environment;
+        if(Emissions < envi2)
+		{
+            environment = 1;
+		} 
+        else if(Emissions < envi3)
+		{
+            environment = 2;
+		}
+		else
+		{
+            environment = 3;
+		}
+	}
+    public void adjustCity(double city2, double city3, double city4)
+    {
+        previousC = city;
+        if (GDP < city2)
+        {
+            city = 1;
+        }
+        else if (GDP < city3)
+        {
+            city = 2;
+        }
+        else if (GDP < city4)
+        {
+            city = 3;
+        }
+        else
+        {
+            city = 4;
+        }
+    }
 
     public void Agree()
     {
