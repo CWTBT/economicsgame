@@ -14,8 +14,6 @@ public class GameManager : MonoBehaviour
     private GameObject resetCanvas;
     public AudioClip buttonClick;
     public AudioSource BackgroundAmbience;
-    public AudioClip GoodEmissions;
-    public AudioClip BadEmissions;
     public TextMeshProUGUI title;
     public GameObject startButton;
     public TextMeshProUGUI prompt;
@@ -60,8 +58,8 @@ public class GameManager : MonoBehaviour
     private Phase currentPhase = Phase.Menu;
     private double TotalDamage = 1250.0f;
 
-    private double treatyCost = -500;
-    private double emissionsChangePct = -0.05;
+    private double treatyCost = -1000f;
+    private double emissionsChangePct = -0.20;
 
     private int completedVotes = 0;
     public int maxTurns = 5;
@@ -69,6 +67,7 @@ public class GameManager : MonoBehaviour
     private Evaluator eval;
     private List<List<Accolades>> evaluation;
 
+    string[] names = { "", "", "" };
 
     // Start is called before the first frame update
     void Start()
@@ -166,15 +165,16 @@ public class GameManager : MonoBehaviour
 
     public void start()
     {
-        StartCoroutine(HideTextAfterSeconds(1, title));
+        //StartCoroutine(HideTextAfterSeconds(1, title));
+        nameEntry.GetComponent<TMP_InputField>().text = "";
+        playerList = new List<Country>();
         StartCoroutine(RemoveAfterSeconds(1, startButton));
         prompt.text = "Player 1\nEnter your country's name!";
         nameEntry.SetActive(true);
         submitButton.SetActive(true);
         backButton.SetActive(true);
-        howToPlayButton.SetActive(false);
-        creditsButton.SetActive(false);
-        GoodAmbientSound();
+        //howToPlayButton.SetActive(false);
+        //creditsButton.SetActive(false);
     }
 
     public void Back()
@@ -192,11 +192,11 @@ public class GameManager : MonoBehaviour
         tutorialNextButton.SetActive(false);
         tutorialText.text = "";
         tutorialTextBox.SetActive(false);
-        howToPlayButton.SetActive(true);
+        //howToPlayButton.SetActive(true);
 
         //credits off
         creditsText.SetActive(false);
-        creditsButton.SetActive(true);
+        //creditsButton.SetActive(true);
 
         //reset main menu
         startButton.SetActive(true);
@@ -215,8 +215,21 @@ public class GameManager : MonoBehaviour
 
     public void submit()
     {
+        int current = playerList.Count+1;
+        if(current == 1)
+		{
+            string[] names = { "", "", "" };
+        }
         string name = nameEntry.GetComponentsInChildren<TextMeshProUGUI>()[1].text;
-        if (name.Length > 1 && name.Length <= 9)
+        if (names[0] == name || names[1] == name || names[2] == name)
+        {
+            prompt.text = "Player " + current + "\nEnter your country's name!\nPlease enter an available name!";
+        }
+        else if (name.Length > 9)
+        {
+            prompt.text = "Player " + current + "\nEnter your country's name!\nPlease enter a name less than 9 characters!";
+        }
+        else if (name.Length > 1)
         {
             nameEntry.GetComponent<TMP_InputField>().text = "";
             Country newPlayer = new Country(name);
@@ -226,15 +239,18 @@ public class GameManager : MonoBehaviour
                 ClickButton();
                 clearMenuUI();
                 initializeNames();
+                updateLeaderboard();
                 startCitiesPhase();
-                
             }
             else
             {
-                int current = playerList.Count + 1;
+                names[current - 1] = name;
+                current = playerList.Count + 1;
                 prompt.text = "Player " + current + "\nEnter your country's name!";
             }
         }
+        
+        
     }
 
     private void clearMenuUI()
@@ -242,8 +258,8 @@ public class GameManager : MonoBehaviour
         nameEntry.SetActive(false);
         submitButton.SetActive(false);
         backButton.SetActive(false);
-        howToPlayButton.SetActive(false);
-        creditsButton.SetActive(false);
+        //howToPlayButton.SetActive(false);
+        //creditsButton.SetActive(false);
         prompt.GetComponent<Animator>().Play("hide_prompt");
         StartCoroutine(HideTextAfterSeconds(1, prompt));
     }
@@ -326,7 +342,6 @@ public class GameManager : MonoBehaviour
 
     public void Next()
     {
-        BackgroundAmbience.Stop();
         if (currentPhase == Phase.Cities)
         {
             if (completedVotes == maxTurns) startResultsPhase();
@@ -428,11 +443,6 @@ public class GameManager : MonoBehaviour
 
     public void agree()
     {
-        var player = playerList[currentPIndex];
-        player.Growth = 0.1f;
-        player.ActivateGDPGrowth();
-        player.adjustGDP(treatyCost);
-        player.adjustEmissions(emissionsChangePct);
         currentVote.AcceptVotes += 1;
         playerList[currentPIndex].Agree();
         currentPIndex = currentVote.sumVotes();
@@ -446,11 +456,7 @@ public class GameManager : MonoBehaviour
 
     public void decline()
     {
-        var player = playerList[currentPIndex];
-        player.Growth = 0.15f;
-        player.ActivateGDPGrowth();
         currentVote.DeclineVotes += 1;
-        player.adjustEmissions(-emissionsChangePct);
         playerList[currentPIndex].Decline();
         currentPIndex = currentVote.sumVotes();
         if (currentVote.sumVotes() < 4)
@@ -520,11 +526,16 @@ public class GameManager : MonoBehaviour
     private void AdjustCountries()
     {
         int numAgreed = 0;
-        playerList.ForEach(p => { if (p.HaveAgreed) { numAgreed++; } });
-        double damageGrowthMultiplier = 2.0f - numAgreed * 0.45f;
-        double damageThisRound = TotalDamage * damageGrowthMultiplier;
-        TotalDamage += damageThisRound;
-        AdjustGDPEmissionDamage(damageThisRound, 0.05f, 0.4f);
+        playerList.ForEach(p => { if (p.HaveAgreed) { numAgreed++;
+                p.GDP -= treatyCost;
+            } });
+        playerList.ForEach(p => p.ActivateGDPGrowth());
+        double totalEmissions = 0f;
+        playerList.ForEach(p => { if (p.HaveAgreed) { p.Emissions -= p.Emissions * (1.0f / 5.0f); }
+            else { p.Emissions *= (5.0f / 4.0f); } });
+        playerList.ForEach(p => totalEmissions += p.Emissions);
+        double growthIncrease = 5 - (totalEmissions * 0.002f);
+        playerList.ForEach(p => p.Growth += (growthIncrease / 100f));
         playerList.ForEach(player =>
         {
             player.adjustCity(cityUpgrade1, cityUpgrade2, cityUpgrade3);
@@ -561,15 +572,6 @@ public class GameManager : MonoBehaviour
         if (currentPIndex < 3) currentPIndex++;
         else currentPIndex = 0;
         currentCountry.GetComponentInChildren<TextMeshProUGUI>().text = playerList[currentPIndex].Name;
-    
-        CameraPanning cameraPanning = mainCamera.GetComponent<CameraPanning>();
-        if (playerList[cameraPanning.CurrentCity].Emissions >= pollutionUpgrade1)
-        {
-            BadAmbientSound();
-        } else
-        {
-            GoodAmbientSound();
-        }
 	}
     public void OnLeftButton()
     {
@@ -577,16 +579,6 @@ public class GameManager : MonoBehaviour
         if (currentPIndex > 0) currentPIndex--;
         else currentPIndex = 3;
         currentCountry.GetComponentInChildren<TextMeshProUGUI>().text = playerList[currentPIndex].Name;
-    
-        CameraPanning cameraPanning = mainCamera.GetComponent<CameraPanning>();
-        if (playerList[cameraPanning.CurrentCity].Emissions >= pollutionUpgrade1)
-        {
-            BadAmbientSound();
-        }
-        else
-        {
-            GoodAmbientSound();
-        }
     }
     //Sounds
     public void ClickButton()
@@ -596,17 +588,6 @@ public class GameManager : MonoBehaviour
         audio.PlayOneShot(buttonClick);
     }
 
-    public void GoodAmbientSound()
-    {
-        BackgroundAmbience.Stop();
-        BackgroundAmbience.PlayOneShot(GoodEmissions);
-    }
-
-    public void BadAmbientSound()
-    {
-        BackgroundAmbience.Stop();
-        BackgroundAmbience.PlayOneShot(BadEmissions);
-    }
     //Tutorial
     public void TutorialStart()
     {
@@ -615,9 +596,8 @@ public class GameManager : MonoBehaviour
         tutorialTextBox.SetActive(true);
         tutorialText.text = "there are two numbers you need to consider in this game: GDP and Emissions. \n \n your GDP number is a measure of the total economic productivity in your country in dollars. \n \n your Emissions number tracks how much your country pollutes in gigatons of carbon.";
         tutorialNextButton.SetActive(true);
-        howToPlayButton.SetActive(false);
-        creditsButton.SetActive(false);
-        GoodAmbientSound();
+        //howToPlayButton.SetActive(false);
+        //creditsButton.SetActive(false);
         tutorialCount = 0;
         tutorialBackground.SetActive(true);
         leaderboard.GetComponent<Animator>().Play("show_P1");

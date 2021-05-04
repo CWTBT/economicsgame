@@ -22,7 +22,7 @@ public class Country
         Name = name;
         GDP = 20000;
         Growth = 0.2f;
-        Emissions = 0.5f;
+        Emissions = 500f;
         HaveAgreed = false;
         PercentageOfTotalEmissions = 0.0f;
         PerfectAgree = true;
