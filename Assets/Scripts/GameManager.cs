@@ -215,9 +215,9 @@ public class GameManager : MonoBehaviour
         {
             prompt.text = "Player " + current + "\nEnter your country's name!\nPlease enter an available name!";
         }
-        else if (name.Length > 9)
+        else if (name.Length > 10)
         {
-            prompt.text = "Player " + current + "\nEnter your country's name!\nPlease enter a name less than 9 characters!";
+            prompt.text = "Player " + current + "\nEnter your country's name!\nPlease enter a name fewer than 10 characters!";
         }
         else if (name.Length > 1)
         {
