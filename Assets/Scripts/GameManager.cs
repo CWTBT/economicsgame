@@ -256,11 +256,14 @@ public class GameManager : MonoBehaviour
         }
         else
         {
+            mainCamera.transform.position = new Vector3(-9.7f, 4.9f, -1f);
+            mainCamera.GetComponent<CameraPanning>().CurrentCity = 0;
             TextMeshProUGUI[] nameList = leaderboard.transform.Find("Names").GetComponentsInChildren<TextMeshProUGUI>();
             for (int i = 0; i < playerList.Count; i++)
             {
                 StartCoroutine(TextLerp(playerList[i].HaveAgreed, nameList[i])); 
             }
+            currentPIndex = 0;
         }
         nextButton.SetActive(true);
         nextCountryButton.SetActive(true);
@@ -337,8 +340,11 @@ public class GameManager : MonoBehaviour
         if (currentPIndex == 3)
         {
             //back to main menu
+            Destroy(gameObject);
+            Destroy(canvas);
+            Destroy(events);
             SceneManager.LoadScene("MainMenu");
-            canvas = resetCanvas;
+            //canvas = resetCanvas;
             Debug.Log("that's all folks");
         }
         else
