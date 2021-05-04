@@ -58,8 +58,8 @@ public class GameManager : MonoBehaviour
     private Phase currentPhase = Phase.Menu;
     private double TotalDamage = 1250.0f;
 
-    private double treatyCost = -500;
-    private double emissionsChangePct = -0.05;
+    private double treatyCost = -1000f;
+    private double emissionsChangePct = -0.20;
 
     private int completedVotes = 0;
     public int maxTurns = 5;
@@ -424,11 +424,6 @@ public class GameManager : MonoBehaviour
 
     public void agree()
     {
-        var player = playerList[currentPIndex];
-        player.Growth = 0.1f;
-        player.ActivateGDPGrowth();
-        player.adjustGDP(treatyCost);
-        player.adjustEmissions(emissionsChangePct);
         currentVote.AcceptVotes += 1;
         playerList[currentPIndex].Agree();
         currentPIndex = currentVote.sumVotes();
@@ -442,11 +437,7 @@ public class GameManager : MonoBehaviour
 
     public void decline()
     {
-        var player = playerList[currentPIndex];
-        player.Growth = 0.15f;
-        player.ActivateGDPGrowth();
         currentVote.DeclineVotes += 1;
-        player.adjustEmissions(-emissionsChangePct);
         playerList[currentPIndex].Decline();
         currentPIndex = currentVote.sumVotes();
         if (currentVote.sumVotes() < 4)
@@ -516,11 +507,16 @@ public class GameManager : MonoBehaviour
     private void AdjustCountries()
     {
         int numAgreed = 0;
-        playerList.ForEach(p => { if (p.HaveAgreed) { numAgreed++; } });
-        double damageGrowthMultiplier = 2.0f - numAgreed * 0.45f;
-        double damageThisRound = TotalDamage * damageGrowthMultiplier;
-        TotalDamage += damageThisRound;
-        AdjustGDPEmissionDamage(damageThisRound, 0.05f, 0.4f);
+        playerList.ForEach(p => { if (p.HaveAgreed) { numAgreed++;
+                p.GDP -= treatyCost;
+            } });
+        playerList.ForEach(p => p.ActivateGDPGrowth());
+        double totalEmissions = 0f;
+        playerList.ForEach(p => { if (p.HaveAgreed) { p.Emissions -= p.Emissions * (1.0f / 5.0f); }
+            else { p.Emissions *= (5.0f / 4.0f); } });
+        playerList.ForEach(p => totalEmissions += p.Emissions);
+        double growthIncrease = 5 - (totalEmissions * 0.002f);
+        playerList.ForEach(p => p.Growth += (growthIncrease / 100f));
         playerList.ForEach(player =>
         {
             player.adjustCity(cityUpgrade1, cityUpgrade2, cityUpgrade3);
