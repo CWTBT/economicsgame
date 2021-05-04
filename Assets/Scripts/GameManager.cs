@@ -510,7 +510,8 @@ public class GameManager : MonoBehaviour
         });
         double growthIncrease = 5 - (totalEmissions * 0.002f);
         playerList.ForEach(p => p.ActivateGDPGrowth());
-        playerList.ForEach(p => p.Growth += (growthIncrease / 100f));
+        //playerList.ForEach(p => p.Growth += (growthIncrease / 100f));
+        playerList.ForEach(p => p.Growth = growthIncrease / 100f);
         playerList.ForEach(player =>
         {
             player.adjustCity(cityUpgrade1, cityUpgrade2, cityUpgrade3);
