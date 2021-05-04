@@ -4476,8 +4476,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: b2c6c9d27f310421fbf102f7b6146281, type: 2}
-  m_sharedMaterial: {fileID: 1344126060696308175, guid: b2c6c9d27f310421fbf102f7b6146281, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -5507,7 +5507,7 @@ MonoBehaviour:
       m_Calls: []
   m_text: Enter name
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: b2c6c9d27f310421fbf102f7b6146281, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 00b41d96249334c78ba1101ef4c16db8, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -6154,8 +6154,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: b2c6c9d27f310421fbf102f7b6146281, type: 2}
-  m_sharedMaterial: {fileID: 1344126060696308175, guid: b2c6c9d27f310421fbf102f7b6146281, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 00b41d96249334c78ba1101ef4c16db8, type: 2}
+  m_sharedMaterial: {fileID: -2987863960059720308, guid: 00b41d96249334c78ba1101ef4c16db8, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -6647,7 +6647,7 @@ MonoBehaviour:
 
 '
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: b2c6c9d27f310421fbf102f7b6146281, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 00b41d96249334c78ba1101ef4c16db8, type: 2}
   m_sharedMaterial: {fileID: 1344126060696308175, guid: b2c6c9d27f310421fbf102f7b6146281, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -6711,7 +6711,7 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  m_hasFontAssetChanged: 0
+  m_hasFontAssetChanged: 1
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!1 &1564065165
@@ -7132,8 +7132,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 00b41d96249334c78ba1101ef4c16db8, type: 2}
+  m_sharedMaterial: {fileID: -2987863960059720308, guid: 00b41d96249334c78ba1101ef4c16db8, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -8090,13 +8090,13 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_text: "Tile Pallettes: https://opengameart.org/users/kenney\n\u201CHandwriting
-    Draft\u201D Font: http://fonts-lab.com/ \n\u201CPhilosopher\u201D Font: Jovanny
-    Lemonad (https://www.jovanny.ru)\n\u201CUrban Jungle\u201D Font: www.kcfonts.com\nSmoke
-    Effects: www.kenney.nl\n\nCreated by Levi West, Andrew Eveld, Jonathon Qualls,
-    and Josh Thomeczek for professor William Haden Chomphosy and his Environmental
-    Economics class\n\nSpecial thanks to our professor, Mark Goadrich"
+    Draft\u201D Font: http://fonts-lab.com/ \n\u201CButler\u201D Font: Fabian De
+    Smet\n\u201CUrban Jungle\u201D Font: www.kcfonts.com\nSmoke Effects: www.kenney.nl\n\nCreated
+    by Levi West, Andrew Eveld, Jonathon Qualls, and Josh Thomeczek for professor
+    William Haden Chomphosy and his Environmental Economics class\n\nSpecial thanks
+    to our professor, Mark Goadrich"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 0a5b8914eeda5444f831c854b6223c14, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 00b41d96249334c78ba1101ef4c16db8, type: 2}
   m_sharedMaterial: {fileID: 1344126060696308175, guid: b2c6c9d27f310421fbf102f7b6146281, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -9040,7 +9040,7 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\u200B"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: b2c6c9d27f310421fbf102f7b6146281, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 00b41d96249334c78ba1101ef4c16db8, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}

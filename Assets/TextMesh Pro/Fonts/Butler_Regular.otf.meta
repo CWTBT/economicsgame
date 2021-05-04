@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 6c9a43a30af3041e7904a3067840a2f0
+guid: 3edfe972e02754e3a940540f867ff109
 TrueTypeFontImporter:
   externalObjects: {}
   serializedVersion: 4
@@ -9,7 +9,7 @@ TrueTypeFontImporter:
   characterPadding: 1
   includeFontData: 1
   fontNames:
-  - Philosopher
+  - Butler
   fallbackFontReferences: []
   customCharacters: 
   fontRenderingMode: 0
