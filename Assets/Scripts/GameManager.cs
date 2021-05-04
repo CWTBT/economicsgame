@@ -9,71 +9,65 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
 
+    // Various Variables
     public GameObject canvas;
+    //private GameObject resetCanvas;
     public GameObject events;
-    private GameObject resetCanvas;
     public AudioClip buttonClick;
     public AudioSource BackgroundAmbience;
     public TextMeshProUGUI title;
     public GameObject startButton;
     public TextMeshProUGUI prompt;
-    public GameObject nameEntry;
-    public GameObject yesButton;
-    public GameObject noButton;
     public GameObject backgroundImage;
     public TextMeshProUGUI description;
     public GameObject submitButton;
     public GameObject leaderboard;
     public GameObject nextButton;
     public GameObject backButton;
-    public GameObject nextCountryButton;
-    public GameObject lastCountryButton;
-    public GameObject currentCountry;
+    // Credits Stuff
     public GameObject creditsText;
     public GameObject creditsButton;
+    // Tutorial stuff
     public GameObject howToPlayButton;
     public GameObject tutorialNextButton;
     public GameObject tutorialTextBox;
     public TextMeshProUGUI tutorialText;
     public GameObject tutorialBackground;
     private int tutorialCount;
-
-    public bool botMode = false;
-
-    //Game Designer controlled "upgrade" values
+    // Game Designer controlled "upgrade" values
     public double pollutionUpgrade1;
     public double pollutionUpgrade2;
     public double cityUpgrade1;
     public double cityUpgrade2;
     public double cityUpgrade3;
-
     public double eMulti;
-
+    // Country Related | Camera Panning
+    public GameObject nameEntry;
     private List<Country> playerList = new List<Country>();
     List<GameObject> CountryList = new List<GameObject>();
     private GameObject mainCamera;
-
-    private int currentPIndex = 0;
-    private VoteManager currentVote = new VoteManager();
+    public bool botMode = false;
+    string[] names = { "", "", "" };
     private Phase currentPhase = Phase.Menu;
-    //private double TotalDamage = 1250.0f;
-
-    //Treaty
+    public GameObject nextCountryButton;
+    public GameObject lastCountryButton;
+    public GameObject currentCountry;
+    // Treaty | Votes | Rounds | End
     private double treatyCost = 1000f;
     private double emissionsChangePct = -0.20;
-
+    private VoteManager currentVote = new VoteManager();
+    public GameObject yesButton;
+    public GameObject noButton;
+    private int currentPIndex = 0;
     private int completedVotes = 0;
     public int maxTurns = 5;
-
     private Evaluator eval;
     private List<List<Accolades>> evaluation;
-
-    string[] names = { "", "", "" };
 
     // Start is called before the first frame update
     void Start()
     {
-        resetCanvas = canvas;
+        //resetCanvas = canvas;
     }
 
     // Update is called once per frame
@@ -100,70 +94,6 @@ public class GameManager : MonoBehaviour
             Destroy(events);
         }
     }
-
-    IEnumerator ColorLerp(Color endValue, float duration)
-    {
-        float time = 0;
-        Image sprite = backgroundImage.GetComponent<Image>();
-        Color startValue = sprite.color;
-
-        while (time < duration)
-        {
-            sprite.color = Color.Lerp(startValue, endValue, time / duration);
-            time += Time.deltaTime;
-            yield return null;
-        }
-        sprite.color = endValue;
-    }
-
-    IEnumerator TextLerp(bool agreed, TextMeshProUGUI text)
-    {
-        float time = 0;
-
-        Color start;
-        Color end = Color.white;
-
-        if (agreed) start = Color.green;
-        else start = Color.red;
-        text.color = start;
-        while (time < 2)
-        {
-            text.color= Color.Lerp(start, end, time / 2);
-            time += Time.deltaTime;
-            yield return null;
-        }
-        text.color = end;
-    }
-
-    IEnumerator LoadYourAsyncScene(bool lerp, string scene)
-    {
-        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(scene);
-
-        while (!asyncLoad.isDone)
-        {
-            yield return null;
-        }
-        if (lerp) { StartCoroutine(ColorLerp(new Color(0, 0, 0, 0), 0.75f)); }
-        else StartCoroutine(ColorLerp(new Color(1, 1, 1, 1), 0.75f)); // reverse
-    }
-
-    IEnumerator RemoveAfterSeconds(int seconds, GameObject obj)
-    {
-        yield return new WaitForSeconds(seconds);
-        obj.SetActive(false);
-    }
-
-    IEnumerator HideTextAfterSeconds(int seconds, TextMeshProUGUI t)
-    {
-        yield return new WaitForSeconds(seconds);
-        t.text = "";
-    }
-
-    IEnumerator Wait(int seconds)
-    {
-        yield return new WaitForSeconds(seconds);
-    }
-
     public void start()
     {
         //StartCoroutine(HideTextAfterSeconds(1, title));
@@ -174,10 +104,60 @@ public class GameManager : MonoBehaviour
         nameEntry.SetActive(true);
         submitButton.SetActive(true);
         backButton.SetActive(true);
-        //howToPlayButton.SetActive(false);
-        //creditsButton.SetActive(false);
     }
 
+    // Tutorial
+    public void TutorialStart()
+    {
+        StartCoroutine(HideTextAfterSeconds(0, title));
+        StartCoroutine(RemoveAfterSeconds(0, startButton));
+        tutorialTextBox.SetActive(true);
+        tutorialText.text = "there are two numbers you need to consider in this game: GDP and Emissions. \n \n your GDP number is a measure of the total economic productivity in your country in dollars. \n \n your Emissions number tracks how much your country pollutes in gigatons of carbon.";
+        tutorialNextButton.SetActive(true);
+        tutorialCount = 0;
+        tutorialBackground.SetActive(true);
+        leaderboard.GetComponent<Animator>().Play("show_P1");
+    }
+
+    public void TutorialNext()
+    {
+        tutorialCount++;
+
+        if (tutorialCount == 1)
+        {
+            tutorialText.text = "As your GDP grows, your country will expand";
+            //fade in city level 2 to show city growth
+            //point to GDP on panel
+        }
+        else if (tutorialCount == 2)
+        {
+            tutorialText.text = "Your GDP will grow faster if you emit more carbon, but the environment will be affected, such as rising sea levels \n \n Watch out! Harming the envrionment will have repercussions in the long run";
+            // fade in environment level 2 to show rising sea levels
+            //point to emissions on panel
+        }
+        else if (tutorialCount == 3)
+        {
+            leaderboard.GetComponent<Animator>().Play("hide_P1");
+            tutorialText.text = "Consider the treaty each turn carefully to balance your GDP growth and environmental impact \n \n Remember, other countries' decisions will have an impact on you";
+            //startButton.SetActive(true);
+            tutorialNextButton.SetActive(false);
+            backButton.SetActive(true);
+            //display treaty screen and start button
+        }
+    }
+
+    // Credits
+    public void credits()
+    {
+        clearMenuUI();
+        backButton.SetActive(true);
+        creditsText.SetActive(true);
+        StartCoroutine(HideTextAfterSeconds(0, title));
+        StartCoroutine(RemoveAfterSeconds(0, startButton));
+
+    }
+
+    // Go back to Main Menu
     public void Back()
     {
         //this can probably go through the 'clear menu UI function'
@@ -193,25 +173,13 @@ public class GameManager : MonoBehaviour
         tutorialNextButton.SetActive(false);
         tutorialText.text = "";
         tutorialTextBox.SetActive(false);
-        //howToPlayButton.SetActive(true);
 
         //credits off
         creditsText.SetActive(false);
-        //creditsButton.SetActive(true);
 
         //reset main menu
         startButton.SetActive(true);
         title.text = "Climate Goes Political";
-    }
-
-    public void credits()
-    {
-        clearMenuUI();
-        backButton.SetActive(true);
-        creditsText.SetActive(true);
-        StartCoroutine(HideTextAfterSeconds(0, title));
-        StartCoroutine(RemoveAfterSeconds(0, startButton));
-
     }
 
     public void submit()
@@ -259,8 +227,6 @@ public class GameManager : MonoBehaviour
         nameEntry.SetActive(false);
         submitButton.SetActive(false);
         backButton.SetActive(false);
-        //howToPlayButton.SetActive(false);
-        //creditsButton.SetActive(false);
         prompt.GetComponent<Animator>().Play("hide_prompt");
         StartCoroutine(HideTextAfterSeconds(1, prompt));
     }
@@ -323,7 +289,8 @@ public class GameManager : MonoBehaviour
             nameList[i].text = playerList[i].Name;
         }
     }
-
+    
+    // Voting Related
     private void setupVoteUI()
     {
         yesButton.SetActive(true);
@@ -352,43 +319,6 @@ public class GameManager : MonoBehaviour
         else if (currentPhase == Phase.Results) NextResult();
     }
 
-    private void NextResult()
-    {
-        if (currentPIndex == 3)
-        {
-            //back to main menu
-            Destroy(gameObject);
-            Destroy(canvas);
-            Destroy(events);
-            SceneManager.LoadScene("MainMenu");
-            //canvas = resetCanvas;
-            Debug.Log("that's all folks");
-        }
-        else
-        {
-            currentPIndex++;
-            prompt.text = playerList[currentPIndex].Name + "'s Achievements:";
-            string newStr = PrintAccolades(currentPIndex);
-            description.text = newStr;
-        }
-        mainCamera.GetComponent<CameraPanning>().OnRightButtonPress();
-    }
-
-    private string PrintAccolades(int pIndex)
-    {
-        string accStr = "";
-        foreach (Accolades a in evaluation[pIndex])
-        {
-            if (a == Accolades.TopGDP) accStr += "You ended with the highest GDP! Congrats!";
-            if (a == Accolades.BotEmi) accStr += "Nice! You had the lowest carbon emissions!";
-            if (a == Accolades.TopEmi) accStr += "You had the highest carbon emissions.";
-            if (a == Accolades.AllAgree) accStr += "You showed demonstrated remarkable concern for the environment by accepting every treaty.";
-            if (a == Accolades.AllDecline) accStr += "You didn't agree to a single climate treaty.";
-            accStr += "\n";
-        }
-        return accStr;
-    }
-    
     public void startVotePhase()
     {
         currentPhase = Phase.Votes;
@@ -400,37 +330,13 @@ public class GameManager : MonoBehaviour
         currentVote.clearVotes();
     }
 
-    private void startResultsPhase()
+    private string GetPromptText()
     {
-        mainCamera.GetComponent<CameraPanning>().CurrentCity = 3;
-        mainCamera.GetComponent<CameraPanning>().OnRightButtonPress();
-        currentCountry.GetComponent<Animator>().Play("hide_current");
-        nextCountryButton.SetActive(false);
-        lastCountryButton.SetActive(false);
-        currentPhase = Phase.Results;
-        currentPIndex = 0;
-        eval = new Evaluator(playerList);
-        evaluation = eval.evaluate();
-        StartCoroutine(ColorLerp(new Color(0, 0, 0, 0.5f), 0.75f));
-        prompt.text = playerList[currentPIndex].Name + "'s Achievements:";
-        description.text = PrintAccolades(0);
-        leaderboard.GetComponent<Animator>().Play("hide_leader");
-        description.GetComponent<Animator>().Play("show_desc");
-        prompt.GetComponent<Animator>().Play("show_prompt");
-    }
-
-    private void clearVoteUI()
-    {
-        StartCoroutine(ColorLerp(new Color(0, 0, 0, 0), 0.75f));
-        leaderboard.GetComponent<Animator>().Play("hide_P4");
-        yesButton.GetComponent<Animator>().Play("hide_agree");
-        noButton.GetComponent<Animator>().Play("hide_decline");
-        description.GetComponent<Animator>().Play("hide_desc");
-        prompt.GetComponent<Animator>().Play("hide_prompt");
-        //StartCoroutine(RemoveAfterSeconds(1, yesButton));
-        //StartCoroutine(RemoveAfterSeconds(1, noButton));
-        //StartCoroutine(HideTextAfterSeconds(1, description));
-        //StartCoroutine(HideTextAfterSeconds(1, prompt));
+        string toReturn = "";
+        double emissionDecPerc = emissionsChangePct * -100;
+        toReturn += $"Agree to a treaty with your fellow countries to reduce " +
+            $"your emissions by {emissionDecPerc}% in one turn of the game?";
+        return toReturn;
     }
 
     private void BotVote()
@@ -467,6 +373,25 @@ public class GameManager : MonoBehaviour
         }
         if (botMode && currentPIndex == 1) BotVote();
         if (currentVote.sumVotes() == 4) enactVotes();
+    }
+
+    private void startResultsPhase()
+    {
+        mainCamera.GetComponent<CameraPanning>().CurrentCity = 3;
+        mainCamera.GetComponent<CameraPanning>().OnRightButtonPress();
+        currentCountry.GetComponent<Animator>().Play("hide_current");
+        nextCountryButton.SetActive(false);
+        lastCountryButton.SetActive(false);
+        currentPhase = Phase.Results;
+        currentPIndex = 0;
+        eval = new Evaluator(playerList);
+        evaluation = eval.evaluate();
+        StartCoroutine(ColorLerp(new Color(0, 0, 0, 0.5f), 0.75f));
+        prompt.text = playerList[currentPIndex].Name + "'s Achievements:";
+        description.text = PrintAccolades(0);
+        leaderboard.GetComponent<Animator>().Play("hide_leader");
+        description.GetComponent<Animator>().Play("show_desc");
+        prompt.GetComponent<Animator>().Play("show_prompt");
     }
 
     public void enactVotes()
@@ -555,27 +480,21 @@ public class GameManager : MonoBehaviour
         });
     }
 
-    //private void AdjustGDPEmissionDamage(double totalMoney, double agreeMultiplier, double declineMultiplier)
-    //{
-    //    playerList.ForEach(p =>
-    //    {
-    //        if (p.HaveAgreed)
-    //        { p.adjustGDP(-totalMoney * agreeMultiplier); }
-    //        else
-    //        { p.adjustGDP(-totalMoney * declineMultiplier); }
-    //    });
-    //}
-
-    private string GetPromptText()
+    private void clearVoteUI()
     {
-        string toReturn = "";
-        double emissionDecPerc = emissionsChangePct * -100;
-        toReturn += $"Agree to a treaty with your fellow countries to reduce " +
-            $"your emissions by {emissionDecPerc}% in one turn of the game?";
-        return toReturn;
+        StartCoroutine(ColorLerp(new Color(0, 0, 0, 0), 0.75f));
+        leaderboard.GetComponent<Animator>().Play("hide_P4");
+        yesButton.GetComponent<Animator>().Play("hide_agree");
+        noButton.GetComponent<Animator>().Play("hide_decline");
+        description.GetComponent<Animator>().Play("hide_desc");
+        prompt.GetComponent<Animator>().Play("hide_prompt");
+        //StartCoroutine(RemoveAfterSeconds(1, yesButton));
+        //StartCoroutine(RemoveAfterSeconds(1, noButton));
+        //StartCoroutine(HideTextAfterSeconds(1, description));
+        //StartCoroutine(HideTextAfterSeconds(1, prompt));
     }
 
-    //Camera Panning Related
+    // Camera Panning Related
     public void OnRightButton()
 	{
         mainCamera.GetComponent<CameraPanning>().OnRightButtonPress();
@@ -590,7 +509,7 @@ public class GameManager : MonoBehaviour
         else currentPIndex = 3;
         currentCountry.GetComponentInChildren<TextMeshProUGUI>().text = playerList[currentPIndex].Name + "\nScore: " + playerList[currentPIndex].Score;
     }
-    //Sounds
+    // Sounds
     public void ClickButton()
     {
         AudioSource audio = gameObject.GetComponent<AudioSource>();
@@ -598,45 +517,106 @@ public class GameManager : MonoBehaviour
         audio.PlayOneShot(buttonClick);
     }
 
-    //Tutorial
-    public void TutorialStart()
+    // End
+    private void NextResult()
     {
-        StartCoroutine(HideTextAfterSeconds(0, title));
-        StartCoroutine(RemoveAfterSeconds(0, startButton));
-        tutorialTextBox.SetActive(true);
-        tutorialText.text = "there are two numbers you need to consider in this game: GDP and Emissions. \n \n your GDP number is a measure of the total economic productivity in your country in dollars. \n \n your Emissions number tracks how much your country pollutes in gigatons of carbon.";
-        tutorialNextButton.SetActive(true);
-        //howToPlayButton.SetActive(false);
-        //creditsButton.SetActive(false);
-        tutorialCount = 0;
-        tutorialBackground.SetActive(true);
-        leaderboard.GetComponent<Animator>().Play("show_P1");
+        if (currentPIndex == 3)
+        {
+            //back to main menu
+            Destroy(gameObject);
+            Destroy(canvas);
+            Destroy(events);
+            SceneManager.LoadScene("MainMenu");
+            //canvas = resetCanvas;
+            Debug.Log("that's all folks");
+        }
+        else
+        {
+            currentPIndex++;
+            prompt.text = playerList[currentPIndex].Name + "'s Achievements:";
+            string newStr = PrintAccolades(currentPIndex);
+            description.text = newStr;
+        }
+        mainCamera.GetComponent<CameraPanning>().OnRightButtonPress();
     }
 
-    public void TutorialNext()
+    private string PrintAccolades(int pIndex)
     {
-        tutorialCount++;
-
-        if (tutorialCount == 1)
+        string accStr = "";
+        foreach (Accolades a in evaluation[pIndex])
         {
-            tutorialText.text = "As your GDP grows, your country will expand";
-            //fade in city level 2 to show city growth
-            //point to GDP on panel
+            if (a == Accolades.TopGDP) accStr += "You ended with the highest GDP! Congrats!";
+            if (a == Accolades.BotEmi) accStr += "Nice! You had the lowest carbon emissions!";
+            if (a == Accolades.TopEmi) accStr += "You had the highest carbon emissions.";
+            if (a == Accolades.AllAgree) accStr += "You showed demonstrated remarkable concern for the environment by accepting every treaty.";
+            if (a == Accolades.AllDecline) accStr += "You didn't agree to a single climate treaty.";
+            accStr += "\n";
         }
-        else if (tutorialCount == 2)
-        {
-            tutorialText.text = "Your GDP will grow faster if you emit more carbon, but the environment will be affected, such as rising sea levels \n \n Watch out! Harming the envrionment will have repercussions in the long run";
-            // fade in environment level 2 to show rising sea levels
-            //point to emissions on panel
-        }
-        else if (tutorialCount == 3)
-        {
-            leaderboard.GetComponent<Animator>().Play("hide_P1");
-            tutorialText.text = "Consider the treaty each turn carefully to balance your GDP growth and environmental impact \n \n Remember, other countries' decisions will have an impact on you";
-            //startButton.SetActive(true);
-            tutorialNextButton.SetActive(false);
-            backButton.SetActive(true);
-            //display treaty screen and start button
-        }
+        return accStr;
     }
+
+    // Coroutine Related
+    IEnumerator ColorLerp(Color endValue, float duration)
+    {
+        float time = 0;
+        Image sprite = backgroundImage.GetComponent<Image>();
+        Color startValue = sprite.color;
+
+        while (time < duration)
+        {
+            sprite.color = Color.Lerp(startValue, endValue, time / duration);
+            time += Time.deltaTime;
+            yield return null;
+        }
+        sprite.color = endValue;
+    }
+
+    IEnumerator TextLerp(bool agreed, TextMeshProUGUI text)
+    {
+        float time = 0;
+
+        Color start;
+        Color end = Color.white;
+
+        if (agreed) start = Color.green;
+        else start = Color.red;
+        text.color = start;
+        while (time < 2)
+        {
+            text.color = Color.Lerp(start, end, time / 2);
+            time += Time.deltaTime;
+            yield return null;
+        }
+        text.color = end;
+    }
+
+    IEnumerator LoadYourAsyncScene(bool lerp, string scene)
+    {
+        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(scene);
+
+        while (!asyncLoad.isDone)
+        {
+            yield return null;
+        }
+        if (lerp) { StartCoroutine(ColorLerp(new Color(0, 0, 0, 0), 0.75f)); }
+        else StartCoroutine(ColorLerp(new Color(1, 1, 1, 1), 0.75f)); // reverse
+    }
+
+    IEnumerator RemoveAfterSeconds(int seconds, GameObject obj)
+    {
+        yield return new WaitForSeconds(seconds);
+        obj.SetActive(false);
+    }
+
+    IEnumerator HideTextAfterSeconds(int seconds, TextMeshProUGUI t)
+    {
+        yield return new WaitForSeconds(seconds);
+        t.text = "";
+    }
+
+    IEnumerator Wait(int seconds)
+    {
+        yield return new WaitForSeconds(seconds);
+    }
+
 }

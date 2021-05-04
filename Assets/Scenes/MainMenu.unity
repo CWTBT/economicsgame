@@ -4860,18 +4860,12 @@ MonoBehaviour:
   title: {fileID: 879359668}
   startButton: {fileID: 442236495}
   prompt: {fileID: 1338740814}
-  nameEntry: {fileID: 1452315633}
-  yesButton: {fileID: 1755763531}
-  noButton: {fileID: 1027901297}
   backgroundImage: {fileID: 201054253}
   description: {fileID: 1631716533}
   submitButton: {fileID: 582296029}
   leaderboard: {fileID: 1448442123}
   nextButton: {fileID: 1672002858}
   backButton: {fileID: 919783708}
-  nextCountryButton: {fileID: 2050422210}
-  lastCountryButton: {fileID: 1621012148}
-  currentCountry: {fileID: 724466790}
   creditsText: {fileID: 1709615398}
   creditsButton: {fileID: 335304112}
   howToPlayButton: {fileID: 164978633}
@@ -4879,13 +4873,19 @@ MonoBehaviour:
   tutorialTextBox: {fileID: 1534263646}
   tutorialText: {fileID: 1534263649}
   tutorialBackground: {fileID: 2021979402}
-  botMode: 0
   pollutionUpgrade1: 600
   pollutionUpgrade2: 800
   cityUpgrade1: 26000
   cityUpgrade2: 28000
   cityUpgrade3: 30000
   eMulti: 3
+  nameEntry: {fileID: 1452315633}
+  botMode: 0
+  nextCountryButton: {fileID: 2050422210}
+  lastCountryButton: {fileID: 1621012148}
+  currentCountry: {fileID: 724466790}
+  yesButton: {fileID: 1755763531}
+  noButton: {fileID: 1027901297}
   maxTurns: 2
 --- !u!4 &1249523636
 Transform:
@@ -7127,7 +7127,7 @@ MonoBehaviour:
     and Josh Thomeczek for professor William Haden Chomphosy and his Environmental
     Economics class\n\nSpecial thanks to our professor, Mark Goadrich"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: b2c6c9d27f310421fbf102f7b6146281, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 0a5b8914eeda5444f831c854b6223c14, type: 2}
   m_sharedMaterial: {fileID: 1344126060696308175, guid: b2c6c9d27f310421fbf102f7b6146281, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -7191,7 +7191,7 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
-  m_hasFontAssetChanged: 0
+  m_hasFontAssetChanged: 1
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
 --- !u!222 &1709615401
