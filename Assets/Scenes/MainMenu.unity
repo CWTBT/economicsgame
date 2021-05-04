@@ -4885,7 +4885,7 @@ MonoBehaviour:
   cityUpgrade1: 26000
   cityUpgrade2: 28000
   cityUpgrade3: 30000
-  eMulti: 20
+  eMulti: 3
   maxTurns: 2
 --- !u!4 &1249523636
 Transform:
@@ -8161,8 +8161,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 200, y: 50}
+  m_AnchoredPosition: {x: 0, y: -13.0374}
+  m_SizeDelta: {x: 200, y: 76.0748}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1937881166
 MonoBehaviour:

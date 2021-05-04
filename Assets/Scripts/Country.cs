@@ -9,7 +9,7 @@ public class Country
     public double Emissions { set; get; }
     public bool HaveAgreed { get; set; }
     public double PercentageOfTotalEmissions { get; set; }
-    public double Score { get; set; }
+    public int Score { get; set; }
     public bool PerfectAgree { get; set; }
     public bool PerfectDisagree { get; set; }
     public int environment = 1;
@@ -46,7 +46,7 @@ public class Country
     }
     public void adjustScore(double eMulti)
 	{
-        Score = GDP - ((Emissions - 500) * (eMulti));
+        Score = (int)(GDP - ((Emissions - 500) * (eMulti)))/10;
 	}
     public void adjustEnvironment(double envi2, double envi3)
 	{
