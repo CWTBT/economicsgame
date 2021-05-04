@@ -271,7 +271,7 @@ public class GameManager : MonoBehaviour
         currentPhase = Phase.Cities;
         nextButton.GetComponent<Animator>().Play("show_next");
         leaderboard.GetComponent<Animator>().Play("show_leader");
-        currentCountry.GetComponent<TextMeshProUGUI>().text = playerList[currentPIndex].Name;
+        currentCountry.GetComponentInChildren<TextMeshProUGUI>().text = playerList[currentPIndex].Name;
         currentCountry.GetComponent<Animator>().Play("show_current");
         SceneManager.sceneLoaded += OnSceneLoaded;
     }
@@ -554,7 +554,7 @@ public class GameManager : MonoBehaviour
         mainCamera.GetComponent<CameraPanning>().OnRightButtonPress();
         if (currentPIndex < 3) currentPIndex++;
         else currentPIndex = 0;
-        currentCountry.GetComponent<TextMeshProUGUI>().text = playerList[currentPIndex].Name;
+        currentCountry.GetComponentInChildren<TextMeshProUGUI>().text = playerList[currentPIndex].Name;
     
         CameraPanning cameraPanning = mainCamera.GetComponent<CameraPanning>();
         if (playerList[cameraPanning.CurrentCity].Emissions >= pollutionUpgrade1)
@@ -570,7 +570,7 @@ public class GameManager : MonoBehaviour
         mainCamera.GetComponent<CameraPanning>().OnLeftButtonPress();
         if (currentPIndex > 0) currentPIndex--;
         else currentPIndex = 3;
-        currentCountry.GetComponent<TextMeshProUGUI>().text = playerList[currentPIndex].Name;
+        currentCountry.GetComponentInChildren<TextMeshProUGUI>().text = playerList[currentPIndex].Name;
     
         CameraPanning cameraPanning = mainCamera.GetComponent<CameraPanning>();
         if (playerList[cameraPanning.CurrentCity].Emissions >= pollutionUpgrade1)
