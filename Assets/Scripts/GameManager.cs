@@ -468,9 +468,28 @@ public class GameManager : MonoBehaviour
             int currL = playerList[i].environment;
             int prevC = playerList[i].previousC;
             int currC = playerList[i].city;
-                
+            
+            //Environment Related
+            if(currL > prevL)
+			{
+                Debug.Log("Oh no! " + playerList[i].Name + " became more polluted!");
+			}
+            if(currL < prevL)
+			{
+                Debug.Log("Yay! " + playerList[i].Name + " became less polluted!");
+            }
             CountryList[i].transform.Find("Land " + prevL).gameObject.SetActive(false);
             CountryList[i].transform.Find("Land " + currL).gameObject.SetActive(true);
+            
+            //City Related
+            if (currC > prevC)
+            {
+                Debug.Log("Yay! " + playerList[i].Name + " grew!");
+            }
+            if (currC < prevC)
+            {
+                Debug.Log("Oh No! " + playerList[i].Name + " shrunk!");
+            }
             CountryList[i].transform.Find("City " + prevC).gameObject.SetActive(false);
             CountryList[i].transform.Find("City " + currC).gameObject.SetActive(true);
  
