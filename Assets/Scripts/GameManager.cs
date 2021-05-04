@@ -434,10 +434,37 @@ public class GameManager : MonoBehaviour
             }
             CountryList[i].transform.Find("City " + prevC).gameObject.SetActive(false);
             CountryList[i].transform.Find("City " + currC).gameObject.SetActive(true);
- 
 
+            renderSmokes(i);
         }
         startCitiesPhase();
+    }
+
+    private void renderSmokes(int index)
+    {
+        int envLevel = playerList[index].environment;
+        if (envLevel == 1)
+        {
+            CountryList[index].transform.Find("Smoke1").gameObject.SetActive(false);
+            CountryList[index].transform.Find("Smoke2").gameObject.SetActive(false);
+            CountryList[index].transform.Find("Smoke3").gameObject.SetActive(false);
+            CountryList[index].transform.Find("Smog").gameObject.SetActive(false);
+        }
+        else if (envLevel == 2)
+        {
+            CountryList[index].transform.Find("Smoke1").gameObject.SetActive(true);
+            CountryList[index].transform.Find("Smoke2").gameObject.SetActive(true);
+            CountryList[index].transform.Find("Smoke3").gameObject.SetActive(false);
+            CountryList[index].transform.Find("Smog").gameObject.SetActive(false);
+
+        }
+        else
+        {
+            CountryList[index].transform.Find("Smoke1").gameObject.SetActive(true);
+            CountryList[index].transform.Find("Smoke2").gameObject.SetActive(true);
+            CountryList[index].transform.Find("Smoke3").gameObject.SetActive(true);
+            CountryList[index].transform.Find("Smog").gameObject.SetActive(true);
+        }
     }
 
     private void updateLeaderboard()
