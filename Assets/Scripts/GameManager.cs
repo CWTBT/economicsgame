@@ -542,20 +542,29 @@ public class GameManager : MonoBehaviour
     // Punishments
     public void startPunishmentPhase()
 	{
+        List<Country> declineList = new List<Country>();
+        List<Country> acceptList = new List<Country>();
         playerList.ForEach(p =>
         {
-            if(!p.HaveAgreed)
+            if(p.HaveAgreed)
 			{
-                playerList.ForEach(q =>
-                {
-                    if(p != q)
-					{
-                        Debug.Log(q.Name + " would you like to punish " + p.Name + " for declining?");
-                        Debug.Log("Cost = $1000GDP | Punishment: -0.2 Growth per turn");
-                    }
-                } );
+                acceptList.Add(p);
 			}
+			else
+			{
+                declineList.Add(p);
+			}
+            
         } );
+        acceptList.ForEach(p =>
+            {
+                Debug.Log(p.Name + " would you like to punish everone who declined?");
+                Debug.Log("Cost = $" + (declineList.Count*3000) + "GDP | Punishment: -"+ (0.5) +" Growth per country that declined");
+                declineList.ForEach(q =>
+                {
+                    q.Growth -= .5;
+                });
+            });
     } 
 
     // Camera Panning Related
