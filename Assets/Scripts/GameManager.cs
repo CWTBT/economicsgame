@@ -109,8 +109,6 @@ public class GameManager : MonoBehaviour
     // Tutorial
     public void TutorialStart()
     {
-        StartCoroutine(HideTextAfterSeconds(0, title));
-        StartCoroutine(RemoveAfterSeconds(0, startButton));
         tutorialTextBox.SetActive(true);
         tutorialText.text = "there are two numbers you need to consider in this game: GDP and Emissions. \n \n your GDP number is a measure of the total economic productivity in your country in dollars. \n \n your Emissions number tracks how much your country pollutes in gigatons of carbon.";
         tutorialNextButton.SetActive(true);
@@ -152,8 +150,6 @@ public class GameManager : MonoBehaviour
         clearMenuUI();
         backButton.SetActive(true);
         creditsText.SetActive(true);
-        StartCoroutine(HideTextAfterSeconds(0, title));
-        StartCoroutine(RemoveAfterSeconds(0, startButton));
 
     }
 
