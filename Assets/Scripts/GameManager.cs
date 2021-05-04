@@ -522,7 +522,6 @@ public class GameManager : MonoBehaviour
             player.adjustScore(eMulti);
             Debug.Log(player.Name + "'s score is: " + (int)player.Score);
         } );
-        startPunishmentPhase();
     }
 
     private void clearVoteUI()
@@ -542,6 +541,8 @@ public class GameManager : MonoBehaviour
     // Punishments
     public void startPunishmentPhase()
 	{
+        currentPhase = Phase.Pushishments;
+        setupVoteUI();
         List<Country> declineList = new List<Country>();
         List<Country> acceptList = new List<Country>();
         playerList.ForEach(p =>
@@ -556,15 +557,12 @@ public class GameManager : MonoBehaviour
 			}
             
         } );
-        acceptList.ForEach(p =>
-            {
-                Debug.Log(p.Name + " would you like to punish everone who declined?");
-                Debug.Log("Cost = $" + (declineList.Count*3000) + "GDP | Punishment: -"+ (0.5) +" Growth per country that declined");
-                declineList.ForEach(q =>
-                {
-                    q.Growth -= .5;
-                });
-            });
+            prompt.text = acceptList[0].Name + " would you like to punish everone who declined?\nCost = $" + (declineList.Count*3000) + "GDP | Punishment: -"+ (0.05) +" Growth per country that declined";
+                //Debug.Log("Cost = $" + (declineList.Count*3000) + "GDP | Punishment: -"+ (0.05) +" Growth per country that declined");
+                //declineList.ForEach(q =>
+                //{
+                //    q.Growth -= .05;
+                //});
     } 
 
     // Camera Panning Related
