@@ -173,8 +173,8 @@ public class GameManager : MonoBehaviour
         nameEntry.SetActive(true);
         submitButton.SetActive(true);
         backButton.SetActive(true);
-        howToPlayButton.SetActive(false);
-        creditsButton.SetActive(false);
+        //howToPlayButton.SetActive(false);
+        //creditsButton.SetActive(false);
     }
 
     public void Back()
@@ -192,11 +192,11 @@ public class GameManager : MonoBehaviour
         tutorialNextButton.SetActive(false);
         tutorialText.text = "";
         tutorialTextBox.SetActive(false);
-        howToPlayButton.SetActive(true);
+        //howToPlayButton.SetActive(true);
 
         //credits off
         creditsText.SetActive(false);
-        creditsButton.SetActive(true);
+        //creditsButton.SetActive(true);
 
         //reset main menu
         startButton.SetActive(true);
