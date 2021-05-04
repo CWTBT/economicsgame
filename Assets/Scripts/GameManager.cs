@@ -258,8 +258,8 @@ public class GameManager : MonoBehaviour
         nameEntry.SetActive(false);
         submitButton.SetActive(false);
         backButton.SetActive(false);
-        howToPlayButton.SetActive(false);
-        creditsButton.SetActive(false);
+        //howToPlayButton.SetActive(false);
+        //creditsButton.SetActive(false);
         prompt.GetComponent<Animator>().Play("hide_prompt");
         StartCoroutine(HideTextAfterSeconds(1, prompt));
     }
@@ -596,8 +596,8 @@ public class GameManager : MonoBehaviour
         tutorialTextBox.SetActive(true);
         tutorialText.text = "there are two numbers you need to consider in this game: GDP and Emissions. \n \n your GDP number is a measure of the total economic productivity in your country in dollars. \n \n your Emissions number tracks how much your country pollutes in gigatons of carbon.";
         tutorialNextButton.SetActive(true);
-        howToPlayButton.SetActive(false);
-        creditsButton.SetActive(false);
+        //howToPlayButton.SetActive(false);
+        //creditsButton.SetActive(false);
         tutorialCount = 0;
         tutorialBackground.SetActive(true);
         leaderboard.GetComponent<Animator>().Play("show_P1");
