@@ -28,6 +28,7 @@ public class GameManager : MonoBehaviour
     public GameObject creditsText;
     public GameObject creditsButton;
     // Tutorial stuff
+    public GameObject tutorial;
     public GameObject howToPlayButton;
     public GameObject tutorialNextButton;
     public GameObject tutorialTextBox;
@@ -142,9 +143,11 @@ public class GameManager : MonoBehaviour
             leaderboard.GetComponent<Animator>().Play("hide_P1");
             tutorialText.text = "Consider the treaty each turn carefully to balance your GDP growth and environmental impact \n \n Remember, other countries' decisions will have an impact on you";
             //startButton.SetActive(true);
-            tutorialNextButton.SetActive(false);
+            //tutorialNextButton.SetActive(false);
             backButton.SetActive(true);
             backButton.GetComponent<Animator>().Play("back_show");
+            tutorial.GetComponent<Animator>().Play("next_hide");
+            StartCoroutine(RemoveAfterSeconds(1, tutorialNextButton));
             //display treaty screen and start button
         }
     }
@@ -162,7 +165,7 @@ public class GameManager : MonoBehaviour
     public void Back()
     {
         //this can probably go through the 'clear menu UI function'
-        StartCoroutine(RemoveAfterSeconds(30, backButton));
+        StartCoroutine(RemoveAfterSeconds(1, backButton));
 
         //game start off
         prompt.GetComponent<Animator>().Play("hide_prompt");
@@ -170,13 +173,17 @@ public class GameManager : MonoBehaviour
         nameEntry.SetActive(false);
 
         //tutorial off
-        tutorialBackground.SetActive(false);
-        tutorialNextButton.SetActive(false);
-        tutorialText.text = "";
-        tutorialTextBox.SetActive(false);
+        //tutorialBackground.SetActive(false);
+        //tutorialNextButton.SetActive(false);
+        //tutorialText.text = "";
+        StartCoroutine(RemoveAfterSeconds(1, tutorialBackground));
+        StartCoroutine(HideTextAfterSeconds(1, tutorialText));
+        StartCoroutine(RemoveAfterSeconds(1, tutorialTextBox));
+        //tutorialTextBox.SetActive(false);
 
         //credits off
-        creditsText.SetActive(false);
+        StartCoroutine(RemoveAfterSeconds(1, creditsText));
+        //creditsText.SetActive(false);
 
         //reset main menu
         startButton.SetActive(true);

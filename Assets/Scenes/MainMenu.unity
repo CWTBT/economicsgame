@@ -659,7 +659,7 @@ MonoBehaviour:
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: tutorial.show
+          m_StringArgument: tutorial_show
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &164978636
@@ -3538,6 +3538,30 @@ MonoBehaviour:
           m_StringArgument: back_hide
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 443752835}
+        m_TargetAssemblyTypeName: UnityEngine.Animator, UnityEngine
+        m_MethodName: Play
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: tutorial_hide
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1709615402}
+        m_TargetAssemblyTypeName: UnityEngine.Animator, UnityEngine
+        m_MethodName: Play
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: credits_hide
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &919783711
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5237,6 +5261,7 @@ MonoBehaviour:
   backButton: {fileID: 919783708}
   creditsText: {fileID: 1709615398}
   creditsButton: {fileID: 335304112}
+  tutorial: {fileID: 443752833}
   howToPlayButton: {fileID: 164978633}
   tutorialNextButton: {fileID: 1941915605}
   tutorialTextBox: {fileID: 1534263646}
