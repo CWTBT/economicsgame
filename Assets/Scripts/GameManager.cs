@@ -73,7 +73,10 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (Input.GetKeyUp(KeyCode.Return))
+        {
+            if (currentPhase == Phase.Names ) { submit(); }
+        }
     }
 
     void Awake()
@@ -104,6 +107,7 @@ public class GameManager : MonoBehaviour
         nameEntry.SetActive(true);
         submitButton.SetActive(true);
         backButton.SetActive(true);
+        currentPhase = Phase.Names;
     }
 
     // Tutorial
@@ -212,6 +216,8 @@ public class GameManager : MonoBehaviour
                 names[current - 1] = name;
                 current = playerList.Count + 1;
                 prompt.text = "Player " + current + "\nEnter your country's name!";
+                nameEntry.GetComponent<TMP_InputField>().Select();
+                nameEntry.GetComponent<TMP_InputField>().ActivateInputField();
             }
         }
         
@@ -229,7 +235,7 @@ public class GameManager : MonoBehaviour
 
     private void startCitiesPhase()
     {
-        if (currentPhase == Phase.Menu)
+        if (currentPhase == Phase.Names)
         {
             StartCoroutine(LoadYourAsyncScene(true, "Countries"));
             playerList.ForEach(p => p.adjustScore(eMulti));
