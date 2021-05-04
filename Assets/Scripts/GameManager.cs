@@ -14,8 +14,6 @@ public class GameManager : MonoBehaviour
     private GameObject resetCanvas;
     public AudioClip buttonClick;
     public AudioSource BackgroundAmbience;
-    public AudioClip GoodEmissions;
-    public AudioClip BadEmissions;
     public TextMeshProUGUI title;
     public GameObject startButton;
     public TextMeshProUGUI prompt;
@@ -174,7 +172,6 @@ public class GameManager : MonoBehaviour
         backButton.SetActive(true);
         howToPlayButton.SetActive(false);
         creditsButton.SetActive(false);
-        GoodAmbientSound();
     }
 
     public void Back()
@@ -326,7 +323,6 @@ public class GameManager : MonoBehaviour
 
     public void Next()
     {
-        BackgroundAmbience.Stop();
         if (currentPhase == Phase.Cities)
         {
             if (completedVotes == maxTurns) startResultsPhase();
@@ -555,15 +551,6 @@ public class GameManager : MonoBehaviour
         if (currentPIndex < 3) currentPIndex++;
         else currentPIndex = 0;
         currentCountry.GetComponentInChildren<TextMeshProUGUI>().text = playerList[currentPIndex].Name;
-    
-        CameraPanning cameraPanning = mainCamera.GetComponent<CameraPanning>();
-        if (playerList[cameraPanning.CurrentCity].Emissions >= pollutionUpgrade1)
-        {
-            BadAmbientSound();
-        } else
-        {
-            GoodAmbientSound();
-        }
 	}
     public void OnLeftButton()
     {
@@ -571,16 +558,6 @@ public class GameManager : MonoBehaviour
         if (currentPIndex > 0) currentPIndex--;
         else currentPIndex = 3;
         currentCountry.GetComponentInChildren<TextMeshProUGUI>().text = playerList[currentPIndex].Name;
-    
-        CameraPanning cameraPanning = mainCamera.GetComponent<CameraPanning>();
-        if (playerList[cameraPanning.CurrentCity].Emissions >= pollutionUpgrade1)
-        {
-            BadAmbientSound();
-        }
-        else
-        {
-            GoodAmbientSound();
-        }
     }
     //Sounds
     public void ClickButton()
@@ -590,17 +567,6 @@ public class GameManager : MonoBehaviour
         audio.PlayOneShot(buttonClick);
     }
 
-    public void GoodAmbientSound()
-    {
-        BackgroundAmbience.Stop();
-        BackgroundAmbience.PlayOneShot(GoodEmissions);
-    }
-
-    public void BadAmbientSound()
-    {
-        BackgroundAmbience.Stop();
-        BackgroundAmbience.PlayOneShot(BadEmissions);
-    }
     //Tutorial
     public void TutorialStart()
     {
@@ -611,7 +577,6 @@ public class GameManager : MonoBehaviour
         tutorialNextButton.SetActive(true);
         howToPlayButton.SetActive(false);
         creditsButton.SetActive(false);
-        GoodAmbientSound();
         tutorialCount = 0;
         tutorialBackground.SetActive(true);
         leaderboard.GetComponent<Animator>().Play("show_P1");
