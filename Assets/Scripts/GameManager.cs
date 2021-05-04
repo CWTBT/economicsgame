@@ -164,7 +164,9 @@ public class GameManager : MonoBehaviour
 
     public void start()
     {
-        StartCoroutine(HideTextAfterSeconds(1, title));
+        //StartCoroutine(HideTextAfterSeconds(1, title));
+        nameEntry.GetComponent<TMP_InputField>().text = "";
+        playerList = new List<Country>();
         StartCoroutine(RemoveAfterSeconds(1, startButton));
         prompt.text = "Player 1\nEnter your country's name!";
         nameEntry.SetActive(true);
@@ -212,8 +214,18 @@ public class GameManager : MonoBehaviour
 
     public void submit()
     {
+        int current = playerList.Count+1;
+        string[] names = {"", "", ""};
         string name = nameEntry.GetComponentsInChildren<TextMeshProUGUI>()[1].text;
-        if (name.Length > 1 && name.Length <= 9)
+        if (names[0].Equals(name) && names[1].Equals(name) && names[2].Equals(name))
+        {
+            prompt.text = "Player " + current + "\nEnter your country's name!\nPlease enter an available name!";
+        }
+        else if (name.Length > 9)
+        {
+            prompt.text = "Player " + current + "\nEnter your country's name!\nPlease enter a name less than 9 characters!";
+        }
+        else if (name.Length > 1)
         {
             nameEntry.GetComponent<TMP_InputField>().text = "";
             Country newPlayer = new Country(name);
@@ -228,10 +240,13 @@ public class GameManager : MonoBehaviour
             }
             else
             {
-                int current = playerList.Count + 1;
+                names[current - 1] = name;
+                current = playerList.Count + 1;
                 prompt.text = "Player " + current + "\nEnter your country's name!";
             }
         }
+        
+        
     }
 
     private void clearMenuUI()
