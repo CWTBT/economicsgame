@@ -478,12 +478,15 @@ public class GameManager : MonoBehaviour
     {
         TextMeshProUGUI[] gdpList = leaderboard.transform.Find("GDPs").GetComponentsInChildren<TextMeshProUGUI>();
         TextMeshProUGUI[] emmList = leaderboard.transform.Find("Emissions").GetComponentsInChildren<TextMeshProUGUI>();
+        TextMeshProUGUI[] groList = leaderboard.transform.Find("Growths").GetComponentsInChildren<TextMeshProUGUI>();
         for (int i = 0; i < 4; i++)
         {
             string new_gdp = playerList[i].GDP.ToString("C2");
             string new_emm = playerList[i].Emissions.ToString("F2");
+            string new_gro = playerList[i].Growth.ToString("P01");
             gdpList[i].text = "GDP: " + new_gdp;
             emmList[i].text = "C02: " + new_emm + "MT";
+            groList[i].text = "GROWTH: " + new_gro;
         }
     }
 
