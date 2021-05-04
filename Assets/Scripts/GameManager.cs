@@ -35,6 +35,10 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI tutorialText;
     public GameObject tutorialBackground;
     private int tutorialCount;
+    public GameObject tutorialImage1;
+    public GameObject tutorialImage2;
+    public GameObject tutorialImage3;
+    public GameObject tutorialImage4;
     // Game Designer controlled "upgrade" values
     public double pollutionUpgrade1;
     public double pollutionUpgrade2;
@@ -121,6 +125,9 @@ public class GameManager : MonoBehaviour
         tutorialCount = 0;
         tutorialBackground.SetActive(true);
         leaderboard.GetComponent<Animator>().Play("show_P1");
+        backButton.SetActive(true);
+        backButton.GetComponent<Animator>().Play("back_show");
+        tutorialImage1.SetActive(true);
     }
 
     public void TutorialNext()
@@ -130,23 +137,24 @@ public class GameManager : MonoBehaviour
         if (tutorialCount == 1)
         {
             tutorialText.text = "As your GDP grows, your country will expand";
-            //fade in city level 2 to show city growth
             //point to GDP on panel
+            tutorialImage1.SetActive(false);
+            tutorialImage2.SetActive(true);
         }
         else if (tutorialCount == 2)
         {
             tutorialText.text = "Your GDP will grow faster if you emit more carbon, but the environment will be affected, such as rising sea levels \n \n Watch out! Harming the envrionment will have repercussions in the long run";
-            // fade in environment level 2 to show rising sea levels
             //point to emissions on panel
+            tutorialImage2.SetActive(false);
+            tutorialImage3.SetActive(true);
         }
         else if (tutorialCount == 3)
         {
             leaderboard.GetComponent<Animator>().Play("hide_P1");
             tutorialText.text = "Consider the treaty each turn carefully to balance your GDP growth and environmental impact \n \n Remember, other countries' decisions will have an impact on you";
-            //startButton.SetActive(true);
-            //tutorialNextButton.SetActive(false);
+            tutorialImage3.SetActive(false);
+            tutorialImage4.SetActive(true);
             backButton.SetActive(true);
-            backButton.GetComponent<Animator>().Play("back_show");
             tutorial.GetComponent<Animator>().Play("next_hide");
             StartCoroutine(RemoveAfterSeconds(1, tutorialNextButton));
             //display treaty screen and start button
@@ -180,6 +188,10 @@ public class GameManager : MonoBehaviour
         StartCoroutine(RemoveAfterSeconds(1, tutorialBackground));
         StartCoroutine(HideTextAfterSeconds(1, tutorialText));
         StartCoroutine(RemoveAfterSeconds(1, tutorialTextBox));
+        tutorialImage1.SetActive(false);
+        tutorialImage2.SetActive(false);
+        tutorialImage3.SetActive(false);
+        tutorialImage4.SetActive(false);
         //tutorialTextBox.SetActive(false);
 
         //credits off
