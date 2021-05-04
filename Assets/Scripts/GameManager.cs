@@ -144,6 +144,7 @@ public class GameManager : MonoBehaviour
             //startButton.SetActive(true);
             tutorialNextButton.SetActive(false);
             backButton.SetActive(true);
+            backButton.GetComponent<Animator>().Play("back_show");
             //display treaty screen and start button
         }
     }
@@ -161,7 +162,7 @@ public class GameManager : MonoBehaviour
     public void Back()
     {
         //this can probably go through the 'clear menu UI function'
-        StartCoroutine(RemoveAfterSeconds(0, backButton));
+        StartCoroutine(RemoveAfterSeconds(30, backButton));
 
         //game start off
         prompt.GetComponent<Animator>().Play("hide_prompt");
