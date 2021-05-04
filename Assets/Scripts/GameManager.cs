@@ -345,8 +345,10 @@ public class GameManager : MonoBehaviour
     {
         string toReturn = "";
         double emissionDecPerc = emissionsChangePct * -100;
-        toReturn += $"Agree to a treaty with your fellow countries to reduce " +
-            $"your emissions by {emissionDecPerc}% in one turn of the game?";
+        toReturn += $"Treaty: Spend ${treatyCost} to reduce " +
+            $"your emissions by {emissionDecPerc}% this year?\n\n\n" +
+            $"Accept: GDP - {treatyCost} & C02 - {emissionDecPerc}%\n" +
+            "Decline: C02 + 25%";
         return toReturn;
     }
 
