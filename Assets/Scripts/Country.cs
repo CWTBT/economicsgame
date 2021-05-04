@@ -10,15 +10,12 @@ public class Country
     public bool HaveAgreed { get; set; }
     public double PercentageOfTotalEmissions { get; set; }
     public double Score { get; set; }
-<<<<<<< HEAD
     public bool PerfectAgree { get; set; }
     public bool PerfectDisagree { get; set; }
-=======
     public int environment = 1;
     public int city = 1;
     public int previousE = 1;
     public int previousC = 1;
->>>>>>> main
 
     public Country(string name)
     {
