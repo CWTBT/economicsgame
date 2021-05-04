@@ -10,6 +10,8 @@ public class Country
     public bool HaveAgreed { get; set; }
     public double PercentageOfTotalEmissions { get; set; }
     public double Score { get; set; }
+    public bool PerfectAgree { get; set; }
+    public bool PerfectDisagree { get; set; }
 
     public Country(string name)
     {
@@ -19,6 +21,8 @@ public class Country
         Emissions = 0.5f;
         HaveAgreed = false;
         PercentageOfTotalEmissions = 0.0f;
+        PerfectAgree = true;
+        PerfectDisagree = true;
     }
 
     public void adjustGDP(double d)
@@ -44,11 +48,13 @@ public class Country
     public void Agree()
     {
         HaveAgreed = true;
+        if (PerfectDisagree) PerfectDisagree = false;
     }
 
     public void Decline()
     {
         HaveAgreed = false;
+        if (PerfectAgree) PerfectAgree= false;
     }
 
     public void ActivateGDPGrowth()

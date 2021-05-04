@@ -355,6 +355,7 @@ public class GameManager : MonoBehaviour
             string newStr = PrintAccolades(currentPIndex);
             description.text = newStr;
         }
+        mainCamera.GetComponent<CameraPanning>().OnRightButtonPress();
     }
 
     private string PrintAccolades(int pIndex)
@@ -365,6 +366,8 @@ public class GameManager : MonoBehaviour
             if (a == Accolades.TopGDP) accStr += "You ended with the highest GDP! Congrats!";
             if (a == Accolades.BotEmi) accStr += "Nice! You had the lowest carbon emissions!";
             if (a == Accolades.TopEmi) accStr += "You had the highest carbon emissions.";
+            if (a == Accolades.AllAgree) accStr += "You showed demonstrated remarkable concern for the environment by accepting every treaty.";
+            if (a == Accolades.AllDecline) accStr += "You didn't agree to a single climate treaty.";
             accStr += "\n";
         }
         return accStr;
@@ -383,6 +386,11 @@ public class GameManager : MonoBehaviour
 
     private void startResultsPhase()
     {
+        mainCamera.GetComponent<CameraPanning>().CurrentCity = 3;
+        mainCamera.GetComponent<CameraPanning>().OnRightButtonPress();
+        currentCountry.GetComponent<Animator>().Play("hide_current");
+        nextCountryButton.SetActive(false);
+        lastCountryButton.SetActive(false);
         currentPhase = Phase.Results;
         currentPIndex = 0;
         eval = new Evaluator(playerList);
