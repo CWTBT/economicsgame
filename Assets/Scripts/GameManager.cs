@@ -544,7 +544,7 @@ public class GameManager : MonoBehaviour
             if (a == Accolades.TopGDP) accStr += "You ended with the highest GDP! Congrats!";
             if (a == Accolades.BotEmi) accStr += "Nice! You had the lowest carbon emissions!";
             if (a == Accolades.TopEmi) accStr += "You had the highest carbon emissions.";
-            if (a == Accolades.AllAgree) accStr += "You showed demonstrated remarkable concern for the environment by accepting every treaty.";
+            if (a == Accolades.AllAgree) accStr += "You demonstrated remarkable concern for the environment by accepting every treaty.";
             if (a == Accolades.AllDecline) accStr += "You didn't agree to a single climate treaty.";
             accStr += "\n";
         }
