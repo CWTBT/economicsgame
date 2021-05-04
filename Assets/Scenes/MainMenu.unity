@@ -818,7 +818,7 @@ RectTransform:
   - {fileID: 23054206}
   - {fileID: 2063513125}
   m_Father: {fileID: 1564065169}
-  m_RootOrder: 18
+  m_RootOrder: 16
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -4880,12 +4880,12 @@ MonoBehaviour:
   tutorialText: {fileID: 1534263649}
   tutorialBackground: {fileID: 2021979402}
   botMode: 0
-  pollutionUpgrade1: 0.51
-  pollutionUpgrade2: 0.53
-  cityUpgrade1: 22000
-  cityUpgrade2: 24000
-  cityUpgrade3: 26000
-  eMulti: 20000
+  pollutionUpgrade1: 600
+  pollutionUpgrade2: 800
+  cityUpgrade1: 26000
+  cityUpgrade2: 28000
+  cityUpgrade3: 30000
+  eMulti: 20
   maxTurns: 2
 --- !u!4 &1249523636
 Transform:
@@ -5637,7 +5637,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1564065169}
-  m_RootOrder: 20
+  m_RootOrder: 18
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -8236,7 +8236,7 @@ RectTransform:
   m_Children:
   - {fileID: 1075598313}
   m_Father: {fileID: 1564065169}
-  m_RootOrder: 21
+  m_RootOrder: 19
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -9130,7 +9130,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1564065169}
-  m_RootOrder: 19
+  m_RootOrder: 17
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}

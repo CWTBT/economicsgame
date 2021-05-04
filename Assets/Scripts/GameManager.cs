@@ -56,9 +56,10 @@ public class GameManager : MonoBehaviour
     private int currentPIndex = 0;
     private VoteManager currentVote = new VoteManager();
     private Phase currentPhase = Phase.Menu;
-    private double TotalDamage = 1250.0f;
+    //private double TotalDamage = 1250.0f;
 
-    private double treatyCost = -1000f;
+    //Treaty
+    private double treatyCost = 1000f;
     private double emissionsChangePct = -0.20;
 
     private int completedVotes = 0;
@@ -526,15 +527,23 @@ public class GameManager : MonoBehaviour
     private void AdjustCountries()
     {
         int numAgreed = 0;
-        playerList.ForEach(p => { if (p.HaveAgreed) { numAgreed++;
-                p.GDP -= treatyCost;
-            } });
-        playerList.ForEach(p => p.ActivateGDPGrowth());
         double totalEmissions = 0f;
-        playerList.ForEach(p => { if (p.HaveAgreed) { p.Emissions -= p.Emissions * (1.0f / 5.0f); }
-            else { p.Emissions *= (5.0f / 4.0f); } });
-        playerList.ForEach(p => totalEmissions += p.Emissions);
+        playerList.ForEach(p => 
+        { 
+            if (p.HaveAgreed) 
+            {
+                numAgreed++;
+                p.GDP -= treatyCost;
+                p.Emissions -= p.Emissions * (1.0f / 5.0f);
+            }
+            else
+            {
+                p.Emissions *= (5.0f / 4.0f);
+            }
+            totalEmissions += p.Emissions;
+        });
         double growthIncrease = 5 - (totalEmissions * 0.002f);
+        playerList.ForEach(p => p.ActivateGDPGrowth());
         playerList.ForEach(p => p.Growth += (growthIncrease / 100f));
         playerList.ForEach(player =>
         {
@@ -545,16 +554,16 @@ public class GameManager : MonoBehaviour
         });
     }
 
-    private void AdjustGDPEmissionDamage(double totalMoney, double agreeMultiplier, double declineMultiplier)
-    {
-        playerList.ForEach(p =>
-        {
-            if (p.HaveAgreed)
-            { p.adjustGDP(-totalMoney * agreeMultiplier); }
-            else
-            { p.adjustGDP(-totalMoney * declineMultiplier); }
-        });
-    }
+    //private void AdjustGDPEmissionDamage(double totalMoney, double agreeMultiplier, double declineMultiplier)
+    //{
+    //    playerList.ForEach(p =>
+    //    {
+    //        if (p.HaveAgreed)
+    //        { p.adjustGDP(-totalMoney * agreeMultiplier); }
+    //        else
+    //        { p.adjustGDP(-totalMoney * declineMultiplier); }
+    //    });
+    //}
 
     private string GetPromptText()
     {
