@@ -350,8 +350,7 @@ public class GameManager : MonoBehaviour
         else
         {
             currentPIndex++;
-            leaderboard.GetComponent<Animator>().Play("show_P" + (currentPIndex + 1));
-            prompt.text = "Player " + (currentPIndex + 1) + " Results";
+            prompt.text = playerList[currentPIndex].Name + "'s Achievements:";
             string newStr = PrintAccolades(currentPIndex);
             description.text = newStr;
         }
@@ -396,10 +395,9 @@ public class GameManager : MonoBehaviour
         eval = new Evaluator(playerList);
         evaluation = eval.evaluate();
         StartCoroutine(ColorLerp(new Color(0, 0, 0, 0.5f), 0.75f));
-        prompt.text = "Player " + (currentPIndex + 1) + " Results";
+        prompt.text = playerList[currentPIndex].Name + "'s Achievements:";
         description.text = PrintAccolades(0);
         leaderboard.GetComponent<Animator>().Play("hide_leader");
-        leaderboard.GetComponent<Animator>().Play("show_P" + (currentPIndex + 1));
         description.GetComponent<Animator>().Play("show_desc");
         prompt.GetComponent<Animator>().Play("show_prompt");
     }
