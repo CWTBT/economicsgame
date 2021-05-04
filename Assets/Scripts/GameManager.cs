@@ -62,6 +62,7 @@ public class GameManager : MonoBehaviour
     private int currentPIndex = 0;
     private int completedVotes = 0;
     public int maxTurns = 5;
+    public int punishmentCost;
     private Evaluator eval;
     private List<List<Accolades>> evaluation;
 
@@ -518,7 +519,8 @@ public class GameManager : MonoBehaviour
             player.adjustEnvironment(pollutionUpgrade1, pollutionUpgrade2);
             player.adjustScore(eMulti);
             Debug.Log(player.Name + "'s score is: " + (int)player.Score);
-        });
+        } );
+        startPunishmentPhase();
     }
 
     private void clearVoteUI()
@@ -534,6 +536,25 @@ public class GameManager : MonoBehaviour
         //StartCoroutine(HideTextAfterSeconds(1, description));
         //StartCoroutine(HideTextAfterSeconds(1, prompt));
     }
+
+    // Punishments
+    public void startPunishmentPhase()
+	{
+        playerList.ForEach(p =>
+        {
+            if(!p.HaveAgreed)
+			{
+                playerList.ForEach(q =>
+                {
+                    if(p != q)
+					{
+                        Debug.Log(q.Name + " would you like to punish " + p.Name + " for declining?");
+                        Debug.Log("Cost = $1000GDP | Punishment: -0.2 Growth per turn");
+                    }
+                } );
+			}
+        } );
+    } 
 
     // Camera Panning Related
     public void OnRightButton()
