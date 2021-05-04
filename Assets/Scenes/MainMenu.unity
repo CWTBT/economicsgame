@@ -1102,7 +1102,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'GROWTH: 5%'
+  m_text: 'GROWTH: 1.0%'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 0a5b8914eeda5444f831c854b6223c14, type: 2}
   m_sharedMaterial: {fileID: 7770418399608751484, guid: 0a5b8914eeda5444f831c854b6223c14, type: 2}
@@ -1514,7 +1514,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'GROWTH: 5%'
+  m_text: 'GROWTH: 1.0%'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 0a5b8914eeda5444f831c854b6223c14, type: 2}
   m_sharedMaterial: {fileID: 7770418399608751484, guid: 0a5b8914eeda5444f831c854b6223c14, type: 2}
@@ -1700,7 +1700,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'EMISSIONS: 500.00GT'
+  m_text: 'EMISSIONS: 500.00MT'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 0a5b8914eeda5444f831c854b6223c14, type: 2}
   m_sharedMaterial: {fileID: 7770418399608751484, guid: 0a5b8914eeda5444f831c854b6223c14, type: 2}
@@ -2445,7 +2445,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'GROWTH: 5%'
+  m_text: 'GROWTH: 1.0%'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 0a5b8914eeda5444f831c854b6223c14, type: 2}
   m_sharedMaterial: {fileID: 7770418399608751484, guid: 0a5b8914eeda5444f831c854b6223c14, type: 2}
@@ -3268,7 +3268,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'EMISSIONS: 500.00GT'
+  m_text: 'EMISSIONS: 500.00MT'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 0a5b8914eeda5444f831c854b6223c14, type: 2}
   m_sharedMaterial: {fileID: 7770418399608751484, guid: 0a5b8914eeda5444f831c854b6223c14, type: 2}
@@ -3782,6 +3782,18 @@ MonoBehaviour:
           m_StringArgument: credits_hide
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1448442125}
+        m_TargetAssemblyTypeName: UnityEngine.Animator, UnityEngine
+        m_MethodName: Play
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: hide_P1
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &919783711
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3992,7 +4004,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'GROWTH: 5%'
+  m_text: 'GROWTH: 1.0%'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 0a5b8914eeda5444f831c854b6223c14, type: 2}
   m_sharedMaterial: {fileID: 7770418399608751484, guid: 0a5b8914eeda5444f831c854b6223c14, type: 2}
@@ -4868,7 +4880,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'EMISSIONS: 500.00GT'
+  m_text: 'EMISSIONS: 500.00MT'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 0a5b8914eeda5444f831c854b6223c14, type: 2}
   m_sharedMaterial: {fileID: 7770418399608751484, guid: 0a5b8914eeda5444f831c854b6223c14, type: 2}
@@ -5002,7 +5014,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'EMISSIONS: 500.00GT'
+  m_text: 'EMISSIONS: 500.00MT'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 0a5b8914eeda5444f831c854b6223c14, type: 2}
   m_sharedMaterial: {fileID: 7770418399608751484, guid: 0a5b8914eeda5444f831c854b6223c14, type: 2}
