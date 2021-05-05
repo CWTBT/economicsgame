@@ -1795,7 +1795,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 1200, y: -50}
+  m_AnchoredPosition: {x: 1200, y: 50}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!95 &275625611
@@ -8152,6 +8152,7 @@ MonoBehaviour:
   leaderboard: {fileID: 1448442123}
   nextButton: {fileID: 1672002858}
   backButton: {fileID: 919783708}
+  feedbackBoard: {fileID: 275625609}
   creditsText: {fileID: 1709615398}
   creditsButton: {fileID: 335304112}
   tutorial: {fileID: 443752833}

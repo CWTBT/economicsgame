@@ -18,6 +18,11 @@ public class Country
     public int previousE = 1;
     public int previousC = 1;
 
+    public double DeltaEmissions { set; get; }
+    public double DeltaGDP { set; get; }
+    public double LastGDP { set; get; }
+    public double LastEmissions { set; get; }
+
     public Country(string name)
     {
         Name = name;
@@ -29,6 +34,8 @@ public class Country
         PercentageOfTotalEmissions = 0.0f;
         PerfectAgree = true;
         PerfectDisagree = true;
+        DeltaGDP = 0;
+        DeltaEmissions = 0;
     }
 
     public void adjustGDP(double d)
@@ -108,5 +115,11 @@ public class Country
     public void UpdatePercentageOfEmissions(double totalEmissions)
     {
         PercentageOfTotalEmissions = Emissions / totalEmissions;
+    }
+
+    public void UpdateDelta()
+    {
+        DeltaGDP = GDP - LastGDP;
+        DeltaEmissions = Emissions - LastEmissions;
     }
 }

@@ -24,6 +24,7 @@ public class GameManager : MonoBehaviour
     public GameObject leaderboard;
     public GameObject nextButton;
     public GameObject backButton;
+    public GameObject feedbackBoard;
     // Credits Stuff
     public GameObject creditsText;
     public GameObject creditsButton;
@@ -88,7 +89,7 @@ public class GameManager : MonoBehaviour
     {
         if (Input.GetKeyUp(KeyCode.Return))
         {
-            if (currentPhase == Phase.Names ) { submit(); }
+            if (currentPhase == Phase.Names) { submit(); }
         }
     }
 
@@ -101,7 +102,7 @@ public class GameManager : MonoBehaviour
             DontDestroyOnLoad(canvas);
             DontDestroyOnLoad(events);
             DontDestroyOnLoad(BackgroundAmbience);
-            
+
         }
         else
         {
@@ -216,9 +217,9 @@ public class GameManager : MonoBehaviour
 
     public void submit()
     {
-        int current = playerList.Count+1;
-        if(current == 1)
-		{
+        int current = playerList.Count + 1;
+        if (current == 1)
+        {
             string[] names = { "", "", "" };
         }
         string name = nameEntry.GetComponentsInChildren<TextMeshProUGUI>()[1].text;
@@ -253,8 +254,8 @@ public class GameManager : MonoBehaviour
                 nameEntry.GetComponent<TMP_InputField>().ActivateInputField();
             }
         }
-        
-        
+
+
     }
 
     private void clearMenuUI()
@@ -280,7 +281,7 @@ public class GameManager : MonoBehaviour
             TextMeshProUGUI[] nameList = leaderboard.transform.Find("Names").GetComponentsInChildren<TextMeshProUGUI>();
             for (int i = 0; i < playerList.Count; i++)
             {
-                StartCoroutine(TextLerp(playerList[i].HaveAgreed, nameList[i])); 
+                StartCoroutine(TextLerp(playerList[i].HaveAgreed, nameList[i]));
             }
             currentPIndex = 0;
         }
@@ -302,7 +303,7 @@ public class GameManager : MonoBehaviour
 
     //Connects the Cities Phase objects to the GameManager
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
-	{
+    {
         CountryList.Add(GameObject.Find("Country1"));
         CountryList.Add(GameObject.Find("Country2"));
         CountryList.Add(GameObject.Find("Country3"));
@@ -329,7 +330,7 @@ public class GameManager : MonoBehaviour
             nameList[i].text = playerList[i].Name;
         }
     }
-    
+
     // Voting Related
     private void setupVoteUI()
     {
@@ -524,6 +525,8 @@ public class GameManager : MonoBehaviour
 
     private void mapUpdate()
     {
+        TextMeshProUGUI[] feedbackList = feedbackBoard.transform.Find("Feedbacks").GetComponentsInChildren<TextMeshProUGUI>();
+
         for (int i = 0; i < 4; i++)
         {
             int prevL = playerList[i].previousE;
@@ -535,10 +538,12 @@ public class GameManager : MonoBehaviour
             if (currL > prevL)
             {
                 Debug.Log("Oh no! " + playerList[i].Name + " became more polluted!");
+                feedbackList[i].text = "More Polluted";
             }
             if (currL < prevL)
             {
                 Debug.Log("Yay! " + playerList[i].Name + " became less polluted!");
+                feedbackList[i].text = "Less Polluted";
             }
             CountryList[i].transform.Find("Land " + prevL).gameObject.SetActive(false);
             CountryList[i].transform.Find("Land " + currL).gameObject.SetActive(true);
@@ -547,10 +552,12 @@ public class GameManager : MonoBehaviour
             if (currC > prevC)
             {
                 Debug.Log("Yay! " + playerList[i].Name + " grew!");
+                feedbackList[i].text += "\nCountry Grew";
             }
             if (currC < prevC)
             {
                 Debug.Log("Oh No! " + playerList[i].Name + " shrunk!");
+                feedbackList[i].text += "\nCountry Shrunk";
             }
             CountryList[i].transform.Find("City " + prevC).gameObject.SetActive(false);
             CountryList[i].transform.Find("City " + currC).gameObject.SetActive(true);
@@ -588,19 +595,50 @@ public class GameManager : MonoBehaviour
 
     private void updateLeaderboard()
     {
+        //leaderboard
         TextMeshProUGUI[] gdpList = leaderboard.transform.Find("GDPs").GetComponentsInChildren<TextMeshProUGUI>();
         TextMeshProUGUI[] emmList = leaderboard.transform.Find("Emissions").GetComponentsInChildren<TextMeshProUGUI>();
         TextMeshProUGUI[] groList = leaderboard.transform.Find("Growths").GetComponentsInChildren<TextMeshProUGUI>();
+
+        //feedback board
+        TextMeshProUGUI[] dgdpList = feedbackBoard.transform.Find("Delta GDPs").GetComponentsInChildren<TextMeshProUGUI>();
+        TextMeshProUGUI[] demmList = feedbackBoard.transform.Find("Delta Emissions").GetComponentsInChildren<TextMeshProUGUI>();
+        TextMeshProUGUI[] scoreList = feedbackBoard.transform.Find("Scores").GetComponentsInChildren<TextMeshProUGUI>();
+        TextMeshProUGUI[] namesList = feedbackBoard.transform.Find("Names").GetComponentsInChildren<TextMeshProUGUI>();
+
+
         for (int i = 0; i < 4; i++)
         {
+            //leaderboard
             string new_gdp = playerList[i].GDP.ToString("C2");
             string new_emm = playerList[i].Emissions.ToString("F2");
             string new_gro = playerList[i].Growth.ToString("P01");
             gdpList[i].text = "GDP: " + new_gdp;
             emmList[i].text = "C02: " + new_emm + "MT";
             groList[i].text = "GROWTH: " + new_gro;
+
+            //feedback board
+            string new_score = playerList[i].Score.ToString();
+            string new_demm = playerList[i].DeltaEmissions.ToString("F2");
+            string new_name = playerList[i].Name;
+            scoreList[i].text = new_score;
+            demmList[i].text = "Emission Change: " + new_demm + "MT";
+            namesList[i].text = new_name;
+
+            //trouble displaying if delta gdp is negative
+            string new_dgdp = "";
+            if (playerList[i].DeltaGDP < 0)
+            {
+                new_dgdp = "-$" + ((-1) * playerList[i].DeltaGDP).ToString("F2");
+            }
+            else
+            {
+                new_dgdp = playerList[i].DeltaGDP.ToString("C2");
+            }
+            dgdpList[i].text = "GDP Change: " + new_dgdp;
         }
     }
+
 
     private void AdjustCountries()
     {
@@ -613,7 +651,9 @@ public class GameManager : MonoBehaviour
                 if (p.HaveAgreed)
                 {
                     numAgreed++;
+                    p.LastGDP = p.GDP;
                     p.GDP -= treatyCost;
+                    p.LastEmissions = p.Emissions;
                     p.Emissions -= p.Emissions * (1.0f / 5.0f);
                 }
                 else
@@ -625,6 +665,7 @@ public class GameManager : MonoBehaviour
         });
         double growthIncrease = 9 - (totalEmissions * 0.002f);
         playerList.ForEach(p => p.ActivateGDPGrowth());
+        playerList.ForEach(p => p.UpdateDelta());
         //playerList.ForEach(p => p.Growth += (growthIncrease / 100f));
         playerList.ForEach(p => p.Growth = (growthIncrease / 100f) + p.GrowthMod);
         playerList.ForEach(player =>
