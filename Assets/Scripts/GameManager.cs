@@ -128,7 +128,7 @@ public class GameManager : MonoBehaviour
         tutorialCount = 0;
         tutorialBackground.SetActive(true);
         leaderboard.GetComponent<Animator>().Play("show_P1");
-        backButton.SetActive(true);
+        //backButton.SetActive(true);
         backButton.GetComponent<Animator>().Play("back_show");
         tutorialImage1.SetActive(true);
     }
@@ -229,6 +229,7 @@ public class GameManager : MonoBehaviour
             playerList.Add(newPlayer);
             if (playerList.Count == 4 || botMode)
             {
+                treatyCost = Random.Range(1000, 1500);
                 ClickButton();
                 clearMenuUI();
                 initializeNames();
