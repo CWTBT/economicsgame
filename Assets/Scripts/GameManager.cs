@@ -401,11 +401,11 @@ public class GameManager : MonoBehaviour
                     havePunished = true;
                     startCitiesPhase();
                 }
-            }
-            else prompt.text = acceptList[currentPIndex].Name
+                else prompt.text = acceptList[currentPIndex].Name
                 + " would you like to punish everyone who declined?\nCost = $"
                 + (declineList.Count * 3000)
                 + " | Effect: Each decliner loses 0.05% growth rate";
+            }
         }
         else {
             if (playerList[currentPIndex].GDP > treatyCost)
