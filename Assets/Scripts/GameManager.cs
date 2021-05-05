@@ -74,6 +74,7 @@ public class GameManager : MonoBehaviour
     private bool havePunished = false;
     public TextMeshProUGUI finalGDP;
     public TextMeshProUGUI finalCO2;
+    public TextMeshProUGUI finalScore;
 
     // Start is called before the first frame update
     void Start()
@@ -486,6 +487,7 @@ public class GameManager : MonoBehaviour
         prompt.text = playerList[currentPIndex].Name + "'s Achievements:";
         finalGDP.text = "GDP: " + playerList[currentPIndex].GDP.ToString("C2");
         finalCO2.text = "C02: " + playerList[currentPIndex].Emissions.ToString("F2") + "MT";
+        finalScore.text = "Score: " + playerList[currentPIndex].Score.ToString();
         description.text = PrintAccolades(0);
         leaderboard.GetComponent<Animator>().Play("hide_leader");
         description.GetComponent<Animator>().Play("show_desc");
@@ -686,6 +688,7 @@ public class GameManager : MonoBehaviour
             prompt.text = playerList[currentPIndex].Name + "'s Achievements:";
             finalGDP.text = "GDP: " + playerList[currentPIndex].GDP.ToString("C2");
             finalCO2.text = "C02: " + playerList[currentPIndex].Emissions.ToString("F2") + "MT";
+            finalScore.text = "Score: " + playerList[currentPIndex].Score.ToString();
             string newStr = PrintAccolades(currentPIndex);
             description.text = newStr;
         }
