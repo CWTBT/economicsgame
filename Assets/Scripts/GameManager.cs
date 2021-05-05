@@ -73,6 +73,9 @@ public class GameManager : MonoBehaviour
     List<Country> declineList = new List<Country>();
     List<Country> acceptList = new List<Country>();
     private bool havePunished = false;
+    public TextMeshProUGUI finalGDP;
+    public TextMeshProUGUI finalCO2;
+    public TextMeshProUGUI finalScore;
 
     // Start is called before the first frame update
     void Start()
@@ -124,7 +127,7 @@ public class GameManager : MonoBehaviour
     public void TutorialStart()
     {
         tutorialTextBox.SetActive(true);
-        tutorialText.text = "there are two numbers you need to consider in this game: GDP and Emissions. \n \n your GDP number is a measure of the total economic productivity in your country in dollars. \n \n your Emissions number tracks how much your country pollutes in gigatons of carbon.";
+        tutorialText.text = "There are two numbers you need to consider in this game: GDP and Emissions. \n \n Your GDP is a measure of the total economic productivity in your country in USD.\n\nC02 tracks how much your country's emissions in megatons of carbon.";
         tutorialNextButton.SetActive(true);
         tutorialCount = 0;
         tutorialBackground.SetActive(true);
@@ -147,7 +150,9 @@ public class GameManager : MonoBehaviour
         }
         else if (tutorialCount == 2)
         {
-            tutorialText.text = "Your GDP will grow faster if you emit more carbon, but the environment will be affected, such as rising sea levels \n \n Watch out! Harming the envrionment will have repercussions in the long run";
+            tutorialText.text = "Each turn, you will be presented with the opportunity to join a climate treaty." +
+                "These treaties have some up-front costs, but a healthy environment will help your growth in the long run.\n\n" +
+                "In dire situations, you may get ahead by skimping out on your treaties. But beware the damage that this can do.";
             //point to emissions on panel
             tutorialImage2.SetActive(false);
             tutorialImage3.SetActive(true);
@@ -155,7 +160,7 @@ public class GameManager : MonoBehaviour
         else if (tutorialCount == 3)
         {
             leaderboard.GetComponent<Animator>().Play("hide_P1");
-            tutorialText.text = "Consider the treaty each turn carefully to balance your GDP growth and environmental impact \n \n Remember, other countries' decisions will have an impact on you";
+            tutorialText.text = "Consider the treaty each turn carefully to balance your GDP growth and environmental impact \n \n Remember, your decisions will have an impact on others.";
             tutorialImage3.SetActive(false);
             tutorialImage4.SetActive(true);
             backButton.SetActive(true);
@@ -390,23 +395,24 @@ public class GameManager : MonoBehaviour
     {
         if (currentPhase == Phase.Punishment)
         {
-            if (playerList[currentPIndex].GDP > declineList.Count * 3000)
+            if (playerList[currentPIndex].GDP > declineList.Count * 1000)
             {
                 enactPunishments();
                 currentPIndex += 1;
                 if (currentPIndex == acceptList.Count)
                 {
+                    AdjustCountries();
                     updateLeaderboard();
                     clearVoteUI();
                     mapUpdate();
                     havePunished = true;
                     startCitiesPhase();
                 }
-            }
-            else prompt.text = acceptList[currentPIndex].Name
+                else prompt.text = acceptList[currentPIndex].Name
                 + " would you like to punish everyone who declined?\nCost = $"
-                + (declineList.Count * 3000)
+                + (declineList.Count * 1000)
                 + " | Effect: Each decliner loses 0.05% growth rate";
+            }
         }
         else {
             if (playerList[currentPIndex].GDP > treatyCost)
@@ -441,7 +447,7 @@ public class GameManager : MonoBehaviour
             }
             else prompt.text = acceptList[currentPIndex].Name
                 + " would you like to punish everyone who declined?\nCost = $"
-                + (declineList.Count * 3000)
+                + (declineList.Count * 1000)
                 + " | Effect: Each decliner loses 0.05% growth rate";
         }
         else {
@@ -460,7 +466,7 @@ public class GameManager : MonoBehaviour
 
     private void enactPunishments()
     {
-        acceptList[currentPIndex].GDP -= declineList.Count * 3000;
+        acceptList[currentPIndex].GDP -= declineList.Count * 1000;
 
         declineList.ForEach(p => {
             p.GrowthMod -= 0.005;
@@ -480,6 +486,9 @@ public class GameManager : MonoBehaviour
         evaluation = eval.evaluate();
         StartCoroutine(ColorLerp(new Color(0, 0, 0, 0.5f), 0.75f));
         prompt.text = playerList[currentPIndex].Name + "'s Achievements:";
+        finalGDP.text = "GDP: " + playerList[currentPIndex].GDP.ToString("C2");
+        finalCO2.text = "C02: " + playerList[currentPIndex].Emissions.ToString("F2") + "MT";
+        finalScore.text = "Score: " + playerList[currentPIndex].Score.ToString();
         description.text = PrintAccolades(0);
         leaderboard.GetComponent<Animator>().Play("hide_leader");
         description.GetComponent<Animator>().Play("show_desc");
@@ -636,7 +645,7 @@ public class GameManager : MonoBehaviour
             }
             totalEmissions += p.Emissions;
         });
-        double growthIncrease = 5 - (totalEmissions * 0.002f);
+        double growthIncrease = 9 - (totalEmissions * 0.002f);
         playerList.ForEach(p => p.ActivateGDPGrowth());
         playerList.ForEach(p => p.UpdateDelta());
         //playerList.ForEach(p => p.Growth += (growthIncrease / 100f));
@@ -670,7 +679,7 @@ public class GameManager : MonoBehaviour
         currentPhase = Phase.Punishment;
         currentPIndex = 0;
         setupVoteUI();
-        prompt.text = acceptList[0].Name + " would you like to punish everyone who declined?\nCost = $" + (declineList.Count*3000) + " | Effect: Each decliner loses 0.05% growth rate";
+        prompt.text = acceptList[0].Name + " would you like to punish everyone who declined?\nCost = $" + (declineList.Count*1000) + " | Effect: Each decliner loses 0.05% growth rate";
         //Debug.Log("Cost = $" + (declineList.Count*3000) + "GDP | Punishment: -"+ (0.05) +" Growth per country that declined");
         //declineList.ForEach(q =>
         //{
@@ -718,6 +727,9 @@ public class GameManager : MonoBehaviour
         {
             currentPIndex++;
             prompt.text = playerList[currentPIndex].Name + "'s Achievements:";
+            finalGDP.text = "GDP: " + playerList[currentPIndex].GDP.ToString("C2");
+            finalCO2.text = "C02: " + playerList[currentPIndex].Emissions.ToString("F2") + "MT";
+            finalScore.text = "Score: " + playerList[currentPIndex].Score.ToString();
             string newStr = PrintAccolades(currentPIndex);
             description.text = newStr;
         }

@@ -27,7 +27,7 @@ public class Country
     {
         Name = name;
         GDP = 25000;
-        Growth = 0.01f;
+        Growth = 0.05f;
         GrowthMod = 0f;
         Emissions = 500f;
         HaveAgreed = false;
@@ -108,7 +108,7 @@ public class Country
 
     public void ActivateGDPGrowth()
     {
-        double growth = (Growth - GrowthMod) * GDP;
+        double growth = (Growth + GrowthMod) * GDP;
         adjustGDP(growth);
     }
 
