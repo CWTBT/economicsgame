@@ -537,27 +537,65 @@ public class GameManager : MonoBehaviour
             //Environment Related
             if (currL > prevL)
             {
-                Debug.Log("Oh no! " + playerList[i].Name + " became more polluted!");
-                feedbackList[i].text = "More Polluted";
-            }
-            if (currL < prevL)
+                //Debug.Log("Oh no! " + playerList[i].Name + " became more polluted!");
+                if (currL == 2)
+                {
+                    feedbackList[i].text = "Environment is being harmed";
+                } else if (currL == 3)
+                {
+                    feedbackList[i].text = "Environment is being ravaged";
+                }
+            } 
+            else if (currL < prevL)
             {
-                Debug.Log("Yay! " + playerList[i].Name + " became less polluted!");
-                feedbackList[i].text = "Less Polluted";
+                //Debug.Log("Yay! " + playerList[i].Name + " became less polluted!");
+                if (currL == 1)
+                {
+                    feedbackList[i].text = "Restored the environment";
+                } else if (currL == 2)
+                {
+                    feedbackList[i].text = "Helped the environment somwhat";
+                }
+            } else
+            {
+                feedbackList[i].text = "Pollution remains roughly the same";
             }
+
             CountryList[i].transform.Find("Land " + prevL).gameObject.SetActive(false);
             CountryList[i].transform.Find("Land " + currL).gameObject.SetActive(true);
 
             //City Related
             if (currC > prevC)
             {
-                Debug.Log("Yay! " + playerList[i].Name + " grew!");
-                feedbackList[i].text += "\nCountry Grew";
+                //Debug.Log("Yay! " + playerList[i].Name + " grew!");
+                
+                if (currC == 2)
+                {
+                    feedbackList[i].text += "\nThis country is getting richer";
+                } else if (currC == 3)
+                {
+                    feedbackList[i].text += "\nThis country is prosperous";
+                } else if (currC == 4)
+                {
+                    feedbackList[i].text += "\nThe economy is one of the biggest!";
+                }
             }
-            if (currC < prevC)
+            else if (currC < prevC)
             {
-                Debug.Log("Oh No! " + playerList[i].Name + " shrunk!");
-                feedbackList[i].text += "\nCountry Shrunk";
+                //Debug.Log("Oh No! " + playerList[i].Name + " shrunk!");
+                if (currC == 1)
+                {
+                    feedbackList[i].text += "\nThis country is destitute.";
+                } else if (currC == 2)
+                {
+                    feedbackList[i].text += "\nThis country is getting poorer...";
+                } else if (currC == 3)
+                {
+                    feedbackList[i].text += "\nThe economy has seen better days...";
+                }
+            }else
+            {
+                feedbackList[i].text += "\nThe economy is about the same size";
             }
             CountryList[i].transform.Find("City " + prevC).gameObject.SetActive(false);
             CountryList[i].transform.Find("City " + currC).gameObject.SetActive(true);
@@ -659,6 +697,7 @@ public class GameManager : MonoBehaviour
                 else
                 {
                     p.Emissions *= (5.0f / 4.0f);
+                    p.LastGDP = p.GDP;
                 }
             }
             totalEmissions += p.Emissions;
@@ -673,7 +712,7 @@ public class GameManager : MonoBehaviour
             player.adjustCity(cityUpgrade1, cityUpgrade2, cityUpgrade3);
             player.adjustEnvironment(pollutionUpgrade1, pollutionUpgrade2);
             player.adjustScore(eMulti);
-            Debug.Log(player.Name + "'s score is: " + (int)player.Score);
+            //Debug.Log(player.Name + "'s score is: " + (int)player.Score);
         } );
     }
 
