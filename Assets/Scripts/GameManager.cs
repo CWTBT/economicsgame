@@ -13,7 +13,9 @@ public class GameManager : MonoBehaviour
     public GameObject canvas;
     //private GameObject resetCanvas;
     public GameObject events;
-    public AudioClip buttonClick;
+    public AudioSource buttonClick;
+    public AudioSource acceptTreay;
+    public AudioSource denyTreaty;
     public AudioSource BackgroundAmbience;
     public TextMeshProUGUI title;
     public GameObject startButton;
