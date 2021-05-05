@@ -75,6 +75,7 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI finalGDP;
     public TextMeshProUGUI finalCO2;
     public TextMeshProUGUI finalScore;
+    public GameObject roundCount;
 
     // Start is called before the first frame update
     void Start()
@@ -120,6 +121,8 @@ public class GameManager : MonoBehaviour
         submitButton.SetActive(true);
         backButton.SetActive(true);
         currentPhase = Phase.Names;
+        roundCount.GetComponentInChildren<TextMeshProUGUI>().text = "ROUND 1 OF " + maxTurns;
+        
     }
 
     // Tutorial
@@ -287,6 +290,11 @@ public class GameManager : MonoBehaviour
         currentPhase = Phase.Cities;
         nextButton.GetComponent<Animator>().Play("show_next");
         leaderboard.GetComponent<Animator>().Play("show_leader");
+        if (completedVotes < maxTurns - 1)
+        {
+            roundCount.GetComponentInChildren<TextMeshProUGUI>().text = "ROUND " + (completedVotes + 1) + " OF " + maxTurns;
+            roundCount.GetComponent<Animator>().Play("show_round");
+        }
         currentCountry.GetComponentInChildren<TextMeshProUGUI>().text = playerList[currentPIndex].Name + "\nScore: " + playerList[currentPIndex].Score;
         currentCountry.GetComponent<Animator>().Play("show_current");
         SceneManager.sceneLoaded += OnSceneLoaded;
@@ -335,6 +343,7 @@ public class GameManager : MonoBehaviour
         prompt.GetComponent<Animator>().Play("show_prompt");
         leaderboard.GetComponent<Animator>().Play("hide_leader");
         currentCountry.GetComponent<Animator>().Play("hide_current");
+        roundCount.GetComponent<Animator>().Play("hide_round");
         //StartCoroutine(RemoveAfterSeconds(2, nextButton));
         nextCountryButton.SetActive(false);
         lastCountryButton.SetActive(false);
@@ -346,11 +355,19 @@ public class GameManager : MonoBehaviour
         if (currentPhase == Phase.Cities)
         {
             if (completedVotes == maxTurns) startResultsPhase();
-            else if (completedVotes > 1 && !havePunished && acceptList.Count > 0 && declineList.Count > 0)
+            else if
+            (completedVotes > 1
+            && !havePunished
+            && acceptList.Count > 0
+            && declineList.Count > 0
+            && completedVotes < maxTurns - 1)
             {
-                 startPunishmentPhase();
+                startPunishmentPhase();
             }
-            else startVotePhase();
+            else
+            {
+                startVotePhase();
+            }
         }
         else if (currentPhase == Phase.Results) NextResult();
     }
@@ -408,7 +425,7 @@ public class GameManager : MonoBehaviour
                     startCitiesPhase();
                 }
                 else prompt.text = acceptList[currentPIndex].Name
-                + " would you like to punish everyone who declined?\nCost = $"
+                + " would you like to impose tariffs on everyone who declined?\nCost = $"
                 + (declineList.Count * 1000)
                 + " | Effect: Each decliner loses 0.05% growth rate";
             }
@@ -490,6 +507,7 @@ public class GameManager : MonoBehaviour
         finalScore.text = "Score: " + playerList[currentPIndex].Score.ToString();
         description.text = PrintAccolades(0);
         leaderboard.GetComponent<Animator>().Play("hide_leader");
+        roundCount.GetComponent<Animator>().Play("hide_round");
         description.GetComponent<Animator>().Play("show_desc");
         prompt.GetComponent<Animator>().Play("show_prompt");
     }
