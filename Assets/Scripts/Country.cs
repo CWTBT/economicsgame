@@ -101,7 +101,7 @@ public class Country
 
     public void ActivateGDPGrowth()
     {
-        double growth = (Growth - GrowthMod) * GDP;
+        double growth = (Growth + GrowthMod) * GDP;
         adjustGDP(growth);
     }
 

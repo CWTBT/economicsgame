@@ -395,6 +395,7 @@ public class GameManager : MonoBehaviour
                 currentPIndex += 1;
                 if (currentPIndex == acceptList.Count)
                 {
+                    AdjustCountries();
                     updateLeaderboard();
                     clearVoteUI();
                     mapUpdate();
