@@ -803,9 +803,7 @@ public class GameManager : MonoBehaviour
     // Sounds
     public void ClickButton()
     {
-        AudioSource audio = gameObject.GetComponent<AudioSource>();
-
-        audio.PlayOneShot(buttonClick);
+        // audio = gameObject.GetComponent<AudioSource>();
     }
 
     // End
