@@ -707,6 +707,7 @@ public class GameManager : MonoBehaviour
                 {
                     p.Emissions *= (5.0f / 4.0f);
                     p.LastGDP = p.GDP;
+                    p.LastEmissions = p.Emissions;
                 }
             }
             totalEmissions += p.Emissions;
