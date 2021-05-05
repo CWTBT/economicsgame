@@ -291,6 +291,10 @@ public class GameManager : MonoBehaviour
         currentPhase = Phase.Cities;
         nextButton.GetComponent<Animator>().Play("show_next");
         leaderboard.GetComponent<Animator>().Play("show_leader");
+        if(completedVotes > 0)
+		{
+            feedbackBoard.GetComponent<Animator>().Play("feedback_show");
+		}
         if (completedVotes < maxTurns - 1)
         {
             roundCount.GetComponentInChildren<TextMeshProUGUI>().text = "ROUND " + (completedVotes + 1) + " OF " + maxTurns;
@@ -345,6 +349,10 @@ public class GameManager : MonoBehaviour
         leaderboard.GetComponent<Animator>().Play("hide_leader");
         currentCountry.GetComponent<Animator>().Play("hide_current");
         roundCount.GetComponent<Animator>().Play("hide_round");
+        if (completedVotes > 0)
+        {
+            feedbackBoard.GetComponent<Animator>().Play("feedback_hide");
+        }
         //StartCoroutine(RemoveAfterSeconds(2, nextButton));
         nextCountryButton.SetActive(false);
         lastCountryButton.SetActive(false);
@@ -492,6 +500,7 @@ public class GameManager : MonoBehaviour
 
     private void startResultsPhase()
     {
+        feedbackBoard.GetComponent<Animator>().Play("feedback_hide");
         mainCamera.GetComponent<CameraPanning>().CurrentCity = 3;
         mainCamera.GetComponent<CameraPanning>().OnRightButtonPress();
         currentCountry.GetComponent<Animator>().Play("hide_current");
