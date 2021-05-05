@@ -130,7 +130,7 @@ public class GameManager : MonoBehaviour
     public void TutorialStart()
     {
         tutorialTextBox.SetActive(true);
-        tutorialText.text = "There are two numbers you need to consider in this game: GDP and Emissions. \n \n Your GDP is a measure of the total economic productivity in your country in USD.\n\nC02 tracks how much your country's emissions in megatons of carbon.";
+        tutorialText.text = "There are two main numbers you need to consider in this game: GDP and Emissions. \n \n Your GDP is a measure of the total economic productivity in your country in USD.\n\nC02 tracks how much your country's emissions in megatons of carbon.";
         tutorialNextButton.SetActive(true);
         tutorialCount = 0;
         tutorialBackground.SetActive(true);
