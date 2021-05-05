@@ -130,7 +130,8 @@ public class GameManager : MonoBehaviour
     public void TutorialStart()
     {
         tutorialTextBox.SetActive(true);
-        tutorialText.text = "There are two main numbers you need to consider in this game: GDP and Emissions. \n \n Your GDP is a measure of the total economic productivity in your country in USD.\n\nC02 tracks how much your country's emissions in megatons of carbon.";
+        tutorialText.text = "In this game, you represent your country at international climate accords. \n \n" +
+            "There are two main numbers you need to consider in this game: GDP and Emissions.";
         tutorialNextButton.SetActive(true);
         tutorialCount = 0;
         tutorialBackground.SetActive(true);
@@ -146,14 +147,16 @@ public class GameManager : MonoBehaviour
 
         if (tutorialCount == 1)
         {
-            tutorialText.text = "As your GDP grows, your country will expand";
+            tutorialText.text = "Your GDP is a measure of the total economic productivity in your country in USD.\n \n" +
+                "As your GDP grows, your country will expand";
             //point to GDP on panel
             tutorialImage1.SetActive(false);
             tutorialImage2.SetActive(true);
         }
         else if (tutorialCount == 2)
         {
-            tutorialText.text = "Each turn, you will be presented with the opportunity to join a climate treaty." +
+            tutorialText.text = "C02 tracks how much your country's emissions in megatons of carbon. \n \n" +
+                "Each turn, you will be presented with the opportunity to join a climate treaty.\n" +
                 "These treaties have some up-front costs, but a healthy environment will help your growth in the long run.\n\n" +
                 "In dire situations, you may get ahead by skimping out on your treaties. But beware the damage that this can do.";
             //point to emissions on panel
@@ -163,7 +166,9 @@ public class GameManager : MonoBehaviour
         else if (tutorialCount == 3)
         {
             leaderboard.GetComponent<Animator>().Play("hide_P1");
-            tutorialText.text = "Consider the treaty each turn carefully to balance your GDP growth and environmental impact \n \n Remember, your decisions will have an impact on others.";
+            tutorialText.text = "Consider the treaty each turn carefully to balance your GDP growth and environmental impact \n \n " +
+                "Remember, your decisions will have an impact on others. \n \n" +
+                "Later in the game, you may find that some players are ignoring their impact on the environment, so you can choose to impose tariffs on the offending country.";
             tutorialImage3.SetActive(false);
             tutorialImage4.SetActive(true);
             backButton.SetActive(true);
