@@ -389,28 +389,34 @@ public class GameManager : MonoBehaviour
     {
         if (currentPhase == Phase.Punishment)
         {
-            enactPunishments();
-            currentPIndex += 1;
-            if (currentPIndex == acceptList.Count)
+            if (playerList[currentPIndex].GDP > declineList.Count * 3000)
             {
-                updateLeaderboard();
-                clearVoteUI();
-                mapUpdate();
-                havePunished = true;
-                startCitiesPhase();
+                enactPunishments();
+                currentPIndex += 1;
+                if (currentPIndex == acceptList.Count)
+                {
+                    updateLeaderboard();
+                    clearVoteUI();
+                    mapUpdate();
+                    havePunished = true;
+                    startCitiesPhase();
+                }
             }
         }
         else {
-            currentVote.AcceptVotes += 1;
-            acceptList.Add(playerList[currentPIndex]);
-            playerList[currentPIndex].Agree();
-            currentPIndex = currentVote.sumVotes();
-            if (currentVote.sumVotes() < 4)
+            if (playerList[currentPIndex].GDP > treatyCost)
             {
-                leaderboard.GetComponent<Animator>().Play("show_P" + (currentPIndex + 1));
+                currentVote.AcceptVotes += 1;
+                acceptList.Add(playerList[currentPIndex]);
+                playerList[currentPIndex].Agree();
+                currentPIndex = currentVote.sumVotes();
+                if (currentVote.sumVotes() < 4)
+                {
+                    leaderboard.GetComponent<Animator>().Play("show_P" + (currentPIndex + 1));
+                }
+                if (botMode && currentPIndex == 1) BotVote();
+                if (currentVote.sumVotes() == 4) enactVotes();
             }
-            if (botMode && currentPIndex == 1) BotVote();
-            if (currentVote.sumVotes() == 4) enactVotes();
         }
     }
 
