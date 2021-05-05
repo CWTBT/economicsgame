@@ -6,6 +6,7 @@ public class Country
     public string Name { get; }
     public double GDP { set; get; }
     public double Growth { set; get; }
+    public double GrowthMod { set; get; }
     public double Emissions { set; get; }
     public bool HaveAgreed { get; set; }
     public double PercentageOfTotalEmissions { get; set; }
@@ -22,6 +23,7 @@ public class Country
         Name = name;
         GDP = 25000;
         Growth = 0.01f;
+        GrowthMod = 0f;
         Emissions = 500f;
         HaveAgreed = false;
         PercentageOfTotalEmissions = 0.0f;
@@ -99,7 +101,7 @@ public class Country
 
     public void ActivateGDPGrowth()
     {
-        double growth = Growth * GDP;
+        double growth = (Growth - GrowthMod) * GDP;
         adjustGDP(growth);
     }
 
