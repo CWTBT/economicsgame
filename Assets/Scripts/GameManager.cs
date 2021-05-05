@@ -72,8 +72,8 @@ public class GameManager : MonoBehaviour
     List<Country> declineList = new List<Country>();
     List<Country> acceptList = new List<Country>();
     private bool havePunished = false;
-    public GameObject finalGDP;
-    public GameObject finalCO2;
+    public TextMeshProUGUI finalGDP;
+    public TextMeshProUGUI finalCO2;
 
     // Start is called before the first frame update
     void Start()
@@ -482,6 +482,8 @@ public class GameManager : MonoBehaviour
         evaluation = eval.evaluate();
         StartCoroutine(ColorLerp(new Color(0, 0, 0, 0.5f), 0.75f));
         prompt.text = playerList[currentPIndex].Name + "'s Achievements:";
+        finalGDP.text = "GDP: " + playerList[currentPIndex].GDP.ToString("C2");
+        finalCO2.text = "C02: " + playerList[currentPIndex].Emissions.ToString("F2") + "MT";
         description.text = PrintAccolades(0);
         leaderboard.GetComponent<Animator>().Play("hide_leader");
         description.GetComponent<Animator>().Play("show_desc");
@@ -680,6 +682,8 @@ public class GameManager : MonoBehaviour
         {
             currentPIndex++;
             prompt.text = playerList[currentPIndex].Name + "'s Achievements:";
+            finalGDP.text = "GDP: " + playerList[currentPIndex].GDP.ToString("C2");
+            finalCO2.text = "C02: " + playerList[currentPIndex].Emissions.ToString("F2") + "MT";
             string newStr = PrintAccolades(currentPIndex);
             description.text = newStr;
         }
