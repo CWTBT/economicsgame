@@ -534,12 +534,12 @@ public class GameManager : MonoBehaviour
             if (currC > prevC)
             {
                 Debug.Log("Yay! " + playerList[i].Name + " grew!");
-                feedbackList[i].text += "\n Country Grew";
+                feedbackList[i].text += "\nCountry Grew";
             }
             if (currC < prevC)
             {
                 Debug.Log("Oh No! " + playerList[i].Name + " shrunk!");
-                feedbackList[i].text += "\n Country Shrunk";
+                feedbackList[i].text += "\nCountry Shrunk";
             }
             CountryList[i].transform.Find("City " + prevC).gameObject.SetActive(false);
             CountryList[i].transform.Find("City " + currC).gameObject.SetActive(true);
