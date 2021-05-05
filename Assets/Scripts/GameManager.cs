@@ -72,6 +72,8 @@ public class GameManager : MonoBehaviour
     List<Country> declineList = new List<Country>();
     List<Country> acceptList = new List<Country>();
     private bool havePunished = false;
+    public GameObject finalGDP;
+    public GameObject finalCO2;
 
     // Start is called before the first frame update
     void Start()
