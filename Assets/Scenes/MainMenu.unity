@@ -7618,6 +7618,7 @@ MonoBehaviour:
   leaderboard: {fileID: 1448442123}
   nextButton: {fileID: 1672002858}
   backButton: {fileID: 919783708}
+  feedbackBoard: {fileID: 275625609}
   creditsText: {fileID: 1709615398}
   creditsButton: {fileID: 335304112}
   tutorial: {fileID: 443752833}
@@ -12291,29 +12292,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6a2a1e4068b249a3a23196d7253e9ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cities:
-  - {fileID: 0}
-  - {fileID: 829059166}
-  - {fileID: 0}
-  - {fileID: 1755899446}
-  lands:
-  - {fileID: 829059166}
-  - {fileID: 0}
-  - {fileID: 2063513124}
-  duration: 5
-  cityBool: 1
-  fadeTargetColor:
-    r: 0
-    g: 0
-    b: 0
-    a: 0
-  spriteToFade: {fileID: 0}
-  enterTargetColor:
-    r: 0
-    g: 0
-    b: 0
-    a: 0
-  spritetoEnter: {fileID: 0}
 --- !u!1 &1945509413
 GameObject:
   m_ObjectHideFlags: 0
