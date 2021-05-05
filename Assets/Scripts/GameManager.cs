@@ -69,6 +69,9 @@ public class GameManager : MonoBehaviour
     public int punishmentCost;
     private Evaluator eval;
     private List<List<Accolades>> evaluation;
+    List<Country> declineList = new List<Country>();
+    List<Country> acceptList = new List<Country>();
+    private bool havePunished = false;
 
     // Start is called before the first frame update
     void Start()
@@ -338,6 +341,10 @@ public class GameManager : MonoBehaviour
         if (currentPhase == Phase.Cities)
         {
             if (completedVotes == maxTurns) startResultsPhase();
+            else if (completedVotes > 1 && !havePunished && acceptList.Count > 0 && declineList.Count > 0)
+            {
+                 startPunishmentPhase();
+            }
             else startVotePhase();
         }
         else if (currentPhase == Phase.Results) NextResult();
@@ -349,9 +356,12 @@ public class GameManager : MonoBehaviour
         prompt.text = GetPromptText();
         setupVoteUI();
         currentPIndex = 0;
+        havePunished = false;
         leaderboard.GetComponent<Animator>().Play("show_P" + (currentPIndex + 1));
         currentVote = new VoteManager();
         currentVote.clearVotes();
+        acceptList.Clear();
+        declineList.Clear();
     }
 
     private string GetPromptText()
@@ -377,28 +387,83 @@ public class GameManager : MonoBehaviour
 
     public void agree()
     {
-        currentVote.AcceptVotes += 1;
-        playerList[currentPIndex].Agree();
-        currentPIndex = currentVote.sumVotes();
-        if (currentVote.sumVotes() < 4)
+        if (currentPhase == Phase.Punishment)
         {
-            leaderboard.GetComponent<Animator>().Play("show_P" + (currentPIndex + 1));
+            if (playerList[currentPIndex].GDP > declineList.Count * 3000)
+            {
+                enactPunishments();
+                currentPIndex += 1;
+                if (currentPIndex == acceptList.Count)
+                {
+                    updateLeaderboard();
+                    clearVoteUI();
+                    mapUpdate();
+                    havePunished = true;
+                    startCitiesPhase();
+                }
+            }
+            else prompt.text = acceptList[currentPIndex].Name
+                + " would you like to punish everyone who declined?\nCost = $"
+                + (declineList.Count * 3000)
+                + " | Effect: Each decliner loses 0.05% growth rate";
         }
-        if (botMode && currentPIndex == 1) BotVote();
-        if (currentVote.sumVotes() == 4) enactVotes();
+        else {
+            if (playerList[currentPIndex].GDP > treatyCost)
+            {
+                currentVote.AcceptVotes += 1;
+                acceptList.Add(playerList[currentPIndex]);
+                playerList[currentPIndex].Agree();
+                currentPIndex = currentVote.sumVotes();
+                if (currentVote.sumVotes() < 4)
+                {
+                    leaderboard.GetComponent<Animator>().Play("show_P" + (currentPIndex + 1));
+                }
+                if (botMode && currentPIndex == 1) BotVote();
+                if (currentVote.sumVotes() == 4) enactVotes();
+            }
+        }
     }
 
     public void decline()
     {
-        currentVote.DeclineVotes += 1;
-        playerList[currentPIndex].Decline();
-        currentPIndex = currentVote.sumVotes();
-        if (currentVote.sumVotes() < 4)
+        if (currentPhase == Phase.Punishment)
         {
-            leaderboard.GetComponent<Animator>().Play("show_P" + (currentPIndex + 1));
+            currentPIndex += 1;
+            if (currentPIndex == acceptList.Count)
+            {
+                AdjustCountries();
+                updateLeaderboard();
+                clearVoteUI();
+                mapUpdate();
+                havePunished = true;
+                startCitiesPhase();
+            }
+            else prompt.text = acceptList[currentPIndex].Name
+                + " would you like to punish everyone who declined?\nCost = $"
+                + (declineList.Count * 3000)
+                + " | Effect: Each decliner loses 0.05% growth rate";
         }
-        if (botMode && currentPIndex == 1) BotVote();
-        if (currentVote.sumVotes() == 4) enactVotes();
+        else {
+            currentVote.DeclineVotes += 1;
+            declineList.Add(playerList[currentPIndex]);
+            playerList[currentPIndex].Decline();
+            currentPIndex = currentVote.sumVotes();
+            if (currentVote.sumVotes() < 4)
+            {
+                leaderboard.GetComponent<Animator>().Play("show_P" + (currentPIndex + 1));
+            }
+            if (botMode && currentPIndex == 1) BotVote();
+            if (currentVote.sumVotes() == 4) enactVotes();
+        }
+    }
+
+    private void enactPunishments()
+    {
+        acceptList[currentPIndex].GDP -= declineList.Count * 3000;
+
+        declineList.ForEach(p => {
+            p.GrowthMod -= 0.005;
+        });
     }
 
     private void startResultsPhase()
@@ -426,26 +491,31 @@ public class GameManager : MonoBehaviour
         AdjustCountries();
         updateLeaderboard();
         clearVoteUI();
-        //Updates the map
+        mapUpdate();
+        startCitiesPhase();
+    }
+
+    private void mapUpdate()
+    {
         for (int i = 0; i < 4; i++)
         {
             int prevL = playerList[i].previousE;
             int currL = playerList[i].environment;
             int prevC = playerList[i].previousC;
             int currC = playerList[i].city;
-            
+
             //Environment Related
-            if(currL > prevL)
-			{
+            if (currL > prevL)
+            {
                 Debug.Log("Oh no! " + playerList[i].Name + " became more polluted!");
-			}
-            if(currL < prevL)
-			{
+            }
+            if (currL < prevL)
+            {
                 Debug.Log("Yay! " + playerList[i].Name + " became less polluted!");
             }
             CountryList[i].transform.Find("Land " + prevL).gameObject.SetActive(false);
             CountryList[i].transform.Find("Land " + currL).gameObject.SetActive(true);
-            
+
             //City Related
             if (currC > prevC)
             {
@@ -460,7 +530,6 @@ public class GameManager : MonoBehaviour
 
             renderSmokes(i);
         }
-        startCitiesPhase();
     }
 
     private void renderSmokes(int index)
@@ -512,22 +581,25 @@ public class GameManager : MonoBehaviour
         double totalEmissions = 0f;
         playerList.ForEach(p => 
         { 
-            if (p.HaveAgreed) 
+            if (currentPhase == Phase.Votes)
             {
-                numAgreed++;
-                p.GDP -= treatyCost;
-                p.Emissions -= p.Emissions * (1.0f / 5.0f);
-            }
-            else
-            {
-                p.Emissions *= (5.0f / 4.0f);
+                if (p.HaveAgreed)
+                {
+                    numAgreed++;
+                    p.GDP -= treatyCost;
+                    p.Emissions -= p.Emissions * (1.0f / 5.0f);
+                }
+                else
+                {
+                    p.Emissions *= (5.0f / 4.0f);
+                }
             }
             totalEmissions += p.Emissions;
         });
         double growthIncrease = 5 - (totalEmissions * 0.002f);
         playerList.ForEach(p => p.ActivateGDPGrowth());
         //playerList.ForEach(p => p.Growth += (growthIncrease / 100f));
-        playerList.ForEach(p => p.Growth = growthIncrease / 100f);
+        playerList.ForEach(p => p.Growth = (growthIncrease / 100f) + p.GrowthMod);
         playerList.ForEach(player =>
         {
             player.adjustCity(cityUpgrade1, cityUpgrade2, cityUpgrade3);
@@ -554,28 +626,15 @@ public class GameManager : MonoBehaviour
     // Punishments
     public void startPunishmentPhase()
 	{
-        currentPhase = Phase.Pushishments;
+        currentPhase = Phase.Punishment;
+        currentPIndex = 0;
         setupVoteUI();
-        List<Country> declineList = new List<Country>();
-        List<Country> acceptList = new List<Country>();
-        playerList.ForEach(p =>
-        {
-            if(p.HaveAgreed)
-			{
-                acceptList.Add(p);
-			}
-			else
-			{
-                declineList.Add(p);
-			}
-            
-        } );
-            prompt.text = acceptList[0].Name + " would you like to punish everone who declined?\nCost = $" + (declineList.Count*3000) + "GDP | Punishment: -"+ (0.05) +" Growth per country that declined";
-                //Debug.Log("Cost = $" + (declineList.Count*3000) + "GDP | Punishment: -"+ (0.05) +" Growth per country that declined");
-                //declineList.ForEach(q =>
-                //{
-                //    q.Growth -= .05;
-                //});
+        prompt.text = acceptList[0].Name + " would you like to punish everyone who declined?\nCost = $" + (declineList.Count*3000) + " | Effect: Each decliner loses 0.05% growth rate";
+        //Debug.Log("Cost = $" + (declineList.Count*3000) + "GDP | Punishment: -"+ (0.05) +" Growth per country that declined");
+        //declineList.ForEach(q =>
+        //{
+        //    q.Growth -= .05;
+        //});
     } 
 
     // Camera Panning Related

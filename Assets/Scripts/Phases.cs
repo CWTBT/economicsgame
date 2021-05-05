@@ -4,6 +4,6 @@ public enum Phase
     Names,
     Cities,
     Votes,
-    Pushishments,
+    Punishment,
     Results
 }

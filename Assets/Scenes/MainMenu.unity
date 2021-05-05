@@ -7643,7 +7643,7 @@ MonoBehaviour:
   currentCountry: {fileID: 724466790}
   yesButton: {fileID: 1755763531}
   noButton: {fileID: 1027901297}
-  maxTurns: 2
+  maxTurns: 6
   punishmentCost: 0
 --- !u!4 &1249523636
 Transform:
