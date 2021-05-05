@@ -8178,7 +8178,7 @@ MonoBehaviour:
   currentCountry: {fileID: 724466790}
   yesButton: {fileID: 1755763531}
   noButton: {fileID: 1027901297}
-  maxTurns: 5
+  maxTurns: 1
   punishmentCost: 0
   finalGDP: {fileID: 508297992}
   finalCO2: {fileID: 55816584}

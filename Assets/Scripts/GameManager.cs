@@ -742,7 +742,31 @@ public class GameManager : MonoBehaviour
         //{
         //    q.Growth -= .05;
         //});
-    } 
+    }
+    
+    public void showWinner()
+    {
+        description.GetComponent<Animator>().Play("hide_desc");
+        finalGDP.text = "";
+        finalCO2.text = "";
+        finalScore.text = "";
+        prompt.GetComponent<Animator>().Play("center_prompt");
+        List<Country> winners = GetWinner();
+        if (winners.Count == 1) { prompt.text = "The winner is...\n" + winners[0].Name + "!"; }
+        else if (winners.Count == 2) { 
+            prompt.text = "The winners are...\n" + winners[0].Name + " and "+winners[1].Name+"!"; 
+        }
+        else
+        {
+            string winString = "The winners are...\n";
+            for (int i = 0; i < winners.Count - 1; i++)
+            {
+                winString = winString + winners[i].Name + ", ";
+            }
+            winString = winString + "and " + winners[winners.Count - 1].Name + "!";
+            prompt.text = winString;
+        }
+    }
 
     // Camera Panning Related
     public void OnRightButton()
@@ -771,6 +795,12 @@ public class GameManager : MonoBehaviour
     private void NextResult()
     {
         if (currentPIndex == 3)
+        {
+            showWinner();
+            currentPIndex++;
+            
+        }
+        else if (currentPIndex == 4)
         {
             //back to main menu
             Destroy(gameObject);
@@ -806,6 +836,25 @@ public class GameManager : MonoBehaviour
             accStr += "\n";
         }
         return accStr;
+    }
+
+    private List<Country> GetWinner()
+    {
+        List<Country> bestPlayers = new List<Country> {playerList[0]};
+        int bestScore = 0;
+        playerList.ForEach(p =>
+        {
+            if (p.Score > bestScore)
+            {
+                bestPlayers = new List<Country> {p};
+                bestScore = p.Score;
+            }
+            else if (p.Score == bestScore)
+            {
+                bestPlayers.Add(p);
+            }
+        });
+        return bestPlayers;
     }
 
     // Coroutine Related
