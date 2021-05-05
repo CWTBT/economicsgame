@@ -341,7 +341,10 @@ public class GameManager : MonoBehaviour
         if (currentPhase == Phase.Cities)
         {
             if (completedVotes == maxTurns) startResultsPhase();
-            else if (completedVotes > 1 && !havePunished && declineList.Count > 0) startPunishmentPhase();
+            else if (completedVotes > 1 && !havePunished)
+            {
+                 if(acceptList.Count > 0 && declineList.Count > 0) startPunishmentPhase();
+            }
             else startVotePhase();
         }
         else if (currentPhase == Phase.Results) NextResult();
