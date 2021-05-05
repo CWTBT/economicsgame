@@ -389,7 +389,7 @@ public class GameManager : MonoBehaviour
     {
         if (currentPhase == Phase.Punishment)
         {
-            if (playerList[currentPIndex].GDP > declineList.Count * 3000)
+            if (playerList[currentPIndex].GDP > declineList.Count * 1000)
             {
                 enactPunishments();
                 currentPIndex += 1;
@@ -404,7 +404,7 @@ public class GameManager : MonoBehaviour
                 }
                 else prompt.text = acceptList[currentPIndex].Name
                 + " would you like to punish everyone who declined?\nCost = $"
-                + (declineList.Count * 3000)
+                + (declineList.Count * 1000)
                 + " | Effect: Each decliner loses 0.05% growth rate";
             }
         }
@@ -441,7 +441,7 @@ public class GameManager : MonoBehaviour
             }
             else prompt.text = acceptList[currentPIndex].Name
                 + " would you like to punish everyone who declined?\nCost = $"
-                + (declineList.Count * 3000)
+                + (declineList.Count * 1000)
                 + " | Effect: Each decliner loses 0.05% growth rate";
         }
         else {
@@ -460,7 +460,7 @@ public class GameManager : MonoBehaviour
 
     private void enactPunishments()
     {
-        acceptList[currentPIndex].GDP -= declineList.Count * 3000;
+        acceptList[currentPIndex].GDP -= declineList.Count * 1000;
 
         declineList.ForEach(p => {
             p.GrowthMod -= 0.005;
@@ -630,7 +630,7 @@ public class GameManager : MonoBehaviour
         currentPhase = Phase.Punishment;
         currentPIndex = 0;
         setupVoteUI();
-        prompt.text = acceptList[0].Name + " would you like to punish everyone who declined?\nCost = $" + (declineList.Count*3000) + " | Effect: Each decliner loses 0.05% growth rate";
+        prompt.text = acceptList[0].Name + " would you like to punish everyone who declined?\nCost = $" + (declineList.Count*1000) + " | Effect: Each decliner loses 0.05% growth rate";
         //Debug.Log("Cost = $" + (declineList.Count*3000) + "GDP | Punishment: -"+ (0.05) +" Growth per country that declined");
         //declineList.ForEach(q =>
         //{
