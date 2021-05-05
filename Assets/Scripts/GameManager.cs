@@ -226,6 +226,7 @@ public class GameManager : MonoBehaviour
             playerList.Add(newPlayer);
             if (playerList.Count == 4 || botMode)
             {
+                treatyCost = Random.Range(1000, 1500);
                 ClickButton();
                 clearMenuUI();
                 initializeNames();
